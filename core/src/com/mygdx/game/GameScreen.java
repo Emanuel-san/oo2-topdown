@@ -10,9 +10,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.entities.Player;
 import com.mygdx.helper.TiledMapLoader;
-
-import static com.mygdx.helper.Constant.PPM;
 
 public class GameScreen extends ScreenAdapter {
     private OrthographicCamera camera;
@@ -21,6 +20,8 @@ public class GameScreen extends ScreenAdapter {
     private Box2DDebugRenderer box2DDebugRenderer;
     private OrthogonalTiledMapRenderer mapRenderer;
     private TiledMapLoader mapLoader;
+
+    private Player player;
 
     public GameScreen(OrthographicCamera camera){
         this.camera = camera;
@@ -36,6 +37,7 @@ public class GameScreen extends ScreenAdapter {
         world.step(1/60f, 6, 2); //60fps
         batch.setProjectionMatrix(camera.combined);
         mapRenderer.setView(camera);
+        player.update();
     }
 
     @Override
@@ -57,5 +59,9 @@ public class GameScreen extends ScreenAdapter {
 
     public World getWorld() {
         return world;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }

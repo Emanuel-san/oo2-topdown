@@ -13,9 +13,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
+import com.mygdx.entities.Player;
 import com.mygdx.game.GameScreen;
-
-import static com.mygdx.helper.Constant.PPM;
 
 public class TiledMapLoader {
     private TiledMap tiledMap;
@@ -33,6 +32,22 @@ public class TiledMapLoader {
         for(MapObject mapObject : mapObjects){
             if(mapObject instanceof PolygonMapObject){
                 createStaticBody((PolygonMapObject) mapObject);
+            }
+            if(mapObject instanceof RectangleMapObject){
+                Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
+                String rectangleName = mapObject.getName();
+
+                if(rectangleName.equals("player")){
+                    Body body = BodyHelper.createBody(
+                            rectangle.getX() + rectangle.getWidth() / 2,
+                            rectangle.getY() + rectangle.getHeight() / 2,
+                            rectangle.getWidth(),
+                            rectangle.getHeight(),
+                            false,
+                            screen.getWorld()
+                    );
+                    screen.setPlayer(new Player(rectangle.getWidth(), rectangle.getHeight(), body));
+                }
             }
         }
     }

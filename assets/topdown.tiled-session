@@ -7,18 +7,38 @@
     "expandedProjectPaths": [
     ],
     "fileStates": {
+        "grassanddirtbysenuka.tsx": {
+            "scaleInEditor": 1
+        },
+        "map0.tmx": {
+            "scale": 4,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 104.125,
+                "y": 1528
+            }
+        },
+        "maptest.tmx": {
+            "scale": 5.3675,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 48.160223567768995,
+                "y": 111.78388448998604
+            }
+        }
     },
     "last.imagePath": "C:/Users/Snooke/Documents/Skola/OOP2/topdown/assets",
-    "map.height": 100,
+    "map.height": 10,
     "map.lastUsedFormat": "tmx",
     "map.layerDataFormat": null,
     "map.tileHeight": 16,
     "map.tileWidth": 16,
-    "map.width": 100,
+    "map.width": 10,
     "openFiles": [
     ],
     "project": "topdown.tiled-project",
     "recentFiles": [
+        "grassanddirtbysenuka.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
