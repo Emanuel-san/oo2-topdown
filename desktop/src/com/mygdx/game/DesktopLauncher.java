@@ -11,6 +11,7 @@ public class DesktopLauncher {
 		config.setForegroundFPS(60);
 		config.useVsync(true);
 		config.setTitle("topdown");
+		config.setWindowedMode(1280,720);
 		new Lwjgl3Application(new TopDown(), config);
 	}
 }

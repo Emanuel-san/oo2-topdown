@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.entities.Player;
@@ -22,6 +23,7 @@ public class GameScreen extends ScreenAdapter {
     private TiledMapLoader mapLoader;
 
     private Player player;
+    private final float smoothFactor = 0.1f;
 
     public GameScreen(OrthographicCamera camera){
         this.camera = camera;
@@ -35,9 +37,22 @@ public class GameScreen extends ScreenAdapter {
 
     private void update(){
         world.step(1/60f, 6, 2); //60fps
+        cameraUpdate();
         batch.setProjectionMatrix(camera.combined);
         mapRenderer.setView(camera);
         player.update();
+    }
+
+    private void cameraUpdate(){
+        Vector3 position = camera.position;
+        position.x = player.getBody().getPosition().x;
+        position.y = player.getBody().getPosition().y;
+        camera.position.set(
+                position.x * smoothFactor + camera.position.x * (1 - smoothFactor),
+                position.y * smoothFactor + camera.position.y * (1 - smoothFactor),
+                0
+                );
+        camera.update();
     }
 
     @Override
