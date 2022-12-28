@@ -1,5 +1,5 @@
 package com.mygdx.helper;
 
 public class Constant {
-    public static final float PPM = 16f;
+    public static final float PPM = 8f;
 }

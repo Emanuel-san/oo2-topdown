@@ -1,5 +1,6 @@
 package com.mygdx.helper;
 
+import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -15,5 +16,8 @@ public class TiledMapLoader {
     public OrthogonalTiledMapRenderer setupMap(){
         tiledMap = new TmxMapLoader().load("map0.tmx");
         return new OrthogonalTiledMapRenderer(tiledMap);
+    }
+    private void parseMapObjects(MapObjects mapObjects){
+
     }
 }
