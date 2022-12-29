@@ -13,25 +13,31 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.entities.Base;
 import com.mygdx.entities.Player;
+import com.mygdx.entities.Projectile;
+import com.mygdx.helper.ProjectileManager;
 import com.mygdx.helper.TiledMapLoader;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameScreen extends ScreenAdapter {
     private OrthographicCamera camera;
     private SpriteBatch batch;
     private World world;
+    private ProjectileManager projectileManager;
     private Box2DDebugRenderer box2DDebugRenderer;
     private OrthogonalTiledMapRenderer mapRenderer;
     private TiledMapLoader mapLoader;
 
     private Player player;
     private Base playerBase;
-    private final float smoothFactor = 0.1f;
 
     public GameScreen(OrthographicCamera camera){
         this.camera = camera;
         this.batch = new SpriteBatch();
         this.world = new World(new Vector2(0, 0), true); //topdown, no gravity
         this.box2DDebugRenderer = new Box2DDebugRenderer();
+        this.projectileManager = new ProjectileManager(this);
 
         this.mapLoader = new TiledMapLoader(this);
         this.mapRenderer = mapLoader.setupMap();
@@ -49,6 +55,7 @@ public class GameScreen extends ScreenAdapter {
         Vector3 position = camera.position;
         position.x = player.getBody().getPosition().x;
         position.y = player.getBody().getPosition().y;
+        float smoothFactor = 0.1f;
         camera.position.set(
                 position.x * smoothFactor + camera.position.x * (1 - smoothFactor),
                 position.y * smoothFactor + camera.position.y * (1 - smoothFactor),
@@ -69,6 +76,9 @@ public class GameScreen extends ScreenAdapter {
 
         batch.begin();
         player.render(batch);
+        for(Projectile projectile : projectileManager.getProjectileList()){
+            projectile.update();
+        }
         playerBase.render(batch);
         batch.end();
 
@@ -81,6 +91,11 @@ public class GameScreen extends ScreenAdapter {
 
     public void setPlayer(Player player) {
         this.player = player;
+        this.player.setProjectileManager(projectileManager);
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public void setPlayerBase(Base playerBase) {
