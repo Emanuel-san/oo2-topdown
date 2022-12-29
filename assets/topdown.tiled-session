@@ -3,27 +3,35 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "map0.tmx",
     "expandedProjectPaths": [
+        "."
     ],
     "fileStates": {
         "grassanddirtbysenuka.tsx": {
+            "scaleInDock": 3,
             "scaleInEditor": 1
         },
         "map0.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
             "scale": 4,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 104.125,
-                "y": 1528
+                "x": 800,
+                "y": 799.875
             }
         },
         "maptest.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
             "scale": 5.3675,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 48.160223567768995,
-                "y": 111.78388448998604
+                "x": 79.92547741034002,
+                "y": 79.83232417326502
             }
         }
     },
@@ -35,9 +43,13 @@
     "map.tileWidth": 16,
     "map.width": 10,
     "openFiles": [
+        "map0.tmx",
+        "maptest.tmx"
     ],
     "project": "topdown.tiled-project",
     "recentFiles": [
+        "maptest.tmx",
+        "map0.tmx",
         "grassanddirtbysenuka.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",

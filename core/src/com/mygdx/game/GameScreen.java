@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.entities.Base;
 import com.mygdx.entities.Player;
 import com.mygdx.helper.TiledMapLoader;
 
@@ -23,12 +24,13 @@ public class GameScreen extends ScreenAdapter {
     private TiledMapLoader mapLoader;
 
     private Player player;
+    private Base playerBase;
     private final float smoothFactor = 0.1f;
 
     public GameScreen(OrthographicCamera camera){
         this.camera = camera;
         this.batch = new SpriteBatch();
-        this.world = new World(new Vector2(0, 0), false); //topdown, no gravity
+        this.world = new World(new Vector2(0, 0), true); //topdown, no gravity
         this.box2DDebugRenderer = new Box2DDebugRenderer();
 
         this.mapLoader = new TiledMapLoader(this);
@@ -66,7 +68,8 @@ public class GameScreen extends ScreenAdapter {
         mapRenderer.render();
 
         batch.begin();
-
+        player.render(batch);
+        playerBase.render(batch);
         batch.end();
 
         box2DDebugRenderer.render(world,camera.combined);
@@ -78,5 +81,9 @@ public class GameScreen extends ScreenAdapter {
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    public void setPlayerBase(Base playerBase) {
+        this.playerBase = playerBase;
     }
 }

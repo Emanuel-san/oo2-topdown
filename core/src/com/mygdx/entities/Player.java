@@ -2,18 +2,21 @@ package com.mygdx.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
 
 import static com.mygdx.helper.Constant.PPM;
 
 public class Player extends GameEntity{
+    private Texture character;
 
     public Player(float width, float height, Body body){
         super(width, height, body);
         this.speed = 4f*PPM;
-        System.out.println(body.getPosition().x);
-        System.out.println(body.getPosition().y);
+        character = new Texture(Gdx.files.internal("topdown_shooter/characters/1.png"));
+        //System.out.println(body.getPosition().x);
+        //System.out.println(body.getPosition().y);
 
     }
 
@@ -27,7 +30,7 @@ public class Player extends GameEntity{
 
     @Override
     public void render(SpriteBatch batch) {
-
+        batch.draw(character, body.getPosition().x - 8, body.getPosition().y - 8);
     }
     private void checkUserInput() {
         velX = 0;

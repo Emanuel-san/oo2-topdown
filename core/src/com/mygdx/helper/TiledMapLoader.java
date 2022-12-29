@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
+import com.mygdx.entities.Base;
 import com.mygdx.entities.Player;
 import com.mygdx.game.GameScreen;
 
@@ -47,6 +48,17 @@ public class TiledMapLoader {
                             screen.getWorld()
                     );
                     screen.setPlayer(new Player(rectangle.getWidth(), rectangle.getHeight(), body));
+                }
+                if(rectangleName.equals("base")){
+                    Body body = BodyHelper.createBody(
+                            rectangle.getX() + rectangle.getWidth() / 2,
+                            rectangle.getY() + rectangle.getHeight() / 2,
+                            rectangle.getWidth(),
+                            rectangle.getHeight(),
+                            true,
+                            screen.getWorld()
+                    );
+                    screen.setPlayerBase(new Base(rectangle.getWidth(), rectangle.getHeight(), body));
                 }
             }
         }
