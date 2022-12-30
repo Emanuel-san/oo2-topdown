@@ -1,6 +1,7 @@
 package com.mygdx.helper;
 
 import com.badlogic.gdx.physics.box2d.*;
+import com.mygdx.entities.EntityType;
 
 public class BodyHelper {
 

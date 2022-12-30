@@ -7,14 +7,16 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 public class Base extends GameEntity{
 
-    private Texture base;
+    private final Texture base;
+    private final EntityType type;
 
     public Base(float width, float height, Body body) {
         super(width, height, body);
         this.speed = 0;
-        x = body.getPosition().x;
-        y = body.getPosition().y;
-        base = new Texture(Gdx.files.internal("topdown_shooter/other/base.png"));
+        this.x = body.getPosition().x;
+        this.y = body.getPosition().y;
+        this.base = new Texture(Gdx.files.internal("topdown_shooter/other/base.png"));
+        this.type = EntityType.BASE;
     }
 
     @Override

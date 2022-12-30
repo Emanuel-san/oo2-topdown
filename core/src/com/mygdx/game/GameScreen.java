@@ -78,6 +78,7 @@ public class GameScreen extends ScreenAdapter {
         player.render(batch);
         for(Projectile projectile : projectileManager.getProjectileList()){
             projectile.update();
+            projectile.render(batch);
         }
         playerBase.render(batch);
         batch.end();

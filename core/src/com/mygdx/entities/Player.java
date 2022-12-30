@@ -16,9 +16,10 @@ import static com.mygdx.helper.Constant.PPM;
 public class Player extends GameEntity{
     private final Texture character;
     private ProjectileManager projectileManager;
+    private final EntityType type;
     private boolean keyDown;
-    private Timer timer = new Timer();
-    private Task task = new Task() {
+    private final Timer timer = new Timer();
+    private final Task task = new Task() {
         @Override
         public void run() {
             keyDown = false;
@@ -31,6 +32,7 @@ public class Player extends GameEntity{
         this.speed = 4f*PPM;
         character = new Texture(Gdx.files.internal("topdown_shooter/characters/1.png"));
         keyDown = false;
+        type = EntityType.PLAYER;
     }
 
     @Override
