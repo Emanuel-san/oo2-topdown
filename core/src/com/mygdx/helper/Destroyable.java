@@ -1,4 +1,4 @@
-package com.mygdx.entities;
+package com.mygdx.helper;
 
 public interface Destroyable {
 

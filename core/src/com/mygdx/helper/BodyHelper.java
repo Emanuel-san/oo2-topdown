@@ -26,6 +26,6 @@ public class BodyHelper {
     }
     public static void removeBody(World world, Body body){
         world.destroyBody(body);
-        body = null;
+        body = null; //set body to null and let GC take care of it.
     }
 }

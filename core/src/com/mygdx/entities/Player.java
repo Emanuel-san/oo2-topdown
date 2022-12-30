@@ -34,7 +34,7 @@ public class Player extends GameEntity{
         );
         this.x = body.getPosition().x;
         this.y = body.getPosition().y;
-        this.speed = 4f*PPM;
+        this.speed = 10f*PPM;
         characterTexture = new Texture(Gdx.files.internal("topdown_shooter/characters/1.png"));
         keyDown = false;
     }
@@ -71,7 +71,7 @@ public class Player extends GameEntity{
         if(Gdx.input.isTouched() && !keyDown){
             projectileManager.createProjectile();
             keyDown = true;
-            timer.scheduleTask(task, 0.5f);
+            timer.scheduleTask(task, 0.1f);
         }
     }
 

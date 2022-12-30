@@ -2,26 +2,23 @@ package com.mygdx.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.helper.BodyHelper;
-import com.mygdx.helper.ContactType;
+import com.mygdx.helper.Destroyable;
 
 import static com.mygdx.helper.Constant.PPM;
 
 public class Projectile extends GameEntity implements Destroyable {
     private final Texture texture;
-    private boolean isDestroyed;
 
     public Projectile(float x, float y, float width, float height, Texture texture, World world) {
         super(width, height);
         this.body = BodyHelper.createBody(x, y, width, height, false, world, this);
         this.x = x;
         this.y = y;
-        this.speed = 5f*PPM;
-        velX = 1;
+        this.speed = 20f*PPM;
+        this.velX = 1;
         this.texture = texture;
-        this.isDestroyed = false;
     }
 
     @Override

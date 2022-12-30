@@ -10,7 +10,7 @@ public abstract class GameEntity {
     protected float width, height;
     protected Body body;
 
-    protected boolean isDestroyed = false;
+    protected boolean isDestroyed;
 
     public GameEntity(float width, float height){
         this.width = width;
@@ -18,13 +18,10 @@ public abstract class GameEntity {
         this.velX = 0;
         this.velY = 0;
         this.speed = 0;
+        this.isDestroyed = false;
     }
 
     public abstract void update();
     public abstract void render(SpriteBatch batch);
     public Body getBody(){return body;}
-
-    public void setDestroyed(boolean destroyed) {
-        isDestroyed = destroyed;
-    }
 }
