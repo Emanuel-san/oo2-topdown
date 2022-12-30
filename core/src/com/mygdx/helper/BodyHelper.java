@@ -1,11 +1,10 @@
 package com.mygdx.helper;
 
 import com.badlogic.gdx.physics.box2d.*;
-import com.mygdx.entities.EntityType;
 
 public class BodyHelper {
 
-    public static Body createBody(float x, float y, float width, float height, boolean isStatic, World world){
+    public static Body createBody(float x, float y, float width, float height, boolean isStatic, World world, ContactType type){
         //Body definition
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = isStatic ? BodyDef.BodyType.StaticBody : BodyDef.BodyType.DynamicBody;
@@ -20,7 +19,7 @@ public class BodyHelper {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.friction = 0;
-        body.createFixture(fixtureDef);
+        body.createFixture(fixtureDef).setUserData(type);
         shape.dispose();
         return body;
     }

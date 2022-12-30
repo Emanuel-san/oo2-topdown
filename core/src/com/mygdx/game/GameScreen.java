@@ -1,6 +1,5 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
@@ -14,11 +13,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.entities.Base;
 import com.mygdx.entities.Player;
 import com.mygdx.entities.Projectile;
-import com.mygdx.helper.ProjectileManager;
 import com.mygdx.helper.TiledMapLoader;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class GameScreen extends ScreenAdapter {
     private OrthographicCamera camera;

@@ -45,7 +45,8 @@ public class TiledMapLoader {
                             rectangle.getWidth(),
                             rectangle.getHeight(),
                             false,
-                            screen.getWorld()
+                            screen.getWorld(),
+                            ContactType.PLAYER
                     );
                     screen.setPlayer(new Player(rectangle.getWidth(), rectangle.getHeight(), body));
                 }
@@ -56,7 +57,8 @@ public class TiledMapLoader {
                             rectangle.getWidth(),
                             rectangle.getHeight(),
                             true,
-                            screen.getWorld()
+                            screen.getWorld(),
+                            ContactType.BASE
                     );
                     screen.setPlayerBase(new Base(rectangle.getWidth(), rectangle.getHeight(), body));
                 }
@@ -68,7 +70,7 @@ public class TiledMapLoader {
         bodyDef.type = BodyDef.BodyType.StaticBody;
         Body body = screen.getWorld().createBody(bodyDef);
         Shape shape = createPolygonShape(polygonMapObject);
-        body.createFixture(shape, 1000);
+        body.createFixture(shape, 1000).setUserData(ContactType.WALL);
         shape.dispose();
     }
     private Shape createPolygonShape(PolygonMapObject polygonMapObject) {

@@ -1,10 +1,12 @@
-package com.mygdx.helper;
+package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.entities.Projectile;
 import com.mygdx.game.GameScreen;
+import com.mygdx.helper.BodyHelper;
+import com.mygdx.helper.ContactType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +24,8 @@ public class ProjectileManager {
         Body body = BodyHelper.createBody(
                 screen.getPlayer().getBody().getPosition().x + 16,
                 screen.getPlayer().getBody().getPosition().y,
-                6,6,false, screen.getWorld()
+                6,6,false, screen.getWorld(),
+                ContactType.PROJECTILE
         );
         projectileList.add(new Projectile(6, 6, body, bullet));
     }

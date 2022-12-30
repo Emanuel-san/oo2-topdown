@@ -4,11 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.mygdx.helper.ContactType;
 
 public class Base extends GameEntity{
 
     private final Texture base;
-    private final EntityType type;
+    private final ContactType type;
 
     public Base(float width, float height, Body body) {
         super(width, height, body);
@@ -16,7 +17,7 @@ public class Base extends GameEntity{
         this.x = body.getPosition().x;
         this.y = body.getPosition().y;
         this.base = new Texture(Gdx.files.internal("topdown_shooter/other/base.png"));
-        this.type = EntityType.BASE;
+        this.type = ContactType.BASE;
     }
 
     @Override

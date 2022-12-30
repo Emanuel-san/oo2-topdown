@@ -6,17 +6,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.Timer.*;
-import com.mygdx.game.GameScreen;
-import com.mygdx.helper.BodyHelper;
-import com.mygdx.helper.ProjectileManager;
+import com.badlogic.gdx.utils.Timer.Task;
+import com.mygdx.helper.ContactType;
+import com.mygdx.game.ProjectileManager;
 
 import static com.mygdx.helper.Constant.PPM;
 
 public class Player extends GameEntity{
     private final Texture character;
     private ProjectileManager projectileManager;
-    private final EntityType type;
     private boolean keyDown;
     private final Timer timer = new Timer();
     private final Task task = new Task() {
@@ -32,7 +30,6 @@ public class Player extends GameEntity{
         this.speed = 4f*PPM;
         character = new Texture(Gdx.files.internal("topdown_shooter/characters/1.png"));
         keyDown = false;
-        type = EntityType.PLAYER;
     }
 
     @Override
