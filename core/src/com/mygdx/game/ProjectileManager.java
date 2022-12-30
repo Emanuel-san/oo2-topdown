@@ -21,13 +21,10 @@ public class ProjectileManager {
         this.bullet = new Texture(Gdx.files.internal("topdown_shooter/other/bulleta.png"));
     }
     public void createProjectile(){
-        Body body = BodyHelper.createBody(
+        projectileList.add(new Projectile(
                 screen.getPlayer().getBody().getPosition().x + 16,
                 screen.getPlayer().getBody().getPosition().y,
-                6,6,false, screen.getWorld(),
-                ContactType.PROJECTILE
-        );
-        projectileList.add(new Projectile(6, 6, body, bullet));
+                6, 6, bullet, screen.getWorld()));
     }
 
     public List<Projectile> getProjectileList() {

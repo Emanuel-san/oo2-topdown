@@ -10,9 +10,9 @@ public abstract class GameEntity {
     protected float width, height;
     protected Body body;
 
-    public GameEntity(float width, float height, Body body){
-        this.x = body.getPosition().x;
-        this.y = body.getPosition().y;
+    protected boolean isDestroyed = false;
+
+    public GameEntity(float width, float height){
         this.width = width;
         this.height = height;
         this.body = body;
@@ -24,4 +24,8 @@ public abstract class GameEntity {
     public abstract void update();
     public abstract void render(SpriteBatch batch);
     public Body getBody(){return body;}
+
+    public void setDestroyed(boolean destroyed) {
+        isDestroyed = destroyed;
+    }
 }

@@ -4,16 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
-import com.mygdx.helper.ContactType;
+import com.mygdx.helper.BodyHelper;
 import com.mygdx.game.ProjectileManager;
 
 import static com.mygdx.helper.Constant.PPM;
 
 public class Player extends GameEntity{
-    private final Texture character;
+    private final Texture characterTexture;
     private ProjectileManager projectileManager;
     private boolean keyDown;
     private final Timer timer = new Timer();
@@ -25,10 +25,21 @@ public class Player extends GameEntity{
     };
 
 
-    public Player(float width, float height, Body body){
-        super(width, height, body);
+    public Player(float rectX, float rectY, float width, float height, World world){
+        super(width, height);
+        this.body = BodyHelper.createBody(
+                rectX + width / 2,
+                rectY + height / 2,
+                width,
+                height,
+                false,
+                world,
+                this
+        );
+        this.x = body.getPosition().x;
+        this.y = body.getPosition().y;
         this.speed = 4f*PPM;
-        character = new Texture(Gdx.files.internal("topdown_shooter/characters/1.png"));
+        characterTexture = new Texture(Gdx.files.internal("topdown_shooter/characters/1.png"));
         keyDown = false;
     }
 
@@ -42,7 +53,7 @@ public class Player extends GameEntity{
 
     @Override
     public void render(SpriteBatch batch) {
-        batch.draw(character, body.getPosition().x - 8, body.getPosition().y - 8);
+        batch.draw(characterTexture, body.getPosition().x - 8, body.getPosition().y - 8);
     }
     private void checkUserInput() {
         velX = 0;
