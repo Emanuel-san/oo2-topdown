@@ -24,4 +24,8 @@ public class BodyHelper {
         shape.dispose();
         return body;
     }
+    public static void removeBody(World world, Body body){
+        world.destroyBody(body);
+        body = null;
+    }
 }

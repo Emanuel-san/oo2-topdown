@@ -20,7 +20,6 @@ public class GameScreen extends ScreenAdapter {
     private SpriteBatch batch;
     private World world;
     private ProjectileManager projectileManager;
-    private CollisionManager collisionManager;
     private Box2DDebugRenderer box2DDebugRenderer;
     private OrthogonalTiledMapRenderer mapRenderer;
     private TiledMapLoader mapLoader;
@@ -32,13 +31,13 @@ public class GameScreen extends ScreenAdapter {
         this.camera = camera;
         this.batch = new SpriteBatch();
         this.world = new World(new Vector2(0, 0), true); //topdown, no gravity
+        this.world.setContactListener(new CollisionManager());
         this.box2DDebugRenderer = new Box2DDebugRenderer();
         this.projectileManager = new ProjectileManager(this);
 
+
         this.mapLoader = new TiledMapLoader(this);
         this.mapRenderer = mapLoader.setupMap();
-
-        this.collisionManager = new CollisionManager(projectileManager.getProjectileList(), player, playerBase);
     }
 
     private void update(){
@@ -47,6 +46,7 @@ public class GameScreen extends ScreenAdapter {
         batch.setProjectionMatrix(camera.combined);
         mapRenderer.setView(camera);
         player.update();
+        projectileManager.update(world);
     }
 
     private void cameraUpdate(){

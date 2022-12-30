@@ -15,7 +15,6 @@ public abstract class GameEntity {
     public GameEntity(float width, float height){
         this.width = width;
         this.height = height;
-        this.body = body;
         this.velX = 0;
         this.velY = 0;
         this.speed = 0;

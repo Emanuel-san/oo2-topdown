@@ -1,30 +1,39 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.entities.Base;
+import com.mygdx.entities.GameEntity;
 import com.mygdx.entities.Player;
 import com.mygdx.entities.Projectile;
-import com.mygdx.game.GameScreen;
+import com.mygdx.helper.ContactType;
 
-import java.util.List;
+import java.lang.ref.SoftReference;
 
 public class CollisionManager implements ContactListener {
-    private List<Projectile> projectileList;
-    private Player player;
-    private Base base;
-
-    public CollisionManager(List<Projectile> list, Player player, Base base){
-        this.projectileList = list;
-        this.player = player;
-        this.base = base;
-    }
 
     @Override
     public void beginContact(Contact contact) {
+        Fixture a = contact.getFixtureA();
+        Fixture b = contact.getFixtureB();
+        if(a == null || b == null){return;}
+        if(a.getUserData() == null || b.getUserData() == null){return;}
+        if(a.getUserData() instanceof Projectile){
+            if(b.getUserData() == ContactType.WALL){
+                System.out.println("Wall was hit");
+                ((Projectile) a.getUserData()).destroy();
 
+                return;
+            }
+            projectileHit((Projectile) a.getUserData(), (GameEntity) b.getUserData());
+        }
+        else if(b.getUserData() instanceof Projectile){
+            if(a.getUserData() == ContactType.WALL){
+                System.out.println("Wall was hit");
+                ((Projectile) b.getUserData()).destroy();
+                return;
+            }
+            projectileHit((Projectile) b.getUserData(), (GameEntity) a.getUserData());
+        }
     }
 
     @Override
@@ -40,5 +49,12 @@ public class CollisionManager implements ContactListener {
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
 
+    }
+
+    private void projectileHit(Projectile projectile, GameEntity otherEntity){
+        projectile.destroy();
+        if(otherEntity instanceof Base){
+            System.out.println("Base was hit");
+        }
     }
 }

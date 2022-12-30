@@ -30,11 +30,7 @@ public class Player extends GameEntity{
         this.body = BodyHelper.createBody(
                 rectX + width / 2,
                 rectY + height / 2,
-                width,
-                height,
-                false,
-                world,
-                this
+                width, height, false, world, this
         );
         this.x = body.getPosition().x;
         this.y = body.getPosition().y;

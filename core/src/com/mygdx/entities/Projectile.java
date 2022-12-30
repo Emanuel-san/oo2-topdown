@@ -9,25 +9,19 @@ import com.mygdx.helper.ContactType;
 
 import static com.mygdx.helper.Constant.PPM;
 
-public class Projectile extends GameEntity {
+public class Projectile extends GameEntity implements Destroyable {
     private final Texture texture;
+    private boolean isDestroyed;
 
     public Projectile(float x, float y, float width, float height, Texture texture, World world) {
         super(width, height);
-        this.body = BodyHelper.createBody(
-                x,
-                y,
-                width,
-                height,
-                false,
-                world,
-                this
-        );
-        this.x = body.getPosition().x;
-        this.y = body.getPosition().y;
+        this.body = BodyHelper.createBody(x, y, width, height, false, world, this);
+        this.x = x;
+        this.y = y;
         this.speed = 5f*PPM;
         velX = 1;
         this.texture = texture;
+        this.isDestroyed = false;
     }
 
     @Override
@@ -38,5 +32,20 @@ public class Projectile extends GameEntity {
     @Override
     public void render(SpriteBatch batch) {
         batch.draw(texture, body.getPosition().x - 3, body.getPosition().y - 3);
+    }
+
+    @Override
+    public void reduceHealth(int amount) {
+
+    }
+
+    @Override
+    public void destroy() {
+        System.out.println("Im destroyed");
+        isDestroyed = true;
+    }
+
+    public boolean isDestroyed() {
+        return isDestroyed;
     }
 }

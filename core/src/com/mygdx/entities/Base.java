@@ -17,11 +17,7 @@ public class Base extends GameEntity{
         this.body = BodyHelper.createBody(
                 rectX + width / 2,
                 rectY + height / 2,
-                width,
-                height,
-                true,
-                world,
-                this
+                width, height, true, world, this
         );
         this.x = body.getPosition().x;
         this.y = body.getPosition().y;
