@@ -54,7 +54,7 @@ public class CollisionManager implements ContactListener {
     private void projectileHit(Projectile projectile, GameEntity otherEntity){
         projectile.destroy();
         if(otherEntity instanceof Base){
-            System.out.println("Base was hit");
+            ((Base) otherEntity).destroy();
         }
     }
 }

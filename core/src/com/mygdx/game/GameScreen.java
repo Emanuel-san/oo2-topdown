@@ -46,6 +46,7 @@ public class GameScreen extends ScreenAdapter {
         batch.setProjectionMatrix(camera.combined);
         mapRenderer.setView(camera);
         player.update();
+        playerBase.update();
         projectileManager.update(world);
     }
 

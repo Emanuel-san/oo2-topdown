@@ -18,14 +18,13 @@ import com.mygdx.entities.Player;
 import com.mygdx.game.GameScreen;
 
 public class TiledMapLoader {
-    private TiledMap tiledMap;
-    private GameScreen screen;
+    private final GameScreen screen;
 
     public TiledMapLoader(GameScreen screen){
         this.screen = screen;
     }
     public OrthogonalTiledMapRenderer setupMap(){
-        tiledMap = new TmxMapLoader().load("map0.tmx");
+        TiledMap tiledMap = new TmxMapLoader().load("map0.tmx");
         parseMapObjects(tiledMap.getLayers().get("objects").getObjects());
         return new OrthogonalTiledMapRenderer(tiledMap);
     }

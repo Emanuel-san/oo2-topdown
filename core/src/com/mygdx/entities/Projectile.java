@@ -38,11 +38,13 @@ public class Projectile extends GameEntity implements Destroyable {
 
     @Override
     public void destroy() {
-        System.out.println("Im destroyed");
+        System.out.println("Projectile destroyed");
         isDestroyed = true;
     }
 
+    @Override
     public boolean isDestroyed() {
         return isDestroyed;
     }
+
 }

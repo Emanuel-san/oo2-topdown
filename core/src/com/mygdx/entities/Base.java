@@ -7,8 +7,9 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.helper.BodyHelper;
 import com.mygdx.helper.ContactType;
+import com.mygdx.helper.Destroyable;
 
-public class Base extends GameEntity{
+public class Base extends GameEntity implements Destroyable {
 
     private final Texture base;
 
@@ -22,17 +23,34 @@ public class Base extends GameEntity{
         this.x = body.getPosition().x;
         this.y = body.getPosition().y;
         this.speed = 0;
-        this.x = body.getPosition().x;
-        this.y = body.getPosition().y;
         this.base = new Texture(Gdx.files.internal("topdown_shooter/other/base.png"));
     }
 
     @Override
     public void update() {
+        if(isDestroyed){
+            //System.out.println("Base destroyed");
+        }
     }
 
     @Override
     public void render(SpriteBatch batch) {
         batch.draw(base, body.getPosition().x - 24, body.getPosition().y - 24);
+    }
+
+    @Override
+    public void reduceHealth(int amount) {
+
+    }
+
+    @Override
+    public void destroy() {
+        System.out.println("Base destroyed");
+        isDestroyed = true;
+    }
+
+    @Override
+    public boolean isDestroyed() {
+        return isDestroyed;
     }
 }
