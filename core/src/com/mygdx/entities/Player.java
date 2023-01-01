@@ -28,15 +28,17 @@ public class Player extends GameEntity{
     public Player(float rectX, float rectY, float width, float height, World world){
         super(width, height);
         this.body = BodyHelper.createBody(
-                rectX + width / 2,
-                rectY + height / 2,
-                width, height, false, world, this
+            rectX + width / 2,
+            rectY + height / 2,
+            width, height, false, false, world, this
         );
         this.x = body.getPosition().x;
         this.y = body.getPosition().y;
         this.speed = 10f*PPM;
-        characterTexture = new Texture(Gdx.files.internal("topdown_shooter/characters/1.png"));
-        keyDown = false;
+        this.damage = 1;
+
+        this.characterTexture = new Texture(Gdx.files.internal("topdown_shooter/characters/1.png"));
+        this.keyDown = false;
     }
 
     @Override
@@ -69,7 +71,7 @@ public class Player extends GameEntity{
         body.setLinearVelocity(velX*speed, velY*speed);
 
         if(Gdx.input.isTouched() && !keyDown){
-            projectileManager.createProjectile();
+            projectileManager.createProjectile(body.getPosition().x + 16, body.getPosition().y, damage);
             keyDown = true;
             timer.scheduleTask(task, 0.1f);
         }

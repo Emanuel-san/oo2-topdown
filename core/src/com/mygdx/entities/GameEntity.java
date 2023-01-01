@@ -9,6 +9,7 @@ public abstract class GameEntity {
 
     protected float x,y,velX,velY,speed;
     protected float width, height;
+    protected int health, damage;
     protected Body body;
 
     protected boolean isDestroyed;
@@ -19,6 +20,8 @@ public abstract class GameEntity {
         this.velX = 0;
         this.velY = 0;
         this.speed = 0;
+        this.health = 0;
+        this.damage = 0;
         this.isDestroyed = false;
     }
 

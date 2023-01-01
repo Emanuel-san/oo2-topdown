@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.entities.Base;
+import com.mygdx.entities.Enemy;
 import com.mygdx.entities.Player;
 import com.mygdx.entities.Projectile;
 import com.mygdx.helper.TiledMapLoader;
@@ -25,6 +26,7 @@ public class GameScreen extends ScreenAdapter {
     private TiledMapLoader mapLoader;
 
     private Player player;
+    private Enemy enemy;
     private Base playerBase;
 
     public GameScreen(OrthographicCamera camera){
@@ -36,8 +38,15 @@ public class GameScreen extends ScreenAdapter {
         this.projectileManager = new ProjectileManager(this);
 
 
+
         this.mapLoader = new TiledMapLoader(this);
         this.mapRenderer = mapLoader.setupMap();
+
+        this.enemy = new Enemy(
+                player.getBody().getPosition().x + 50,
+                player.getBody().getPosition().y,
+                16, 16, world
+        );
     }
 
     private void update(){
@@ -80,6 +89,7 @@ public class GameScreen extends ScreenAdapter {
             projectile.render(batch);
         }
         playerBase.render(batch);
+        enemy.render(batch);
         batch.end();
 
         box2DDebugRenderer.render(world,camera.combined);

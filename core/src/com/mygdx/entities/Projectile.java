@@ -9,16 +9,20 @@ import com.mygdx.helper.Destroyable;
 import static com.mygdx.helper.Constant.PPM;
 
 public class Projectile extends GameEntity implements Destroyable {
+
     private final Texture texture;
 
-    public Projectile(float x, float y, float width, float height, Texture texture, World world) {
+    public Projectile(float x, float y, float width, float height, Texture texture, World world, int damage) {
         super(width, height);
-        this.body = BodyHelper.createBody(x, y, width, height, false, world, this);
+        this.body = BodyHelper.createBody(x, y, width, height, false, true, world, this);
+        this.body.setBullet(true);
         this.x = x;
         this.y = y;
         this.speed = 20f*PPM;
         this.velX = 1;
+        this.damage = damage;
         this.texture = texture;
+
     }
 
     @Override
@@ -45,6 +49,10 @@ public class Projectile extends GameEntity implements Destroyable {
     @Override
     public boolean isDestroyed() {
         return isDestroyed;
+    }
+
+    public int getDamage(){
+        return damage;
     }
 
 }

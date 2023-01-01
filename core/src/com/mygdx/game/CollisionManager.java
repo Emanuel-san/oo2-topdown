@@ -2,12 +2,11 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.entities.Base;
+import com.mygdx.entities.Enemy;
 import com.mygdx.entities.GameEntity;
-import com.mygdx.entities.Player;
 import com.mygdx.entities.Projectile;
 import com.mygdx.helper.ContactType;
 
-import java.lang.ref.SoftReference;
 
 public class CollisionManager implements ContactListener {
 
@@ -55,6 +54,9 @@ public class CollisionManager implements ContactListener {
         projectile.destroy();
         if(otherEntity instanceof Base){
             ((Base) otherEntity).destroy();
+        }
+        if(otherEntity instanceof Enemy){
+            ((Enemy) otherEntity).reduceHealth(projectile.getDamage());
         }
     }
 }

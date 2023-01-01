@@ -5,7 +5,7 @@ import com.mygdx.entities.GameEntity;
 
 public class BodyHelper {
 
-    public static Body createBody(float x, float y, float width, float height, boolean isStatic, World world, GameEntity entity){
+    public static Body createBody(float x, float y, float width, float height, boolean isStatic, boolean isProjectile, World world, GameEntity entity){
         //Body definition
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = isStatic ? BodyDef.BodyType.StaticBody : BodyDef.BodyType.DynamicBody;
@@ -20,6 +20,7 @@ public class BodyHelper {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.friction = 0;
+        fixtureDef.isSensor = isProjectile;
         body.createFixture(fixtureDef).setUserData(entity);
         shape.dispose();
         return body;

@@ -32,11 +32,8 @@ public class ProjectileManager {
             }
         }
     }
-    public void createProjectile(){
-        projectileList.add(new Projectile(
-                screen.getPlayer().getBody().getPosition().x + 16,
-                screen.getPlayer().getBody().getPosition().y,
-                6, 6, bullet, screen.getWorld()));
+    public void createProjectile(float spawnPointX, float spawnPointY, int damage){
+        projectileList.add(new Projectile(spawnPointX, spawnPointY, 6, 6, bullet, screen.getWorld(), damage));
     }
 
     public List<Projectile> getProjectileList() {
