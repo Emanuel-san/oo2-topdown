@@ -43,7 +43,7 @@ public class Base extends GameEntity implements Destroyable {
 
     @Override
     public void destroy() {
-        System.out.println("Base destroyed");
+        //System.out.println("Base destroyed");
         isDestroyed = true;
     }
 

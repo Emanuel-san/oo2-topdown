@@ -18,7 +18,7 @@ public class CollisionManager implements ContactListener {
         if(a.getUserData() == null || b.getUserData() == null){return;}
         if(a.getUserData() instanceof Projectile){
             if(b.getUserData() == ContactType.WALL){
-                System.out.println("Wall was hit");
+                //System.out.println("Wall was hit");
                 ((Projectile) a.getUserData()).destroy();
 
                 return;
@@ -27,7 +27,7 @@ public class CollisionManager implements ContactListener {
         }
         else if(b.getUserData() instanceof Projectile){
             if(a.getUserData() == ContactType.WALL){
-                System.out.println("Wall was hit");
+                //System.out.println("Wall was hit");
                 ((Projectile) b.getUserData()).destroy();
                 return;
             }

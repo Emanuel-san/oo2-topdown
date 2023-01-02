@@ -12,6 +12,7 @@ public class TopDown extends Game {
 
 	private int widthScreen, heightScreen;
 	private OrthographicCamera camera;
+	private InputManager inputManager;
 
 
 	
@@ -21,7 +22,9 @@ public class TopDown extends Game {
 		this.heightScreen = Gdx.graphics.getHeight();
 		this.camera = new OrthographicCamera();
 		this.camera.setToOrtho(false, widthScreen/3f, heightScreen/3f);
-		setScreen(new GameScreen(camera));
+		this.inputManager = new InputManager();
+		Gdx.input.setInputProcessor(inputManager);
+		setScreen(new GameScreen(camera, inputManager));
 	}
 
 }
