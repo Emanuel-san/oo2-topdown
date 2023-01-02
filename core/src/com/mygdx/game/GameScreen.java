@@ -28,7 +28,7 @@ public class GameScreen extends ScreenAdapter {
     private InputManager inputManager;
 
     private Player player;
-    private Enemy enemy;
+    private EnemyManager enemyManager;
     private Base playerBase;
 
     public GameScreen(OrthographicCamera camera, InputManager inputManager){
@@ -40,14 +40,11 @@ public class GameScreen extends ScreenAdapter {
         this.box2DDebugRenderer = new Box2DDebugRenderer();
         this.projectileManager = new ProjectileManager(this, camera);
 
+
         this.mapLoader = new TiledMapLoader(this);
         this.mapRenderer = mapLoader.setupMap();
 
-        this.enemy = new Enemy(
-                player.getBody().getPosition().x + 50,
-                player.getBody().getPosition().y,
-                16, 16, world
-        );
+        this.enemyManager = new EnemyManager(this);
     }
 
     private void update(){
@@ -58,6 +55,7 @@ public class GameScreen extends ScreenAdapter {
         player.update();
         playerBase.update();
         projectileManager.update(world);
+        enemyManager.update(world);
     }
 
     private void cameraUpdate(){
@@ -88,8 +86,10 @@ public class GameScreen extends ScreenAdapter {
         for(Projectile projectile : projectileManager.getProjectileList()){
             projectile.render(batch);
         }
+        for (Enemy enemy : enemyManager.getEnemies()){
+            enemy.render(batch);
+        }
         playerBase.render(batch);
-        enemy.render(batch);
         batch.end();
 
         box2DDebugRenderer.render(world,camera.combined);

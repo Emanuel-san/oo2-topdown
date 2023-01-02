@@ -12,7 +12,7 @@ import static com.mygdx.helper.Constant.PPM;
 public class Enemy extends GameEntity implements Destroyable {
     private Texture texture;
 
-    public Enemy(float x, float y, float width, float height, World world) {
+    public Enemy(float x, float y, float width, float height, World world, Texture texture) {
         super(width, height);
         this.body = BodyHelper.createBody(x, y, width, height, false, false, world, this);
         this.x = x;
@@ -20,7 +20,7 @@ public class Enemy extends GameEntity implements Destroyable {
         this.speed = 20f*PPM;
         this.velX = 0;
         this.health = 5;
-        this.texture = new Texture(Gdx.files.internal("topdown_shooter/characters/2.png"));
+        this.texture = texture;
     }
 
     @Override

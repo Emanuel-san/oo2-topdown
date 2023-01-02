@@ -28,6 +28,7 @@ public class Projectile extends GameEntity implements Destroyable {
         this.body.setLinearVelocity(velX * speed, velY * speed);
     }
     private void calculateVelocityTrajectory(Vector3 unprojectedPos){
+
         float angle = (float) Math.atan2(unprojectedPos.y - this.y, unprojectedPos.x - this.x);
 
         this.velX = (float) Math.cos(angle);

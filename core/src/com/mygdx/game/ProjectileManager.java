@@ -17,7 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class ProjectileManager {
-    private Vector3 tmpMousePos;
+    private final Vector3 tmpMousePos;
     private Vector3 tmpUnprojectedPos;
     private final GameScreen screen;
     private final OrthographicCamera camera;
