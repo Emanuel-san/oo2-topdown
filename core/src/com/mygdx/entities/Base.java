@@ -11,15 +11,9 @@ public class Base extends GameEntity implements Destroyable {
 
     private final Texture baseTexture;
 
-    public Base(float rectX, float rectY, float width, float height, World world) {
-        super(width, height);
-        this.body = BodyHelper.createBody(
-                rectX + width / 2,
-                rectY + height / 2,
-                width, height, true, false, world, this
-        );
-        this.x = body.getPosition().x;
-        this.y = body.getPosition().y;
+    public Base(float x, float y, float width, float height, World world) {
+        super(x,y,width, height);
+        this.body = BodyHelper.createBody(x, y, width, height, true, false, world, this);
         this.speed = 0;
         this.baseTexture = new Texture(Gdx.files.internal("topdown_shooter/other/base.png"));
     }

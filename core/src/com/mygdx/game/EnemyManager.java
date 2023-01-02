@@ -16,6 +16,7 @@ import java.util.List;
 public class EnemyManager {
     private List<Enemy> enemies;
 
+
     final private GameScreen screen;
     private final Texture texture;
 

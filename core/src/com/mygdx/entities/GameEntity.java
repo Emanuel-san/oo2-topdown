@@ -14,9 +14,11 @@ public abstract class GameEntity {
 
     protected boolean isDestroyed;
 
-    public GameEntity(float width, float height){
+    public GameEntity(float x, float y, float width, float height){
         this.width = width;
         this.height = height;
+        this.x = x;
+        this.y = y;
         this.velX = 0;
         this.velY = 0;
         this.speed = 0;

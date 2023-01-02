@@ -16,11 +16,9 @@ public class Projectile extends GameEntity implements Destroyable {
     private final Texture texture;
 
     public Projectile(float x, float y, float width, float height, Texture texture, World world, int damage, Vector3 unprojectedPos) {
-        super(width, height);
+        super(x, y, width, height);
         this.body = BodyHelper.createBody(x, y, width, height, false, true, world, this);
         this.body.setBullet(true);
-        this.x = x;
-        this.y = y;
         this.speed = 20f*PPM;
         this.damage = damage;
         this.texture = texture;

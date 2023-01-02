@@ -38,10 +38,22 @@ public class TiledMapLoader {
                 String rectangleName = mapObject.getName();
 
                 if(rectangleName.equals("player")){
-                    screen.setPlayer(new Player(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight(), screen.getWorld()));
+                    screen.setPlayer(new Player(
+                            rectangle.getX() + rectangle.getWidth() / 2,
+                            rectangle.getY() + rectangle.getHeight() / 2,
+                            rectangle.getWidth(),
+                            rectangle.getHeight(),
+                            screen.getWorld())
+                    );
                 }
                 if(rectangleName.equals("base")){
-                    screen.setPlayerBase(new Base(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight(), screen.getWorld()));
+                    screen.setPlayerBase(new Base(
+                            rectangle.getX() + rectangle.getWidth() / 2,
+                            rectangle.getY() + rectangle.getHeight() / 2,
+                            rectangle.getWidth(),
+                            rectangle.getHeight(),
+                            screen.getWorld())
+                    );
                 }
             }
         }
