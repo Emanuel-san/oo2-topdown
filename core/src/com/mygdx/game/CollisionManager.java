@@ -1,10 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.physics.box2d.*;
-import com.mygdx.entities.Base;
-import com.mygdx.entities.Enemy;
-import com.mygdx.entities.GameEntity;
-import com.mygdx.entities.Projectile;
+import com.mygdx.entities.*;
 import com.mygdx.helper.ContactType;
 
 
@@ -18,16 +15,13 @@ public class CollisionManager implements ContactListener {
         if(a.getUserData() == null || b.getUserData() == null){return;}
         if(a.getUserData() instanceof Projectile){
             if(b.getUserData() == ContactType.WALL){
-                //System.out.println("Wall was hit");
                 ((Projectile) a.getUserData()).destroy();
-
                 return;
             }
             projectileHit((Projectile) a.getUserData(), (GameEntity) b.getUserData());
         }
         else if(b.getUserData() instanceof Projectile){
             if(a.getUserData() == ContactType.WALL){
-                //System.out.println("Wall was hit");
                 ((Projectile) b.getUserData()).destroy();
                 return;
             }
@@ -57,6 +51,9 @@ public class CollisionManager implements ContactListener {
         }
         if(otherEntity instanceof Enemy){
             ((Enemy) otherEntity).reduceHealth(projectile.getDamage());
+        }
+        if(otherEntity instanceof Spawner){
+            ((Spawner) otherEntity).reduceHealth(projectile.getDamage());
         }
     }
 }

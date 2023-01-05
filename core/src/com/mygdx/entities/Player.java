@@ -28,7 +28,7 @@ public class Player extends GameEntity{
     public Player(float x, float y, float width, float height, World world){
         super(x, y, width, height);
         this.body = BodyHelper.createBody(x, y, width, height, false, false, world, this);
-        this.speed = 10f*PPM;
+        this.speed = 50f*PPM;
         this.damage = 1;
 
         this.characterTexture = new Texture(Gdx.files.internal("topdown_shooter/characters/1.png"));

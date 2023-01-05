@@ -10,11 +10,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.entities.Base;
-import com.mygdx.entities.Enemy;
-import com.mygdx.entities.Player;
-import com.mygdx.entities.Projectile;
+import com.mygdx.entities.*;
 import com.mygdx.helper.TiledMapLoader;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameScreen extends ScreenAdapter {
     private OrthographicCamera camera;
@@ -28,7 +28,7 @@ public class GameScreen extends ScreenAdapter {
     private InputManager inputManager;
 
     private Player player;
-    private EnemyManager enemyManager;
+    private final EnemyManager enemyManager;
     private Base playerBase;
 
     public GameScreen(OrthographicCamera camera, InputManager inputManager){
@@ -39,12 +39,13 @@ public class GameScreen extends ScreenAdapter {
         this.world.setContactListener(new CollisionManager());
         this.box2DDebugRenderer = new Box2DDebugRenderer();
         this.projectileManager = new ProjectileManager(this, camera);
-
+        this.enemyManager = new EnemyManager(this);
 
         this.mapLoader = new TiledMapLoader(this);
         this.mapRenderer = mapLoader.setupMap();
 
-        this.enemyManager = new EnemyManager(this);
+
+
     }
 
     private void update(){
@@ -54,8 +55,8 @@ public class GameScreen extends ScreenAdapter {
         mapRenderer.setView(camera);
         player.update();
         playerBase.update();
-        projectileManager.update(world);
-        enemyManager.update(world);
+        projectileManager.update();
+        enemyManager.update();
     }
 
     private void cameraUpdate(){
@@ -86,7 +87,10 @@ public class GameScreen extends ScreenAdapter {
         for(Projectile projectile : projectileManager.getProjectileList()){
             projectile.render(batch);
         }
-        for (Enemy enemy : enemyManager.getEnemies()){
+        for(Spawner spawner : enemyManager.getSpawners()){
+            spawner.render(batch);
+        }
+        for(Enemy enemy : enemyManager.getEnemies()){
             enemy.render(batch);
         }
         playerBase.render(batch);
@@ -103,13 +107,16 @@ public class GameScreen extends ScreenAdapter {
         this.player = player;
         this.player.setProjectileManager(projectileManager);
     }
+    public void setPlayerBase(Base playerBase) {
+        this.playerBase = playerBase;
+    }
 
     public Player getPlayer() {
         return player;
     }
 
-    public void setPlayerBase(Base playerBase) {
-        this.playerBase = playerBase;
+    public EnemyManager getEnemyManager() {
+        return enemyManager;
     }
 
     public InputManager getInputManager() {

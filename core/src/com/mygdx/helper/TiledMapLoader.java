@@ -15,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.mygdx.entities.Base;
 import com.mygdx.entities.Player;
+import com.mygdx.entities.Spawner;
 import com.mygdx.game.GameScreen;
 
 public class TiledMapLoader {
@@ -31,7 +32,7 @@ public class TiledMapLoader {
     private void parseMapObjects(MapObjects mapObjects){
         for(MapObject mapObject : mapObjects){
             if(mapObject instanceof PolygonMapObject){
-                createStaticBody((PolygonMapObject) mapObject);
+                createBoundaryWall((PolygonMapObject) mapObject);
             }
             if(mapObject instanceof RectangleMapObject){
                 Rectangle rectangle = ((RectangleMapObject) mapObject).getRectangle();
@@ -55,10 +56,20 @@ public class TiledMapLoader {
                             screen.getWorld())
                     );
                 }
+                if(rectangleName.equals("spawner")){
+                    screen.getEnemyManager().getSpawners().add(new Spawner(
+                            rectangle.getX() + rectangle.getWidth() / 2,
+                            rectangle.getY() + rectangle.getHeight() / 2,
+                            rectangle.getWidth(),
+                            rectangle.getHeight(),
+                            screen.getWorld(),
+                            screen.getEnemyManager()
+                    ));
+                }
             }
         }
     }
-    private void createStaticBody(PolygonMapObject polygonMapObject){
+    private void createBoundaryWall(PolygonMapObject polygonMapObject){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
         Body body = screen.getWorld().createBody(bodyDef);

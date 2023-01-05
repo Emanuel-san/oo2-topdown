@@ -10,7 +10,7 @@ public class BodyHelper {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = isStatic ? BodyDef.BodyType.StaticBody : BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x, y);
-        bodyDef.fixedRotation = true; //False is default in Box2D
+        bodyDef.fixedRotation = true;
         Body body = world.createBody(bodyDef);
 
         PolygonShape shape = new PolygonShape();
@@ -24,9 +24,5 @@ public class BodyHelper {
         body.createFixture(fixtureDef).setUserData(entity);
         shape.dispose();
         return body;
-    }
-    public static void removeBody(World world, Body body){
-        world.destroyBody(body);
-        body = null; //set body to null and let GC take care of it.
     }
 }

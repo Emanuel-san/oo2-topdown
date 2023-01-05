@@ -15,8 +15,7 @@ public class Enemy extends GameEntity implements Destroyable {
     public Enemy(float x, float y, float width, float height, World world, Texture texture) {
         super(x,y,width, height);
         this.body = BodyHelper.createBody(x, y, width, height, false, false, world, this);
-        this.speed = 20f*PPM;
-        this.velX = 0;
+        this.speed = 10f*PPM;
         this.health = 5;
         this.texture = texture;
     }

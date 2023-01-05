@@ -31,12 +31,12 @@ public class ProjectileManager {
         this.tmpUnprojectedPos = new Vector3();
         this.bullet = new Texture(Gdx.files.internal("topdown_shooter/other/bulleta.png"));
     }
-    public void update(World world){
+    public void update(){
         //projectileList.removeIf(projectile -> projectile.isDestroyed()); java 8 or greater
         for(Iterator<Projectile> projectileIterator = projectileList.iterator(); projectileIterator.hasNext();){
             Projectile projectile = projectileIterator.next();
             if(projectile.isDestroyed()){
-                BodyHelper.removeBody(world, projectile.getBody());
+                screen.getWorld().destroyBody(projectile.getBody());
                 projectileIterator.remove();
             }
             //projectile.update();
