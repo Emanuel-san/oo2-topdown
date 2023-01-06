@@ -9,10 +9,11 @@ import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.mygdx.helper.BodyHelper;
 import com.mygdx.game.ProjectileManager;
+import com.mygdx.helper.Destroyable;
 
 import static com.mygdx.helper.Constant.PPM;
 
-public class Player extends GameEntity{
+public class Player extends GameEntity implements Destroyable {
     private final Texture characterTexture;
     private ProjectileManager projectileManager;
     private boolean keyDown;
@@ -23,6 +24,7 @@ public class Player extends GameEntity{
             keyDown = false;
         }
     };
+    private boolean godMode;
 
 
     public Player(float x, float y, float width, float height, World world){
@@ -30,6 +32,8 @@ public class Player extends GameEntity{
         this.body = BodyHelper.createBody(x, y, width, height, false, false, world, this);
         this.speed = 50f*PPM;
         this.damage = 1;
+        this.godMode = false;
+        this.health = 100;
 
         this.characterTexture = new Texture(Gdx.files.internal("topdown_shooter/characters/1.png"));
         this.keyDown = false;
@@ -73,5 +77,25 @@ public class Player extends GameEntity{
 
     public void setProjectileManager(ProjectileManager projectileManager) {
         this.projectileManager = projectileManager;
+    }
+
+    public boolean isGodMode() {
+        return godMode;
+    }
+
+    @Override
+    public void reduceHealth(int amount) {
+        health -= amount;
+        System.out.println("Player health: " + health);
+    }
+
+    @Override
+    public void destroy() {
+
+    }
+
+    @Override
+    public boolean isDestroyed() {
+        return false;
     }
 }

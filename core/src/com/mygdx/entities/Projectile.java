@@ -58,8 +58,4 @@ public class Projectile extends GameEntity implements Destroyable {
         return isDestroyed;
     }
 
-    public int getDamage(){
-        return damage;
-    }
-
 }

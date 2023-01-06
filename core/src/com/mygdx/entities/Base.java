@@ -13,6 +13,7 @@ public class Base extends GameEntity implements Destroyable {
 
     public Base(float x, float y, float width, float height, World world) {
         super(x,y,width, height);
+        this.health = 10;
         this.body = BodyHelper.createBody(x, y, width, height, true, false, world, this);
         this.baseTexture = new Texture(Gdx.files.internal("topdown_shooter/other/base.png"));
     }
@@ -31,12 +32,16 @@ public class Base extends GameEntity implements Destroyable {
 
     @Override
     public void reduceHealth(int amount) {
-
+        health-= amount;
+        if(health <= 0){
+            destroy();
+        }
+        System.out.println("Base health: " + health);
     }
 
     @Override
     public void destroy() {
-        //System.out.println("Base destroyed");
+        System.out.println("Base destroyed");
         isDestroyed = true;
     }
 

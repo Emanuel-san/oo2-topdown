@@ -1,6 +1,5 @@
 package com.mygdx.entities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -14,16 +13,18 @@ import static com.mygdx.helper.Constant.PPM;
 
 public class Enemy extends GameEntity implements Destroyable {
     private Texture texture;
-    private EnemyAI ai;
+    private final EnemyAI ai;
     Vector2 direction;
 
-    public Enemy(float x, float y, float width, float height, World world, Texture texture) {
+    public Enemy(float x, float y, float width, float height, World world, Texture texture, int damage) {
         super(x,y,width, height);
         this.body = BodyHelper.createBody(x, y, width, height, false, false, world, this);
-        this.speed = 10f*PPM;
+        this.speed = 5f*PPM;
         this.health = 5;
+        this.damage = damage;
         this.texture = texture;
         this.ai = new EnemyAI();
+        this.direction = new Vector2();
     }
 
     @Override
@@ -34,6 +35,9 @@ public class Enemy extends GameEntity implements Destroyable {
                 GameScreen.SCREEN.getPlayerBase().getBody().getPosition(),
                 direction
         );
+        velX = direction.x;
+        velY = direction.y;
+        body.setLinearVelocity(velX * speed, velY * speed);
     }
 
     @Override

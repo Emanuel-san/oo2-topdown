@@ -47,7 +47,7 @@ public class InputManager implements InputProcessor {
         return false;
     }
 
-    public float getMouse() {
+    public float getScreenX() {
         return screenX;
     }
 

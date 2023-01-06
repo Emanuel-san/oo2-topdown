@@ -32,6 +32,8 @@ public class EnemyManager {
             if(enemy.isDestroyed()){
                 screen.getWorld().destroyBody(enemy.getBody());
                 enemyIterator.remove();
+            }else{
+                enemy.update();
             }
         }
         for(Iterator<Spawner> spawnerIterator = spawners.iterator(); spawnerIterator.hasNext();){
@@ -39,13 +41,15 @@ public class EnemyManager {
             if(spawner.isDestroyed()){
                 screen.getWorld().destroyBody(spawner.getBody());
                 spawnerIterator.remove();
+            }else{
+                spawner.update();
             }
-            spawner.update();
+
         }
     }
 
     public void createEnemy(float x, float y){
-        enemies.add(new Enemy(x, y, 16, 16, screen.getWorld(), enemyTexture));
+        enemies.add(new Enemy(x, y, 16, 16, screen.getWorld(), enemyTexture, 1));
     }
 
 

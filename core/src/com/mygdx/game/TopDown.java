@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,6 +14,7 @@ public class TopDown extends Game {
 	private int widthScreen, heightScreen;
 	private OrthographicCamera camera;
 	private InputManager inputManager;
+	private AssetManager assetManager;
 
 
 	
@@ -21,7 +23,7 @@ public class TopDown extends Game {
 		this.widthScreen = Gdx.graphics.getWidth();
 		this.heightScreen = Gdx.graphics.getHeight();
 		this.camera = new OrthographicCamera();
-		this.camera.setToOrtho(false, widthScreen/3f, heightScreen/3f);
+		this.camera.setToOrtho(false, widthScreen, heightScreen);
 		this.inputManager = new InputManager();
 		Gdx.input.setInputProcessor(inputManager);
 		setScreen(new GameScreen(camera, inputManager));
