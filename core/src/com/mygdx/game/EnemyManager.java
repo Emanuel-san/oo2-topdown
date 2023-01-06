@@ -2,17 +2,13 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
+
 import com.mygdx.entities.Enemy;
-import com.mygdx.entities.Projectile;
 import com.mygdx.entities.Spawner;
-import com.mygdx.helper.BodyHelper;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
 
 public class EnemyManager {
     private List<Enemy> enemies;
@@ -51,12 +47,7 @@ public class EnemyManager {
     public void createEnemy(float x, float y){
         enemies.add(new Enemy(x, y, 16, 16, screen.getWorld(), enemyTexture));
     }
-    private float distance(Vector2 obj1, Vector2 obj2){
-        float xDiff = obj2.x - obj1.x;
-        float yDiff = obj2.y - obj1.y;
 
-        return (float)Math.sqrt(xDiff * xDiff + yDiff + yDiff);
-    }
 
     public List<Enemy> getEnemies() {
         return enemies;

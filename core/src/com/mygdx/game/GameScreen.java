@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameScreen extends ScreenAdapter {
+    public static GameScreen SCREEN;
     private OrthographicCamera camera;
     private SpriteBatch batch;
     private World world;
@@ -32,6 +33,7 @@ public class GameScreen extends ScreenAdapter {
     private Base playerBase;
 
     public GameScreen(OrthographicCamera camera, InputManager inputManager){
+        SCREEN = this;
         this.camera = camera;
         this.inputManager = inputManager;
         this.batch = new SpriteBatch();
@@ -113,6 +115,10 @@ public class GameScreen extends ScreenAdapter {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public Base getPlayerBase() {
+        return playerBase;
     }
 
     public EnemyManager getEnemyManager() {
