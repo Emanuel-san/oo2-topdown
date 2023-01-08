@@ -1,0 +1,55 @@
+
+char1.png
+size: 512, 32
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+1_diagdown
+  rotate: false
+  xy: 2, 2
+  size: 80, 24
+  orig: 80, 24
+  offset: 0, 0
+  index: -1
+1_diagup
+  rotate: false
+  xy: 84, 2
+  size: 80, 24
+  orig: 80, 24
+  offset: 0, 0
+  index: -1
+1_idle
+  rotate: false
+  xy: 494, 5
+  size: 16, 21
+  orig: 16, 21
+  offset: 0, 0
+  index: -1
+1_north
+  rotate: false
+  xy: 330, 2
+  size: 80, 24
+  orig: 80, 24
+  offset: 0, 0
+  index: -1
+1_side
+  rotate: false
+  xy: 248, 2
+  size: 80, 24
+  orig: 80, 24
+  offset: 0, 0
+  index: -1
+1_south
+  rotate: false
+  xy: 166, 2
+  size: 80, 24
+  orig: 80, 24
+  offset: 0, 0
+  index: -1
+1_south2
+  rotate: false
+  xy: 412, 2
+  size: 80, 24
+  orig: 80, 24
+  offset: 0, 0
+  index: -1
