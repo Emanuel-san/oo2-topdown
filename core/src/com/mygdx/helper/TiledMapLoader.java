@@ -1,5 +1,6 @@
 package com.mygdx.helper;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
@@ -44,7 +45,8 @@ public class TiledMapLoader {
                             rectangle.getY() + rectangle.getHeight() / 2,
                             rectangle.getWidth(),
                             rectangle.getHeight(),
-                            screen.getWorld())
+                            screen.getWorld(),
+                            screen.getAssetManager().get("topdown_shooter/char1.atlas", TextureAtlas.class))
                     );
                 }
                 if(rectangleName.equals("base")){
@@ -74,7 +76,7 @@ public class TiledMapLoader {
         bodyDef.type = BodyDef.BodyType.StaticBody;
         Body body = screen.getWorld().createBody(bodyDef);
         Shape shape = createPolygonShape(polygonMapObject);
-        body.createFixture(shape, 1000).setUserData(ContactType.WALL);
+        body.createFixture(shape, 1000).setUserData("Wall");
         shape.dispose();
     }
     private Shape createPolygonShape(PolygonMapObject polygonMapObject) {

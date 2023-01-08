@@ -41,7 +41,7 @@ public class Enemy extends GameEntity implements Destroyable {
     }
 
     @Override
-    public void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch, float deltaTime) {
         batch.draw(texture, body.getPosition().x - 8, body.getPosition().y - 8);
     }
 

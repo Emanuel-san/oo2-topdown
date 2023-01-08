@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,6 +19,7 @@ import java.util.List;
 
 public class GameScreen extends ScreenAdapter {
     public static GameScreen SCREEN;
+    private AssetManager assetManager;
     private OrthographicCamera camera;
     private SpriteBatch batch;
     private World world;
@@ -32,9 +34,10 @@ public class GameScreen extends ScreenAdapter {
     private final EnemyManager enemyManager;
     private Base playerBase;
 
-    public GameScreen(OrthographicCamera camera, InputManager inputManager){
+    public GameScreen(OrthographicCamera camera, InputManager inputManager, AssetManager assetManager){
         SCREEN = this;
         this.camera = camera;
+        this.assetManager = assetManager;
         this.inputManager = inputManager;
         this.batch = new SpriteBatch();
         this.world = new World(new Vector2(0, 0), true); //topdown, no gravity
@@ -85,17 +88,17 @@ public class GameScreen extends ScreenAdapter {
         mapRenderer.render();
 
         batch.begin();
-        player.render(batch);
+        player.render(batch, delta);
         for(Projectile projectile : projectileManager.getProjectileList()){
-            projectile.render(batch);
+            projectile.render(batch, delta);
         }
         for(Spawner spawner : enemyManager.getSpawners()){
-            spawner.render(batch);
+            spawner.render(batch, delta);
         }
         for(Enemy enemy : enemyManager.getEnemies()){
-            enemy.render(batch);
+            enemy.render(batch, delta);
         }
-        playerBase.render(batch);
+        playerBase.render(batch, delta);
         batch.end();
 
         box2DDebugRenderer.render(world,camera.combined);
@@ -125,7 +128,8 @@ public class GameScreen extends ScreenAdapter {
         return enemyManager;
     }
 
-    public InputManager getInputManager() {
-        return inputManager;
+    public AssetManager getAssetManager() {
+        return assetManager;
     }
+    //public InputManager getInputManager() {return inputManager;}
 }

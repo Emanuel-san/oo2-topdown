@@ -38,7 +38,7 @@ public class Projectile extends GameEntity implements Destroyable {
     }
 
     @Override
-    public void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch, float deltaTime) {
         batch.draw(texture, body.getPosition().x - 3, body.getPosition().y - 3);
     }
 

@@ -1,7 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public class LoadingScreen implements Screen {
     private final TopDown game;
@@ -12,15 +12,15 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void show() {
-        game.getAssetManager().load("topdown_shooter/characters/1.png", Texture.class);
+        game.getAssetManager().load("topdown_shooter/char1.atlas", TextureAtlas.class);
     }
 
     @Override
     public void render(float delta) {
         if(game.getAssetManager().update()){
-            game.setScreen(new GameScreen(game.getCamera(), game.getInputManager()));
+            game.setScreen(new GameScreen(game.getCamera(), game.getInputManager(), game.getAssetManager()));
         }else{
-            System.out.println("Still Loading...");
+            System.out.println("Loading...");
         }
     }
 

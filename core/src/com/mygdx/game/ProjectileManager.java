@@ -1,16 +1,10 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.entities.Projectile;
-import com.mygdx.game.GameScreen;
-import com.mygdx.helper.BodyHelper;
-import com.mygdx.helper.ContactType;
 
 import java.util.ArrayList;
 import java.util.Iterator;

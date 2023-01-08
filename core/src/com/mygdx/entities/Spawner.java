@@ -46,7 +46,7 @@ public class Spawner extends GameEntity implements Destroyable {
     }
 
     @Override
-    public void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch, float deltaTime) {
         batch.draw(baseTexture, body.getPosition().x - 24, body.getPosition().y - 24);
     }
 
