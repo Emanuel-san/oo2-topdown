@@ -28,22 +28,23 @@ public class GameScreen extends ScreenAdapter {
     private OrthogonalTiledMapRenderer mapRenderer;
     private TiledMapLoader mapLoader;
 
-    private InputManager inputManager;
-
     private Player player;
     private final EnemyManager enemyManager;
     private Base playerBase;
+    private Vector3 mousePos;
+    private Vector3 unprojectedMousePos;
 
-    public GameScreen(OrthographicCamera camera, InputManager inputManager, AssetManager assetManager){
+    public GameScreen(OrthographicCamera camera, AssetManager assetManager){
         SCREEN = this;
         this.camera = camera;
         this.assetManager = assetManager;
-        this.inputManager = inputManager;
         this.batch = new SpriteBatch();
         this.world = new World(new Vector2(0, 0), true); //topdown, no gravity
         this.world.setContactListener(new CollisionManager());
         this.box2DDebugRenderer = new Box2DDebugRenderer();
-        this.projectileManager = new ProjectileManager(this, camera);
+        this.mousePos = new Vector3();
+        this.unprojectedMousePos = new Vector3();
+        this.projectileManager = new ProjectileManager(this);
         this.enemyManager = new EnemyManager(this);
 
         this.mapLoader = new TiledMapLoader(this);
@@ -58,6 +59,7 @@ public class GameScreen extends ScreenAdapter {
         cameraUpdate();
         batch.setProjectionMatrix(camera.combined);
         mapRenderer.setView(camera);
+        updateUnprojectedMousePos();
         player.update();
         playerBase.update();
         projectileManager.update();
@@ -76,6 +78,11 @@ public class GameScreen extends ScreenAdapter {
                 );
         camera.update();
     }
+    private void updateUnprojectedMousePos(){
+        mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+        unprojectedMousePos = camera.unproject(mousePos);
+    }
+
 
     @Override
     public void render(float delta){
@@ -131,5 +138,8 @@ public class GameScreen extends ScreenAdapter {
     public AssetManager getAssetManager() {
         return assetManager;
     }
-    //public InputManager getInputManager() {return inputManager;}
+
+    public Vector3 getUnprojectedMousePos() {
+        return unprojectedMousePos;
+    }
 }

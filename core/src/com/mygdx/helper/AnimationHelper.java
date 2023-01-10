@@ -1,5 +1,6 @@
 package com.mygdx.helper;
 
+import com.badlogic.gdx.assets.AssetLoaderParameters;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -15,7 +16,6 @@ public class AnimationHelper {
                 animationFrames[index++] = frames[i][j];
             }
         }
-
         return new Animation<>(0.5f, animationFrames);
     }
 

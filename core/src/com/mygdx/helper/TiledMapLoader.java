@@ -45,8 +45,8 @@ public class TiledMapLoader {
                             rectangle.getY() + rectangle.getHeight() / 2,
                             rectangle.getWidth(),
                             rectangle.getHeight(),
-                            screen.getWorld(),
-                            screen.getAssetManager().get("topdown_shooter/char1.atlas", TextureAtlas.class))
+                            screen.getAssetManager().get("topdown_shooter/char1.atlas", TextureAtlas.class),
+                            screen)
                     );
                 }
                 if(rectangleName.equals("base")){
