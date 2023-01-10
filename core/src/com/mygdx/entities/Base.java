@@ -15,6 +15,7 @@ public class Base extends GameEntity implements Destroyable {
         super(x,y,width, height);
         this.health = 10;
         this.body = BodyHelper.createBody(x, y, width, height, true, false, world, this);
+        this.body.setUserData(this);
         this.baseTexture = new Texture(Gdx.files.internal("topdown_shooter/other/base.png"));
     }
 

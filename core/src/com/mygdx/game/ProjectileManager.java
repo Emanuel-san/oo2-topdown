@@ -1,9 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector3;
 import com.mygdx.entities.Projectile;
 
 import java.util.ArrayList;
@@ -30,11 +28,11 @@ public class ProjectileManager {
             //projectile.update();
         }
     }
-    public void createProjectile(float spawnPointX, float spawnPointY, int damage){
+    public void createProjectile(float x, float y, int damage){
 
 
         projectileList.add(new Projectile(
-                spawnPointX, spawnPointY, 6, 6, bullet, screen.getWorld(),
+                x, y, 6, 6, bullet, screen.getWorld(),
                 damage, screen.getUnprojectedMousePos())
         );
     }

@@ -13,13 +13,15 @@ import static com.mygdx.helper.Constant.PPM;
 
 public class Enemy extends GameEntity implements Destroyable {
     private Texture texture;
+
     private final EnemyAI ai;
     Vector2 direction;
 
     public Enemy(float x, float y, float width, float height, World world, Texture texture, int damage) {
         super(x,y,width, height);
         this.body = BodyHelper.createBody(x, y, width, height, false, false, world, this);
-        this.speed = 5f*PPM;
+        this.body.setUserData(this);
+        this.speed = 3f*PPM;
         this.health = 5;
         this.damage = damage;
         this.texture = texture;

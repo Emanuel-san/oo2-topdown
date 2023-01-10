@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Timer;
@@ -19,6 +20,7 @@ import com.mygdx.helper.Direction;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import static com.mygdx.helper.Constant.PPM;
 
@@ -44,7 +46,8 @@ public class Player extends GameEntity implements Destroyable {
     public Player(float x, float y, float width, float height, TextureAtlas atlas, GameScreen screen){
         super(x, y, width, height);
         this.body = BodyHelper.createBody(x, y, width, height, false, false, screen.getWorld(), this);
-        this.speed = 50f*PPM;
+        this.body.setUserData(this);
+        this.speed = 3f*PPM;
         this.damage = 1;
         this.godMode = false;
         this.health = 100;
@@ -89,28 +92,27 @@ public class Player extends GameEntity implements Destroyable {
         if(anglePlayerToMouse > 2.8 || anglePlayerToMouse <= -2.8){
             return Direction.SIDE_LEFT;
         }
-        if(anglePlayerToMouse > 2){
+        else if(anglePlayerToMouse > 2){
             return Direction.DIAGONAL_UP_LEFT;
         }
-        if(anglePlayerToMouse > 1.17){
+        else if(anglePlayerToMouse > 1.17){
             return Direction.UP;
         }
-        if(anglePlayerToMouse > 0.5){
+        else if(anglePlayerToMouse > 0.5){
             return Direction.DIAGONAL_UP;
         }
-        if(anglePlayerToMouse > -0.34){
+        else if(anglePlayerToMouse > -0.34){
             return Direction.SIDE;
         }
-        if(anglePlayerToMouse > -1.2){
+        else if(anglePlayerToMouse > -1.2){
             return Direction.DIAGONAL_DOWN;
         }
-        if(anglePlayerToMouse > -1.8){
+        else if(anglePlayerToMouse > -1.8){
             return Direction.DOWN;
         }
-        if(anglePlayerToMouse > -2.8){
+        else{
             return Direction.DIAGONAL_DOWN_LEFT;
         }
-        return 0;
     }
     private void checkUserInput() {
         velX = 0;
@@ -130,9 +132,37 @@ public class Player extends GameEntity implements Destroyable {
         body.setLinearVelocity(velX*speed, velY*speed);
 
         if(Gdx.input.isTouched() && !keyDown){
-            projectileManager.createProjectile(this.x + 16, this.y, damage);
+            Vector2 projectileVector = getProjectileVector();
+            projectileManager.createProjectile(projectileVector.x, projectileVector.y, damage);
             keyDown = true;
             timer.scheduleTask(task, 0.1f);
+        }
+    }
+
+    private Vector2 getProjectileVector(){
+        if(currenDirection == Direction.UP){
+            return new Vector2(this.x, this.y + 16);
+        }
+        else if(currenDirection == Direction.DIAGONAL_UP){
+            return new Vector2(this.x + 16, this.y + 16);
+        }
+        else if(currenDirection == Direction.SIDE){
+            return new Vector2(this.x + 16, this.y);
+        }
+        else if(currenDirection == Direction.DIAGONAL_DOWN){
+            return new Vector2(this.x + 16, this.y - 16);
+        }
+        else if(currenDirection == Direction.DOWN){
+            return new Vector2(this.x, this.y - 16);
+        }
+        else if(currenDirection == Direction.DIAGONAL_DOWN_LEFT){
+            return new Vector2(this.x - 16, this.y - 16);
+        }
+        else if(currenDirection == Direction.SIDE_LEFT){
+            return new Vector2(this.x - 16, this.y);
+        }
+        else{
+            return new Vector2(this.x - 16, this.y + 16);
         }
     }
 

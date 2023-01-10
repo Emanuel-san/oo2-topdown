@@ -14,9 +14,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.entities.*;
 import com.mygdx.helper.TiledMapLoader;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class GameScreen extends ScreenAdapter {
     public static GameScreen SCREEN;
     private AssetManager assetManager;

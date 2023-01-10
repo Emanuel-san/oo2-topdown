@@ -30,6 +30,7 @@ public class Spawner extends GameEntity implements Destroyable {
         this.spawnDelay = 10.0f;
         this.health = 10;
         this.body = BodyHelper.createBody(x, y, width, height, true, false, world, this);
+        this.body.setUserData(this);
         this.baseTexture = new Texture(Gdx.files.internal("topdown_shooter/other/base2.png"));
 
     }
