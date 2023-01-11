@@ -8,25 +8,37 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 
 public class GameHUD{
-
+    private GameScreen screen;
     private Stage stage;
     private Table table;
+    private Label scoreCount;
+    private Label coinsCount;
+    private Label scoreLabel;
+    private Label coinsLabel;
 
-    public GameHUD (){
+    public GameHUD (GameScreen screen){
+        this.screen = screen;
         stage = new Stage();
         table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
-        addLabel("Score: " + 1000, Color.WHITE, Align.left);
-        addLabel("Coins: " + 100000, Color.YELLOW, Align.right);
+        scoreLabel = new Label("SCORE", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        coinsLabel = new Label("COINS", new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
+        scoreCount = new Label(Integer.toString(screen.getPlayer().getScore()), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        coinsCount = new Label(Integer.toString(screen.getPlayer().getCoins()), new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
         table.align(Align.top);
-        //table.debug();
+        table.add(scoreLabel).expandX().pad(10, 10, 0, 0).align(Align.left);
+        table.add(coinsLabel).expandX().pad(10, 0, 0, 10).align(Align.right);
+        table.row();
+        table.add(scoreCount).expandX().pad(0, 10, 0, 0).align(Align.left);
+        table.add(coinsCount).expandX().pad(0, 0, 0, 10).align(Align.right);
+        table.debug();
     }
 
-    public void addLabel(String text, Color color, int align){
-        Label label = new Label(text, new Label.LabelStyle(new BitmapFont(), color));
-        label.getStyle().font.getData().setScale(2);
-        table.add(label).expandX().pad(10f).align(align);
+    public void update(){
+        scoreCount.setText(Integer.toString(screen.getPlayer().getScore()));
+        coinsCount.setText(Integer.toString(screen.getPlayer().getCoins()));
+        table.pack();
     }
 
     public void render(){

@@ -38,7 +38,7 @@ public class GameScreen extends ScreenAdapter {
         this.assetManager = assetManager;
         batch = new SpriteBatch();
         world = new World(new Vector2(0, 0), true); //topdown, no gravity
-        world.setContactListener(new CollisionManager());
+        world.setContactListener(new CollisionManager(this));
         box2DDebugRenderer = new Box2DDebugRenderer();
         mousePos = new Vector3();
         unprojectedMousePos = new Vector3();
@@ -48,9 +48,7 @@ public class GameScreen extends ScreenAdapter {
         mapLoader = new TiledMapLoader(this);
         mapRenderer = mapLoader.setupMap();
 
-        hud = new GameHUD();
-
-
+        hud = new GameHUD(this);
     }
 
     @Override
@@ -68,6 +66,7 @@ public class GameScreen extends ScreenAdapter {
         playerBase.update();
         projectileManager.update();
         enemyManager.update();
+        hud.update();
     }
 
     private void cameraUpdate(){

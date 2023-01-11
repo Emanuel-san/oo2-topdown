@@ -22,9 +22,6 @@ public class EnemyManager {
         this.spawners = new ArrayList<>();
         this.screen = screen;
         this.enemyTexture = new Texture(Gdx.files.internal("topdown_shooter/characters/2.png"));
-
-
-        //spawnEnemy();
     }
     public void update(){
         for(Iterator<Enemy> enemyIterator = enemies.iterator(); enemyIterator.hasNext();){

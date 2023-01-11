@@ -29,8 +29,8 @@ public class Player extends GameEntity implements Destroyable {
     private List<Animation<TextureRegion>> animations;
     private ProjectileManager projectileManager;
     private GameScreen screen;
-    float anglePlayerToMouse = 0;
-    int currenDirection = 0;
+    private float anglePlayerToMouse = 0;
+    private int score = 0, coins = 0, currenDirection = 0;
     private boolean keyDown;
     private final Timer timer = new Timer();
     private final Task task = new Task() {
@@ -40,7 +40,7 @@ public class Player extends GameEntity implements Destroyable {
         }
     };
     private boolean godMode;
-    float stateTime = 0;
+    private float stateTime = 0;
 
 
     public Player(float x, float y, float width, float height, TextureAtlas atlas, GameScreen screen){
@@ -188,4 +188,22 @@ public class Player extends GameEntity implements Destroyable {
     public boolean isDestroyed() {
         return false;
     }
+
+    public int getScore() {
+        return score;
+    }
+
+    public int getCoins() {
+        return coins;
+    }
+
+    public void addScore(int amount) {
+        this.score += amount;
+    }
+
+    public void setCoins(int amount) {
+        this.coins += amount;
+    }
 }
+
+

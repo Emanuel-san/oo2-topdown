@@ -6,6 +6,11 @@ import com.mygdx.entities.*;
 
 public class CollisionManager implements ContactListener {
 
+    GameScreen screen;
+
+    public CollisionManager(GameScreen screen){
+        this.screen = screen;
+    }
     @Override
     public void beginContact(Contact contact) {
         Fixture a = contact.getFixtureA();
@@ -58,9 +63,19 @@ public class CollisionManager implements ContactListener {
         projectile.destroy();
         if(otherObj instanceof Enemy){
             ((Enemy) otherObj).reduceHealth(projectile.getDamage());
+            if(((Enemy) otherObj).isDestroyed()){
+                screen.getPlayer().addScore(10);
+            } else {
+                screen.getPlayer().addScore(1);
+            }
         }
         if(otherObj instanceof Spawner){
             ((Spawner) otherObj).reduceHealth(projectile.getDamage());
+            if(((Spawner) otherObj).isDestroyed()){
+                screen.getPlayer().addScore(1000);
+            } else {
+                screen.getPlayer().addScore(1);
+            }
         }
     }
 }

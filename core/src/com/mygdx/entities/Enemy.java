@@ -15,7 +15,7 @@ public class Enemy extends GameEntity implements Destroyable {
     private Texture texture;
 
     private final EnemyAI ai;
-    Vector2 direction;
+    private Vector2 direction;
 
     public Enemy(float x, float y, float width, float height, World world, Texture texture, int damage) {
         super(x,y,width, height);
