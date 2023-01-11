@@ -15,7 +15,6 @@ public class Base extends GameEntity implements Destroyable {
         super(x,y,width, height);
         this.health = 10;
         this.body = BodyHelper.createBody(x, y, width, height, true, false, world, this);
-        this.body.setUserData(this);
         this.baseTexture = new Texture(Gdx.files.internal("topdown_shooter/other/base.png"));
     }
 
@@ -27,8 +26,8 @@ public class Base extends GameEntity implements Destroyable {
     }
 
     @Override
-    public void render(SpriteBatch batch, float deltaTime) {
-        batch.draw(baseTexture, body.getPosition().x - 24, body.getPosition().y - 24);
+    public void render(SpriteBatch batch) {
+        batch.draw(baseTexture, x - 24, y - 24);
     }
 
     @Override

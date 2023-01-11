@@ -30,7 +30,6 @@ public class Spawner extends GameEntity implements Destroyable {
         this.spawnDelay = 10.0f;
         this.health = 10;
         this.body = BodyHelper.createBody(x, y, width, height, true, false, world, this);
-        this.body.setUserData(this);
         this.baseTexture = new Texture(Gdx.files.internal("topdown_shooter/other/base2.png"));
 
     }
@@ -47,7 +46,7 @@ public class Spawner extends GameEntity implements Destroyable {
     }
 
     @Override
-    public void render(SpriteBatch batch, float deltaTime) {
+    public void render(SpriteBatch batch) {
         batch.draw(baseTexture, body.getPosition().x - 24, body.getPosition().y - 24);
     }
 

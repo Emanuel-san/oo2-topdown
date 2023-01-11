@@ -24,6 +24,7 @@ public class GameScreen extends ScreenAdapter {
     private Box2DDebugRenderer box2DDebugRenderer;
     private OrthogonalTiledMapRenderer mapRenderer;
     private TiledMapLoader mapLoader;
+    private GameHUD hud;
 
     private Player player;
     private final EnemyManager enemyManager;
@@ -35,19 +36,25 @@ public class GameScreen extends ScreenAdapter {
         SCREEN = this;
         this.camera = camera;
         this.assetManager = assetManager;
-        this.batch = new SpriteBatch();
-        this.world = new World(new Vector2(0, 0), true); //topdown, no gravity
-        this.world.setContactListener(new CollisionManager());
-        this.box2DDebugRenderer = new Box2DDebugRenderer();
-        this.mousePos = new Vector3();
-        this.unprojectedMousePos = new Vector3();
-        this.projectileManager = new ProjectileManager(this);
-        this.enemyManager = new EnemyManager(this);
+        batch = new SpriteBatch();
+        world = new World(new Vector2(0, 0), true); //topdown, no gravity
+        world.setContactListener(new CollisionManager());
+        box2DDebugRenderer = new Box2DDebugRenderer();
+        mousePos = new Vector3();
+        unprojectedMousePos = new Vector3();
+        projectileManager = new ProjectileManager(this);
+        enemyManager = new EnemyManager(this);
 
-        this.mapLoader = new TiledMapLoader(this);
-        this.mapRenderer = mapLoader.setupMap();
+        mapLoader = new TiledMapLoader(this);
+        mapRenderer = mapLoader.setupMap();
+
+        hud = new GameHUD();
 
 
+    }
+
+    @Override
+    public void show(){
 
     }
 
@@ -90,19 +97,19 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         mapRenderer.render();
-
+        hud.render();
         batch.begin();
-        player.render(batch, delta);
+        player.render(batch);
         for(Projectile projectile : projectileManager.getProjectileList()){
-            projectile.render(batch, delta);
+            projectile.render(batch);
         }
         for(Spawner spawner : enemyManager.getSpawners()){
-            spawner.render(batch, delta);
+            spawner.render(batch);
         }
         for(Enemy enemy : enemyManager.getEnemies()){
-            enemy.render(batch, delta);
+            enemy.render(batch);
         }
-        playerBase.render(batch, delta);
+        playerBase.render(batch);
         batch.end();
 
         box2DDebugRenderer.render(world,camera.combined);

@@ -18,7 +18,6 @@ public class Projectile extends GameEntity implements Destroyable {
         super(x, y, width, height);
         this.body = BodyHelper.createBody(x, y, width, height, false, true, world, this);
         this.body.setBullet(true);
-        this.body.getFixtureList().get(0).setUserData(this);
         this.speed = 100f*PPM;
         this.damage = damage;
         this.texture = texture;
@@ -38,7 +37,7 @@ public class Projectile extends GameEntity implements Destroyable {
     }
 
     @Override
-    public void render(SpriteBatch batch, float deltaTime) {
+    public void render(SpriteBatch batch) {
         batch.draw(texture, body.getPosition().x - 3, body.getPosition().y - 3);
     }
 
@@ -49,7 +48,6 @@ public class Projectile extends GameEntity implements Destroyable {
 
     @Override
     public void destroy() {
-        //System.out.println("Projectile destroyed");
         isDestroyed = true;
     }
 

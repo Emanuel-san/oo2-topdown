@@ -75,14 +75,13 @@ public class Player extends GameEntity implements Destroyable {
     }
 
     @Override
-    public void render(SpriteBatch batch, float deltaTime) {
-        stateTime += deltaTime;
+    public void render(SpriteBatch batch) {
         getCurrentFrame();
         batch.draw(currentFrame, body.getPosition().x - 8, body.getPosition().y - 8);
     }
     private void getCurrentFrame(){
         currenDirection = getDirection();
-        //System.out.println(anglePlayerToMouse);
+        stateTime += Gdx.graphics.getDeltaTime();
         currentFrame = animations.get(currenDirection).getKeyFrame(stateTime);
         if(animations.get(currenDirection).isAnimationFinished(stateTime)){
             stateTime = 0;

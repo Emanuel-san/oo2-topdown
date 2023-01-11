@@ -20,7 +20,6 @@ public class Enemy extends GameEntity implements Destroyable {
     public Enemy(float x, float y, float width, float height, World world, Texture texture, int damage) {
         super(x,y,width, height);
         this.body = BodyHelper.createBody(x, y, width, height, false, false, world, this);
-        this.body.setUserData(this);
         this.speed = 3f*PPM;
         this.health = 5;
         this.damage = damage;
@@ -43,7 +42,7 @@ public class Enemy extends GameEntity implements Destroyable {
     }
 
     @Override
-    public void render(SpriteBatch batch, float deltaTime) {
+    public void render(SpriteBatch batch) {
         batch.draw(texture, body.getPosition().x - 8, body.getPosition().y - 8);
     }
 
