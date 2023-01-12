@@ -17,6 +17,7 @@ public class Enemy extends GameEntity implements Destroyable {
 
     private final EnemyAI ai;
     private Vector2 direction;
+    private int scoreValue;
 
     public Enemy(float x, float y, float width, float height, World world, Texture texture, int damage) {
         super(x,y,width, height);
@@ -27,6 +28,7 @@ public class Enemy extends GameEntity implements Destroyable {
         this.texture = texture;
         this.ai = new EnemyAI();
         this.direction = new Vector2();
+        scoreValue = 50;
     }
 
     @Override
@@ -60,5 +62,9 @@ public class Enemy extends GameEntity implements Destroyable {
     public void kill() {
         killed = true;
         System.out.println("Im dead");
+    }
+
+    public int getScoreValue() {
+        return scoreValue;
     }
 }

@@ -92,16 +92,15 @@ public class GameScreen extends ScreenAdapter {
         //clear screen before we render again
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         mapRenderer.render();
-        hud.render();
+
         batch.begin();
         player.render(batch);
-        for(GameEntity entity : entityManager.getEntities()){
-            entity.render(batch);
-        }
+        entityManager.render(batch);
         playerBase.render(batch);
         batch.end();
+
+        hud.render();
 
         box2DDebugRenderer.render(world,camera.combined);
     }

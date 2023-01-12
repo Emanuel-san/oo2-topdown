@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AnimationHelper {
 
-    public static Animation<TextureRegion> animateRegion(TextureRegion region, int noOfFrames){
+    public static Animation<TextureRegion> animateRegion(TextureRegion region, int noOfFrames, float frameDuration){
         TextureRegion[][] frames = region.split(region.getRegionWidth() / noOfFrames, region.getRegionHeight());
 
         TextureRegion[] animationFrames = new TextureRegion[frames.length * frames[0].length];
@@ -15,10 +15,10 @@ public class AnimationHelper {
                 animationFrames[index++] = frames[i][j];
             }
         }
-        return new Animation<>(0.5f, animationFrames);
+        return new Animation<>(frameDuration, animationFrames);
     }
 
-    public static Animation<TextureRegion> flippedAnimation(Animation<TextureRegion> animation, int noOfFrames){
+    public static Animation<TextureRegion> flippedAnimation(Animation<TextureRegion> animation, int noOfFrames, float frameDuration){
         TextureRegion[] toCopy = animation.getKeyFrames();
         TextureRegion[] flipped = new TextureRegion[noOfFrames];
 
@@ -26,7 +26,6 @@ public class AnimationHelper {
             flipped[i] = new TextureRegion(toCopy[i]);
             flipped[i].flip(true, false);
         }
-
-        return new Animation<>(0.5f, flipped);
+        return new Animation<>(frameDuration, flipped);
     }
 }

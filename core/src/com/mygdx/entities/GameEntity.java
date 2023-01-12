@@ -13,6 +13,7 @@ public abstract class GameEntity {
 
     protected boolean killed;
     protected boolean isDestroyed;
+    protected float stateTime;
 
     public GameEntity(float x, float y, float width, float height){
         this.width = width;
@@ -26,6 +27,7 @@ public abstract class GameEntity {
         this.damage = 0;
         this.killed = false;
         isDestroyed = false;
+        stateTime = 0;
     }
 
     public abstract void update();

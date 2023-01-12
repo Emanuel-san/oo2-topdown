@@ -14,6 +14,7 @@ public class Spawner extends GameEntity implements Destroyable {
 
     private final EntityManager entityManager;
     private boolean recentSpawn = false;
+    private int scoreValue;
     private final Timer timer = new Timer();
     private final Timer.Task task = new Timer.Task() {
         @Override
@@ -29,7 +30,7 @@ public class Spawner extends GameEntity implements Destroyable {
         this.health = 10;
         this.body = BodyHelper.createBody(x, y, width, height, true, false, world, this, EntityType.SPAWNER);
         this.baseTexture = texture;
-
+        scoreValue = 1000;
     }
 
 
@@ -59,5 +60,9 @@ public class Spawner extends GameEntity implements Destroyable {
     @Override
     public void kill() {
         killed = true;
+    }
+
+    public int getScoreValue() {
+        return scoreValue;
     }
 }

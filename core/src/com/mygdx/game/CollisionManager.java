@@ -25,10 +25,10 @@ public class CollisionManager implements ContactListener {
             projectileContact((Projectile) b.getUserData(), a.getUserData());
             return;
         }
-        if(a.getUserData() instanceof Coin){
+        if(a.getUserData() instanceof Coin && b.getUserData() instanceof Player){
             coinContact((Coin) a.getUserData(), (Player) b.getUserData());
         }
-        else if(b.getUserData() instanceof Coin){
+        else if(b.getUserData() instanceof Coin && a.getUserData() instanceof Player){
             coinContact((Coin) b.getUserData(), (Player) a.getUserData());
         }
         if(a.getUserData() instanceof Enemy){
@@ -56,36 +56,34 @@ public class CollisionManager implements ContactListener {
 
     private void enemyContact(Enemy enemy, Object otherObj){
         if(otherObj instanceof Base){
-            enemy.kill();
+            enemy.destroy();
             ((Base) otherObj).reduceHealth(enemy.getDamage());
         }
         if(otherObj instanceof Player && !((Player) otherObj).isGodMode()){
-            enemy.kill();
+            enemy.destroy();
             ((Player) otherObj).reduceHealth(enemy.getDamage());
         }
     }
 
     private void projectileContact(Projectile projectile, Object otherObj){
-        projectile.kill();
+        projectile.destroy();
         if(otherObj instanceof Enemy){
             ((Enemy) otherObj).reduceHealth(projectile.getDamage());
             if(((Enemy) otherObj).isKilled()){
-                screen.getPlayer().addScore(10);
-            } else {
-                screen.getPlayer().addScore(1);
+                screen.getPlayer().addScore(((Enemy) otherObj).getScoreValue());
             }
         }
         if(otherObj instanceof Spawner){
             ((Spawner) otherObj).reduceHealth(projectile.getDamage());
             if(((Spawner) otherObj).isKilled()){
-                screen.getPlayer().addScore(1000);
+                screen.getPlayer().addScore(((Spawner) otherObj).getScoreValue());
             } else {
                 screen.getPlayer().addScore(1);
             }
         }
     }
     private void coinContact(Coin coin, Player player){
-        coin.kill();
+        coin.destroy();
         player.addCoins(coin.getValue());
     }
 }

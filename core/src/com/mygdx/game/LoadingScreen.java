@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 
 public class LoadingScreen implements Screen {
@@ -15,6 +16,7 @@ public class LoadingScreen implements Screen {
     @Override
     public void show() {
         game.getAssetManager().load("topdown_shooter/char1.atlas", TextureAtlas.class);
+        game.getAssetManager().load("topdown_shooter/coin.atlas", TextureAtlas.class);
         game.getAssetManager().load("topdown_shooter/characters/2.png", Texture.class);
         game.getAssetManager().load("topdown_shooter/other/bulleta.png", Texture.class);
         game.getAssetManager().load("topdown_shooter/other/base2.png", Texture.class);

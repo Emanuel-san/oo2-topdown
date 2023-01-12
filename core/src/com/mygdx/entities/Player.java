@@ -32,7 +32,7 @@ public class Player extends GameEntity implements Destroyable {
         }
     };
     private boolean godMode;
-    private float stateTime = 0;
+    private Vector2 projectileDirection;
 
 
     public Player(float x, float y, float width, float height, TextureAtlas atlas, GameScreen screen){
@@ -46,16 +46,17 @@ public class Player extends GameEntity implements Destroyable {
         this.keyDown = false;
         this.screen = screen;
         killed = false;
+        projectileDirection = new Vector2();
+        animations = new ArrayList<>();
 
-        this.animations = new ArrayList<>();
-        animations.add(AnimationHelper.animateRegion(atlas.findRegion("1_north"), 4));
-        animations.add(AnimationHelper.animateRegion(atlas.findRegion("1_diagup"), 4));
-        animations.add(AnimationHelper.animateRegion(atlas.findRegion("1_side"), 4));
-        animations.add(AnimationHelper.animateRegion(atlas.findRegion("1_diagdown"), 4));
-        animations.add(AnimationHelper.animateRegion(atlas.findRegion("1_south"), 4));
-        animations.add(AnimationHelper.flippedAnimation(animations.get(3), 4));
-        animations.add(AnimationHelper.flippedAnimation(animations.get(2), 4));
-        animations.add(AnimationHelper.flippedAnimation(animations.get(1), 4));
+        animations.add(AnimationHelper.animateRegion(atlas.findRegion("1_north"), 4, 0.5f));
+        animations.add(AnimationHelper.animateRegion(atlas.findRegion("1_diagup"), 4, 0.5f));
+        animations.add(AnimationHelper.animateRegion(atlas.findRegion("1_side"), 4, 0.5f));
+        animations.add(AnimationHelper.animateRegion(atlas.findRegion("1_diagdown"), 4, 0.5f));
+        animations.add(AnimationHelper.animateRegion(atlas.findRegion("1_south"), 4, 0.5f));
+        animations.add(AnimationHelper.flippedAnimation(animations.get(3), 4, 0.5f));
+        animations.add(AnimationHelper.flippedAnimation(animations.get(2), 4, 0.5f));
+        animations.add(AnimationHelper.flippedAnimation(animations.get(1), 4, 0.5f));
     }
 
     @Override
@@ -64,7 +65,6 @@ public class Player extends GameEntity implements Destroyable {
         y = body.getPosition().y;
         checkUserInput();
         anglePlayerToMouse = (float) Math.atan2(screen.getUnprojectedMousePos().y - this.y, screen.getUnprojectedMousePos().x - this.x);
-
     }
 
     @Override
@@ -82,27 +82,35 @@ public class Player extends GameEntity implements Destroyable {
     }
     private int getDirection(){
         if(anglePlayerToMouse > 2.8 || anglePlayerToMouse <= -2.8){
+            projectileDirection.set(this.x - 16, this.y);
             return Direction.SIDE_LEFT;
         }
         else if(anglePlayerToMouse > 2){
+            projectileDirection.set(this.x - 16, this.y + 16);
             return Direction.DIAGONAL_UP_LEFT;
         }
         else if(anglePlayerToMouse > 1.17){
+            projectileDirection.set(this.x, this.y + 16);
             return Direction.UP;
         }
         else if(anglePlayerToMouse > 0.5){
+            projectileDirection.set(this.x + 16, this.y + 16);
             return Direction.DIAGONAL_UP;
         }
         else if(anglePlayerToMouse > -0.34){
+            projectileDirection.set(this.x + 16, this.y);
             return Direction.SIDE;
         }
         else if(anglePlayerToMouse > -1.2){
+            projectileDirection.set(this.x + 16, this.y - 16);
             return Direction.DIAGONAL_DOWN;
         }
         else if(anglePlayerToMouse > -1.8){
+            projectileDirection.set(this.x, this.y - 16);
             return Direction.DOWN;
         }
         else{
+            projectileDirection.set(this.x - 16, this.y - 16);
             return Direction.DIAGONAL_DOWN_LEFT;
         }
     }
@@ -124,37 +132,9 @@ public class Player extends GameEntity implements Destroyable {
         body.setLinearVelocity(velX*speed, velY*speed);
 
         if(Gdx.input.isTouched() && !keyDown){
-            Vector2 projectileVector = getProjectileVector();
-            screen.getEntityManager().createProjectile(projectileVector.x, projectileVector.y, damage);
+            screen.getEntityManager().createProjectile(projectileDirection.x, projectileDirection.y, damage);
             keyDown = true;
             timer.scheduleTask(task, 0.1f);
-        }
-    }
-
-    private Vector2 getProjectileVector(){
-        if(currenDirection == Direction.UP){
-            return new Vector2(this.x, this.y + 16);
-        }
-        else if(currenDirection == Direction.DIAGONAL_UP){
-            return new Vector2(this.x + 16, this.y + 16);
-        }
-        else if(currenDirection == Direction.SIDE){
-            return new Vector2(this.x + 16, this.y);
-        }
-        else if(currenDirection == Direction.DIAGONAL_DOWN){
-            return new Vector2(this.x + 16, this.y - 16);
-        }
-        else if(currenDirection == Direction.DOWN){
-            return new Vector2(this.x, this.y - 16);
-        }
-        else if(currenDirection == Direction.DIAGONAL_DOWN_LEFT){
-            return new Vector2(this.x - 16, this.y - 16);
-        }
-        else if(currenDirection == Direction.SIDE_LEFT){
-            return new Vector2(this.x - 16, this.y);
-        }
-        else{
-            return new Vector2(this.x - 16, this.y + 16);
         }
     }
 
