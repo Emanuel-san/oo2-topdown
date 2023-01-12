@@ -2,9 +2,8 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.mygdx.helper.AnimationHelper;
+
 
 public class LoadingScreen implements Screen {
     private final TopDown game;

@@ -8,6 +8,7 @@ import com.mygdx.AI.EnemyAI;
 import com.mygdx.game.GameScreen;
 import com.mygdx.helper.BodyHelper;
 import com.mygdx.helper.Destroyable;
+import com.mygdx.helper.EntityType;
 
 import static com.mygdx.helper.Constant.PPM;
 
@@ -19,7 +20,7 @@ public class Enemy extends GameEntity implements Destroyable {
 
     public Enemy(float x, float y, float width, float height, World world, Texture texture, int damage) {
         super(x,y,width, height);
-        this.body = BodyHelper.createBody(x, y, width, height, false, false, world, this);
+        this.body = BodyHelper.createBody(x, y, width, height, false, false, world, this, EntityType.ENEMY);
         this.speed = 3f*PPM;
         this.health = 5;
         this.damage = damage;

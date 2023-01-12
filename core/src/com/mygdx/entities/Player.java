@@ -10,10 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.mygdx.game.GameScreen;
-import com.mygdx.helper.AnimationHelper;
-import com.mygdx.helper.BodyHelper;
-import com.mygdx.helper.Destroyable;
-import com.mygdx.helper.Direction;
+import com.mygdx.helper.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +37,7 @@ public class Player extends GameEntity implements Destroyable {
 
     public Player(float x, float y, float width, float height, TextureAtlas atlas, GameScreen screen){
         super(x, y, width, height);
-        this.body = BodyHelper.createBody(x, y, width, height, false, false, screen.getWorld(), this);
+        this.body = BodyHelper.createBody(x, y, width, height, false, false, screen.getWorld(), this, EntityType.PLAYER);
         this.body.setUserData(this);
         this.speed = 3f*PPM;
         this.damage = 1;

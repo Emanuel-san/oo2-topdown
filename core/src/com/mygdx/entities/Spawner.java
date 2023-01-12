@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.EntityManager;
 import com.mygdx.helper.BodyHelper;
 import com.mygdx.helper.Destroyable;
+import com.mygdx.helper.EntityType;
 
 public class Spawner extends GameEntity implements Destroyable {
     private final Texture baseTexture;
@@ -26,7 +27,7 @@ public class Spawner extends GameEntity implements Destroyable {
         this.entityManager = entityManager;
         this.spawnDelay = 10.0f;
         this.health = 10;
-        this.body = BodyHelper.createBody(x, y, width, height, true, false, world, this);
+        this.body = BodyHelper.createBody(x, y, width, height, true, false, world, this, EntityType.SPAWNER);
         this.baseTexture = texture;
 
     }

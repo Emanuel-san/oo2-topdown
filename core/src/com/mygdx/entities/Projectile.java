@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.helper.BodyHelper;
 import com.mygdx.helper.Destroyable;
+import com.mygdx.helper.EntityType;
 
 import static com.mygdx.helper.Constant.PPM;
 
@@ -16,7 +17,7 @@ public class Projectile extends GameEntity implements Destroyable {
 
     public Projectile(float x, float y, float width, float height, Texture texture, World world, int damage, Vector3 unprojectedPos) {
         super(x, y, width, height);
-        this.body = BodyHelper.createBody(x, y, width, height, false, true, world, this);
+        this.body = BodyHelper.createBody(x, y, width, height, false, true, world, this, EntityType.PROJECTILE);
         this.body.setBullet(true);
         this.speed = 100f*PPM;
         this.damage = damage;

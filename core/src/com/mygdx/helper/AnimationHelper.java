@@ -1,6 +1,5 @@
 package com.mygdx.helper;
 
-import com.badlogic.gdx.assets.AssetLoaderParameters;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 

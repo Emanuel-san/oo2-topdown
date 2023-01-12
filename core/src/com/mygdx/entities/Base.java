@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.helper.BodyHelper;
 import com.mygdx.helper.Destroyable;
+import com.mygdx.helper.EntityType;
 
 public class Base extends GameEntity implements Destroyable {
 
@@ -14,7 +15,7 @@ public class Base extends GameEntity implements Destroyable {
     public Base(float x, float y, float width, float height, World world) {
         super(x,y,width, height);
         this.health = 10;
-        this.body = BodyHelper.createBody(x, y, width, height, true, false, world, this);
+        this.body = BodyHelper.createBody(x, y, width, height, true, false, world, this, EntityType.BASE);
         this.baseTexture = new Texture(Gdx.files.internal("topdown_shooter/other/base.png"));
     }
 

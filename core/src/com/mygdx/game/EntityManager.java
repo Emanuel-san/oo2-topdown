@@ -1,10 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.mygdx.entities.Enemy;
-import com.mygdx.entities.GameEntity;
-import com.mygdx.entities.Projectile;
-import com.mygdx.entities.Spawner;
+import com.mygdx.entities.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,6 +22,10 @@ public class EntityManager {
     public void update(){
             for (GameEntity entity : entities) {
                 if (entity.isKilled()) {
+                    switch (entity.getClass().getName()) {
+                        case "com.mygdx.entities.Enemy" -> createCoin(entity.getBody().getPosition().x, entity.getBody().getPosition().y);
+                        case "com.mygdx.entities.Spawner" -> System.out.println("Spawner removed");
+                    }
                     screen.getWorld().destroyBody(entity.getBody());
                     entity.destroy();
                 } else {
@@ -51,6 +52,9 @@ public class EntityManager {
         entities.add(new Spawner(x, y, width, height, screen.getWorld(), this,
                 screen.getAssetManager().get("topdown_shooter/other/base2.png", Texture.class))
         );
+    }
+    public void createCoin(float x, float y){
+        newEntities.add(new Coin(x, y, 16, 16, screen.getWorld()));
     }
 
     public List<GameEntity> getEntities() {
