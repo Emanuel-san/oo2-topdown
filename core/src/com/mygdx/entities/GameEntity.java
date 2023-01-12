@@ -11,6 +11,7 @@ public abstract class GameEntity {
     protected int health, damage;
     protected Body body;
 
+    protected boolean killed;
     protected boolean isDestroyed;
 
     public GameEntity(float x, float y, float width, float height){
@@ -23,7 +24,8 @@ public abstract class GameEntity {
         this.speed = 0;
         this.health = 0;
         this.damage = 0;
-        this.isDestroyed = false;
+        this.killed = false;
+        isDestroyed = false;
     }
 
     public abstract void update();
@@ -31,4 +33,12 @@ public abstract class GameEntity {
     public Body getBody(){return body;}
 
     public int getDamage(){return damage;}
+    public abstract boolean isKilled();
+
+    public boolean isDestroyed() {
+        return isDestroyed;
+    }
+    public void destroy(){
+        isDestroyed = true;
+    }
 }

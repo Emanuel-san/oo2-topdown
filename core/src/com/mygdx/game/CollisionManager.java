@@ -50,20 +50,20 @@ public class CollisionManager implements ContactListener {
 
     private void enemyContact(Enemy enemy, Object otherObj){
         if(otherObj instanceof Base){
-            enemy.destroy();
+            enemy.kill();
             ((Base) otherObj).reduceHealth(enemy.getDamage());
         }
         if(otherObj instanceof Player && !((Player) otherObj).isGodMode()){
-            enemy.destroy();
+            enemy.kill();
             ((Player) otherObj).reduceHealth(enemy.getDamage());
         }
     }
 
     private void projectileContact(Projectile projectile, Object otherObj){
-        projectile.destroy();
+        projectile.kill();
         if(otherObj instanceof Enemy){
             ((Enemy) otherObj).reduceHealth(projectile.getDamage());
-            if(((Enemy) otherObj).isDestroyed()){
+            if(((Enemy) otherObj).isKilled()){
                 screen.getPlayer().addScore(10);
             } else {
                 screen.getPlayer().addScore(1);
@@ -71,7 +71,7 @@ public class CollisionManager implements ContactListener {
         }
         if(otherObj instanceof Spawner){
             ((Spawner) otherObj).reduceHealth(projectile.getDamage());
-            if(((Spawner) otherObj).isDestroyed()){
+            if(((Spawner) otherObj).isKilled()){
                 screen.getPlayer().addScore(1000);
             } else {
                 screen.getPlayer().addScore(1);

@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
@@ -20,14 +21,13 @@ public class GameScreen extends ScreenAdapter {
     private OrthographicCamera camera;
     private SpriteBatch batch;
     private World world;
-    private ProjectileManager projectileManager;
+    private EntityManager entityManager;
     private Box2DDebugRenderer box2DDebugRenderer;
     private OrthogonalTiledMapRenderer mapRenderer;
     private TiledMapLoader mapLoader;
     private GameHUD hud;
 
     private Player player;
-    private final EnemyManager enemyManager;
     private Base playerBase;
     private Vector3 mousePos;
     private Vector3 unprojectedMousePos;
@@ -42,8 +42,7 @@ public class GameScreen extends ScreenAdapter {
         box2DDebugRenderer = new Box2DDebugRenderer();
         mousePos = new Vector3();
         unprojectedMousePos = new Vector3();
-        projectileManager = new ProjectileManager(this);
-        enemyManager = new EnemyManager(this);
+        entityManager = new EntityManager(this);
 
         mapLoader = new TiledMapLoader(this);
         mapRenderer = mapLoader.setupMap();
@@ -64,8 +63,7 @@ public class GameScreen extends ScreenAdapter {
         updateUnprojectedMousePos();
         player.update();
         playerBase.update();
-        projectileManager.update();
-        enemyManager.update();
+        entityManager.update();
         hud.update();
     }
 
@@ -99,14 +97,8 @@ public class GameScreen extends ScreenAdapter {
         hud.render();
         batch.begin();
         player.render(batch);
-        for(Projectile projectile : projectileManager.getProjectileList()){
-            projectile.render(batch);
-        }
-        for(Spawner spawner : enemyManager.getSpawners()){
-            spawner.render(batch);
-        }
-        for(Enemy enemy : enemyManager.getEnemies()){
-            enemy.render(batch);
+        for(GameEntity entity : entityManager.getEntities()){
+            entity.render(batch);
         }
         playerBase.render(batch);
         batch.end();
@@ -120,7 +112,6 @@ public class GameScreen extends ScreenAdapter {
 
     public void setPlayer(Player player) {
         this.player = player;
-        this.player.setProjectileManager(projectileManager);
     }
     public void setPlayerBase(Base playerBase) {
         this.playerBase = playerBase;
@@ -134,10 +125,9 @@ public class GameScreen extends ScreenAdapter {
         return playerBase;
     }
 
-    public EnemyManager getEnemyManager() {
-        return enemyManager;
+    public EntityManager getEntityManager() {
+        return entityManager;
     }
-
     public AssetManager getAssetManager() {
         return assetManager;
     }

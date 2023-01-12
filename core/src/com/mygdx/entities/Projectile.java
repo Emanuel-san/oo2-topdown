@@ -47,13 +47,13 @@ public class Projectile extends GameEntity implements Destroyable {
     }
 
     @Override
-    public void destroy() {
-        isDestroyed = true;
+    public void kill() {
+        killed = true;
     }
 
     @Override
-    public boolean isDestroyed() {
-        return isDestroyed;
+    public boolean isKilled() {
+        return killed;
     }
 
 }

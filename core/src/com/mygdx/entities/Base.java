@@ -20,7 +20,7 @@ public class Base extends GameEntity implements Destroyable {
 
     @Override
     public void update() {
-        if(isDestroyed){
+        if(killed){
             //System.out.println("Base destroyed");
         }
     }
@@ -34,19 +34,19 @@ public class Base extends GameEntity implements Destroyable {
     public void reduceHealth(int amount) {
         health-= amount;
         if(health <= 0){
-            destroy();
+            kill();
         }
         System.out.println("Base health: " + health);
     }
 
     @Override
-    public void destroy() {
+    public void kill() {
         System.out.println("Base destroyed");
-        isDestroyed = true;
+        killed = true;
     }
 
     @Override
-    public boolean isDestroyed() {
-        return isDestroyed;
+    public boolean isKilled() {
+        return killed;
     }
 }

@@ -7,27 +7,22 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.mygdx.game.GameScreen;
 import com.mygdx.helper.AnimationHelper;
 import com.mygdx.helper.BodyHelper;
-import com.mygdx.game.ProjectileManager;
 import com.mygdx.helper.Destroyable;
 import com.mygdx.helper.Direction;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import static com.mygdx.helper.Constant.PPM;
 
 public class Player extends GameEntity implements Destroyable {
     private TextureRegion currentFrame;
     private List<Animation<TextureRegion>> animations;
-    private ProjectileManager projectileManager;
     private GameScreen screen;
     private float anglePlayerToMouse = 0;
     private int score = 0, coins = 0, currenDirection = 0;
@@ -53,6 +48,7 @@ public class Player extends GameEntity implements Destroyable {
         this.health = 100;
         this.keyDown = false;
         this.screen = screen;
+        killed = false;
 
         this.animations = new ArrayList<>();
         animations.add(AnimationHelper.animateRegion(atlas.findRegion("1_north"), 4));
@@ -132,7 +128,7 @@ public class Player extends GameEntity implements Destroyable {
 
         if(Gdx.input.isTouched() && !keyDown){
             Vector2 projectileVector = getProjectileVector();
-            projectileManager.createProjectile(projectileVector.x, projectileVector.y, damage);
+            screen.getEntityManager().createProjectile(projectileVector.x, projectileVector.y, damage);
             keyDown = true;
             timer.scheduleTask(task, 0.1f);
         }
@@ -165,10 +161,6 @@ public class Player extends GameEntity implements Destroyable {
         }
     }
 
-    public void setProjectileManager(ProjectileManager projectileManager) {
-        this.projectileManager = projectileManager;
-    }
-
     public boolean isGodMode() {
         return godMode;
     }
@@ -180,13 +172,13 @@ public class Player extends GameEntity implements Destroyable {
     }
 
     @Override
-    public void destroy() {
+    public void kill() {
 
     }
 
     @Override
-    public boolean isDestroyed() {
-        return false;
+    public boolean isKilled() {
+        return killed;
     }
 
     public int getScore() {

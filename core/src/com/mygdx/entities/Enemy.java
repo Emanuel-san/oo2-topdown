@@ -51,18 +51,18 @@ public class Enemy extends GameEntity implements Destroyable {
         health -= amount;
         System.out.println("Health reduced by " + amount + " and is now " + health);
         if(health <= 0){
-            this.destroy();
+            this.kill();
         }
     }
 
     @Override
-    public void destroy() {
-        isDestroyed = true;
+    public void kill() {
+        killed = true;
         System.out.println("Im dead");
     }
 
     @Override
-    public boolean isDestroyed() {
-        return isDestroyed;
+    public boolean isKilled() {
+        return killed;
     }
 }

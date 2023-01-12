@@ -1,20 +1,17 @@
 package com.mygdx.entities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Timer;
-import com.mygdx.game.EnemyManager;
+import com.mygdx.game.EntityManager;
 import com.mygdx.helper.BodyHelper;
 import com.mygdx.helper.Destroyable;
-
-import java.util.List;
 
 public class Spawner extends GameEntity implements Destroyable {
     private final Texture baseTexture;
 
-    private final EnemyManager enemyManager;
+    private final EntityManager entityManager;
     private boolean recentSpawn = false;
     private final Timer timer = new Timer();
     private final Timer.Task task = new Timer.Task() {
@@ -24,13 +21,13 @@ public class Spawner extends GameEntity implements Destroyable {
         }
     };
     private float spawnDelay;
-    public Spawner(float x, float y, float width, float height, World world, EnemyManager enemyManager) {
+    public Spawner(float x, float y, float width, float height, World world, EntityManager entityManager, Texture texture) {
         super(x, y, width, height);
-        this.enemyManager = enemyManager;
+        this.entityManager = entityManager;
         this.spawnDelay = 10.0f;
         this.health = 10;
         this.body = BodyHelper.createBody(x, y, width, height, true, false, world, this);
-        this.baseTexture = new Texture(Gdx.files.internal("topdown_shooter/other/base2.png"));
+        this.baseTexture = texture;
 
     }
 
@@ -38,11 +35,10 @@ public class Spawner extends GameEntity implements Destroyable {
     @Override
     public void update() {
         if(!recentSpawn){
-            enemyManager.createEnemy(body.getPosition().x, body.getPosition().y - 40);
+            entityManager.createEnemy(body.getPosition().x, body.getPosition().y - 40);
             recentSpawn = true;
             timer.scheduleTask(task, spawnDelay);
         }
-
     }
 
     @Override
@@ -55,17 +51,16 @@ public class Spawner extends GameEntity implements Destroyable {
         health -= amount;
         System.out.println("Health reduced by " + amount + " and is now " + health);
         if(health <= 0){
-            this.destroy();
+            this.kill();
         }
     }
 
     @Override
-    public void destroy() {
-        isDestroyed = true;
+    public void kill() {
+        killed = true;
     }
-
     @Override
-    public boolean isDestroyed() {
-        return isDestroyed;
+    public boolean isKilled() {
+        return killed;
     }
 }

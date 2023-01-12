@@ -16,7 +16,6 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.mygdx.entities.Base;
 import com.mygdx.entities.Player;
-import com.mygdx.entities.Spawner;
 import com.mygdx.game.GameScreen;
 
 public class TiledMapLoader {
@@ -59,14 +58,12 @@ public class TiledMapLoader {
                     );
                 }
                 if(rectangleName.equals("spawner")){
-                    screen.getEnemyManager().getSpawners().add(new Spawner(
+                    screen.getEntityManager().createSpawner(
                             rectangle.getX() + rectangle.getWidth() / 2,
                             rectangle.getY() + rectangle.getHeight() / 2,
                             rectangle.getWidth(),
-                            rectangle.getHeight(),
-                            screen.getWorld(),
-                            screen.getEnemyManager()
-                    ));
+                            rectangle.getHeight()
+                    );
                 }
             }
         }
