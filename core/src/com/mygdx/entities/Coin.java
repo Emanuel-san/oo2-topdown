@@ -26,17 +26,16 @@ public class Coin extends GameEntity implements Destroyable {
     }
 
     @Override
-    public boolean isKilled() {
-        return false;
-    }
-
-    @Override
     public void reduceHealth(int amount) {
 
     }
 
     @Override
     public void kill() {
+        killed = true;
+    }
 
+    public int getValue() {
+        return value;
     }
 }

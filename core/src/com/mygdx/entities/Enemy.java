@@ -61,9 +61,4 @@ public class Enemy extends GameEntity implements Destroyable {
         killed = true;
         System.out.println("Im dead");
     }
-
-    @Override
-    public boolean isKilled() {
-        return killed;
-    }
 }

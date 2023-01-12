@@ -172,12 +172,6 @@ public class Player extends GameEntity implements Destroyable {
     public void kill() {
 
     }
-
-    @Override
-    public boolean isKilled() {
-        return killed;
-    }
-
     public int getScore() {
         return score;
     }
@@ -190,7 +184,7 @@ public class Player extends GameEntity implements Destroyable {
         this.score += amount;
     }
 
-    public void setCoins(int amount) {
+    public void addCoins(int amount) {
         this.coins += amount;
     }
 }

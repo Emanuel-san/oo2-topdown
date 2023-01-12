@@ -33,7 +33,7 @@ public abstract class GameEntity {
     public Body getBody(){return body;}
 
     public int getDamage(){return damage;}
-    public abstract boolean isKilled();
+    public boolean isKilled(){return killed;}
 
     public boolean isDestroyed() {
         return isDestroyed;

@@ -45,9 +45,4 @@ public class Base extends GameEntity implements Destroyable {
         System.out.println("Base destroyed");
         killed = true;
     }
-
-    @Override
-    public boolean isKilled() {
-        return killed;
-    }
 }

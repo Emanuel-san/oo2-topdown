@@ -25,6 +25,12 @@ public class CollisionManager implements ContactListener {
             projectileContact((Projectile) b.getUserData(), a.getUserData());
             return;
         }
+        if(a.getUserData() instanceof Coin){
+            coinContact((Coin) a.getUserData(), (Player) b.getUserData());
+        }
+        else if(b.getUserData() instanceof Coin){
+            coinContact((Coin) b.getUserData(), (Player) a.getUserData());
+        }
         if(a.getUserData() instanceof Enemy){
             enemyContact((Enemy) a.getUserData(), b.getUserData());
         }
@@ -77,5 +83,9 @@ public class CollisionManager implements ContactListener {
                 screen.getPlayer().addScore(1);
             }
         }
+    }
+    private void coinContact(Coin coin, Player player){
+        coin.kill();
+        player.addCoins(coin.getValue());
     }
 }

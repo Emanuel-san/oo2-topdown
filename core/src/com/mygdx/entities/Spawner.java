@@ -60,8 +60,4 @@ public class Spawner extends GameEntity implements Destroyable {
     public void kill() {
         killed = true;
     }
-    @Override
-    public boolean isKilled() {
-        return killed;
-    }
 }
