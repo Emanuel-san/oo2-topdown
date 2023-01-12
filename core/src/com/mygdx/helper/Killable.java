@@ -1,6 +1,6 @@
 package com.mygdx.helper;
 
-public interface Destroyable {
+public interface Killable {
 
     void reduceHealth(int amount);
     void kill();

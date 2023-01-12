@@ -6,12 +6,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.helper.BodyHelper;
-import com.mygdx.helper.Destroyable;
 import com.mygdx.helper.EntityType;
 
 import static com.mygdx.helper.Constant.PPM;
 
-public class Projectile extends GameEntity implements Destroyable {
+public class Projectile extends GameEntity {
 
     private final Texture texture;
 
@@ -40,15 +39,5 @@ public class Projectile extends GameEntity implements Destroyable {
     @Override
     public void render(SpriteBatch batch) {
         batch.draw(texture, body.getPosition().x - 3, body.getPosition().y - 3);
-    }
-
-    @Override
-    public void reduceHealth(int amount) {
-
-    }
-
-    @Override
-    public void kill() {
-        killed = true;
     }
 }

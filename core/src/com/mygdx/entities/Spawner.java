@@ -6,10 +6,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.EntityManager;
 import com.mygdx.helper.BodyHelper;
-import com.mygdx.helper.Destroyable;
-import com.mygdx.helper.EntityType;
+import com.mygdx.helper.Killable;
 
-public class Spawner extends GameEntity implements Destroyable {
+public class Spawner extends GameEntity implements Killable {
     private final Texture baseTexture;
 
     private final EntityManager entityManager;
@@ -28,7 +27,7 @@ public class Spawner extends GameEntity implements Destroyable {
         this.entityManager = entityManager;
         this.spawnDelay = 10.0f;
         this.health = 10;
-        this.body = BodyHelper.createBody(x, y, width, height, true, false, world, this, EntityType.SPAWNER);
+        this.body = BodyHelper.createBody(x, y, width, height, true, false, world, this);
         this.baseTexture = texture;
         scoreValue = 1000;
     }

@@ -7,12 +7,12 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.AI.EnemyAI;
 import com.mygdx.game.GameScreen;
 import com.mygdx.helper.BodyHelper;
-import com.mygdx.helper.Destroyable;
+import com.mygdx.helper.Killable;
 import com.mygdx.helper.EntityType;
 
 import static com.mygdx.helper.Constant.PPM;
 
-public class Enemy extends GameEntity implements Destroyable {
+public class Enemy extends GameEntity implements Killable {
     private Texture texture;
 
     private final EnemyAI ai;

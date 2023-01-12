@@ -17,7 +17,7 @@ import java.util.List;
 
 import static com.mygdx.helper.Constant.PPM;
 
-public class Player extends GameEntity implements Destroyable {
+public class Player extends GameEntity implements Killable {
     private TextureRegion currentFrame;
     private List<Animation<TextureRegion>> animations;
     private GameScreen screen;
