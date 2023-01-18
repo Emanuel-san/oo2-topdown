@@ -19,7 +19,6 @@ public class Coin extends GameEntity {
 
     @Override
     public void update() {
-
     }
 
     @Override

@@ -26,20 +26,20 @@ public class EntityManager {
     }
 
     public void update(){
-            for (GameEntity entity : entities) {
-                if (entity.isKilled()) {
-                    createCoin(entity.getBody().getPosition().x, entity.getBody().getPosition().y);
-                    screen.getWorld().destroyBody(entity.getBody());
-                    entity.destroy();
-                } else if(entity.isDestroyed()) {
-                    screen.getWorld().destroyBody(entity.getBody());
-                } else {
-                    entity.update();
-                }
+        for (GameEntity entity : entities) {
+            if (entity.isKilled()) {
+                createCoin(entity.getBody().getPosition().x, entity.getBody().getPosition().y);
+                screen.getWorld().destroyBody(entity.getBody());
+                entity.destroy();
+            } else if(entity.isDestroyed()) {
+                screen.getWorld().destroyBody(entity.getBody());
+            } else {
+                entity.update();
             }
-            entities.addAll(newEntities);
-            newEntities.clear();
-            entities.removeIf(GameEntity::isDestroyed);
+        }
+        entities.addAll(newEntities);
+        newEntities.clear();
+        entities.removeIf(GameEntity::isDestroyed);
     }
     public void render(SpriteBatch batch){
         for (GameEntity entity: entities){
@@ -48,9 +48,9 @@ public class EntityManager {
     }
     public void createProjectile(float x, float y, int damage){
         entities.add(new Projectile(
-                x, y, 6, 6,
-                screen.getAssetManager().get("topdown_shooter/other/bulleta.png", Texture.class),
-                screen.getWorld(), damage, screen.getUnprojectedMousePos())
+            x, y, 6, 6,
+            screen.getAssetManager().get("topdown_shooter/other/bulleta.png", Texture.class),
+            screen.getWorld(), damage, screen.getUnprojectedMousePos())
         );
     }
     public void createEnemy(float x, float y){

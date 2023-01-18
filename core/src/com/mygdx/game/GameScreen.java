@@ -1,7 +1,7 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.entities.*;
 import com.mygdx.helper.TiledMapLoader;
+import com.mygdx.scenes.GameHUD;
 
 public class GameScreen extends ScreenAdapter {
     public static GameScreen SCREEN;
@@ -25,6 +26,8 @@ public class GameScreen extends ScreenAdapter {
     private Box2DDebugRenderer box2DDebugRenderer;
     private OrthogonalTiledMapRenderer mapRenderer;
     private TiledMapLoader mapLoader;
+
+    private InputMultiplexer inputMultiplexer;
     private GameHUD hud;
 
     private Player player;
@@ -42,6 +45,8 @@ public class GameScreen extends ScreenAdapter {
         box2DDebugRenderer = new Box2DDebugRenderer();
         mousePos = new Vector3();
         unprojectedMousePos = new Vector3();
+        inputMultiplexer = new InputMultiplexer();
+        Gdx.input.setInputProcessor(inputMultiplexer);
         entityManager = new EntityManager(this);
 
         mapLoader = new TiledMapLoader(this);
@@ -133,5 +138,9 @@ public class GameScreen extends ScreenAdapter {
 
     public Vector3 getUnprojectedMousePos() {
         return unprojectedMousePos;
+    }
+
+    public InputMultiplexer getInputMultiplexer() {
+        return inputMultiplexer;
     }
 }

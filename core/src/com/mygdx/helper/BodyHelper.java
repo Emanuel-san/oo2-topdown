@@ -40,9 +40,8 @@ public class BodyHelper {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width/2, height/2);
 
-        //Fixture definition
-        FixtureDef fixtureDef = new FixtureDef();
         Filter filter = new Filter();
+        //Filter who can collide with whom.
         switch (type) {
             case PROJECTILE -> {
                 filter.categoryBits = projectileCategory;
@@ -61,6 +60,8 @@ public class BodyHelper {
                 filter.maskBits = (short) (playerCategory | projectileCategory);
             }
         }
+
+        FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.filter.set(filter);
         fixtureDef.shape = shape;
         fixtureDef.friction = 0;

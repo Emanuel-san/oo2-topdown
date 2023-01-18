@@ -1,16 +1,15 @@
 package com.mygdx.entities;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.Timer.Task;
 import com.mygdx.game.GameScreen;
 import com.mygdx.helper.*;
+import com.mygdx.helper.processors.PlayerInputProcessor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,16 +22,18 @@ public class Player extends GameEntity implements Killable {
     private GameScreen screen;
     private float anglePlayerToMouse = 0;
     private int score = 0, coins = 0, currenDirection = 0;
-    private boolean keyDown;
+    private boolean godMode;
+    private boolean recentlyShot;
     private final Timer timer = new Timer();
-    private final Task task = new Task() {
+    private final Timer.Task task = new Timer.Task() {
         @Override
         public void run() {
-            keyDown = false;
+            recentlyShot = false;
         }
     };
-    private boolean godMode;
     private Vector2 projectileDirection;
+
+    private PlayerInputProcessor inputProcessor;
 
 
     public Player(float x, float y, float width, float height, TextureAtlas atlas, GameScreen screen){
@@ -43,11 +44,13 @@ public class Player extends GameEntity implements Killable {
         this.damage = 1;
         this.godMode = false;
         this.health = 100;
-        this.keyDown = false;
         this.screen = screen;
+        recentlyShot = false;
         killed = false;
         projectileDirection = new Vector2();
         animations = new ArrayList<>();
+        inputProcessor = new PlayerInputProcessor(screen,this);
+        screen.getInputMultiplexer().addProcessor(inputProcessor);
 
         animations.add(AnimationHelper.animateRegion(atlas.findRegion("1_north"), 4, 0.5f));
         animations.add(AnimationHelper.animateRegion(atlas.findRegion("1_diagup"), 4, 0.5f));
@@ -63,8 +66,9 @@ public class Player extends GameEntity implements Killable {
     public void update() {
         x = body.getPosition().x;
         y = body.getPosition().y;
-        checkUserInput();
+        body.setLinearVelocity(velX*speed, velY*speed);
         anglePlayerToMouse = (float) Math.atan2(screen.getUnprojectedMousePos().y - this.y, screen.getUnprojectedMousePos().x - this.x);
+        shootProjectile();
     }
 
     @Override
@@ -78,6 +82,13 @@ public class Player extends GameEntity implements Killable {
         currentFrame = animations.get(currenDirection).getKeyFrame(stateTime);
         if(animations.get(currenDirection).isAnimationFinished(stateTime)){
             stateTime = 0;
+        }
+    }
+    private void shootProjectile(){
+        if(inputProcessor.isLeftMouseDown() && !recentlyShot){
+            screen.getEntityManager().createProjectile(projectileDirection.x, projectileDirection.y, damage);
+            recentlyShot = true;
+            timer.scheduleTask(task, 0.1f);
         }
     }
     private int getDirection(){
@@ -114,30 +125,6 @@ public class Player extends GameEntity implements Killable {
             return Direction.DIAGONAL_DOWN_LEFT;
         }
     }
-    private void checkUserInput() {
-        velX = 0;
-        velY = 0;
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            velX = 1;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            velX = -1;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.W)){
-            velY = 1;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            velY = -1;
-        }
-        body.setLinearVelocity(velX*speed, velY*speed);
-
-        if(Gdx.input.isTouched() && !keyDown){
-            screen.getEntityManager().createProjectile(projectileDirection.x, projectileDirection.y, damage);
-            keyDown = true;
-            timer.scheduleTask(task, 0.1f);
-        }
-    }
-
     public boolean isGodMode() {
         return godMode;
     }
@@ -151,6 +138,12 @@ public class Player extends GameEntity implements Killable {
     @Override
     public void kill() {
 
+    }
+    public void setPlayerVelocityX(int velocity){
+        velX = velX + velocity * speed;
+    }
+    public void setPlayerVelocityY(int velocity){
+        velY = velY + velocity * speed;
     }
     public int getScore() {
         return score;
