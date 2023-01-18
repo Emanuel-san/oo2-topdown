@@ -1,16 +1,31 @@
 package com.mygdx.AI;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.entities.Base;
+import com.mygdx.entities.Enemy;
+import com.mygdx.entities.Player;
 
 public class EnemyAI extends AI{
-    public void updateDirectionPlayerOrBase(Vector2 objectFrom, Vector2 player, Vector2 base, Vector2 direction){
-        float distanceToPlayer = distance(objectFrom, player);
-        float distanceToBase = distance(objectFrom, base);
+    Player player;
+    Base playerBase;
+    Enemy controlledEnemy;
+    public EnemyAI(Player player, Base playerBase, Enemy enemy){
+        this.player = player;
+        this.playerBase = playerBase;
+        controlledEnemy = enemy;
+
+    }
+    public void updateDirectionPlayerOrBase(Vector2 direction){
+        Vector2 playerPos = player.getBody().getPosition();
+        Vector2 basePos = playerBase.getBody().getPosition();
+        Vector2 myPos = controlledEnemy.getBody().getPosition();
+        float distanceToPlayer = distance(myPos, playerPos);
+        float distanceToBase = distance(myPos, basePos);
         if(distanceToPlayer < distanceToBase){
-            direction.set(player.x - objectFrom.x, player.y - objectFrom.y);
+            direction.set(playerPos.x - myPos.x, playerPos.y - myPos.y);
             normalize(direction, distanceToPlayer);
         }else{
-            direction.set(base.x - objectFrom.x, base.y - objectFrom.y);
+            direction.set(basePos.x - myPos.x, basePos.y - myPos.y);
             normalize(direction, distanceToBase);
         }
     }

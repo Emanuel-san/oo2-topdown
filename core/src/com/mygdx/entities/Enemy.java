@@ -19,26 +19,21 @@ public class Enemy extends GameEntity implements Killable {
     private Vector2 direction;
     private int scoreValue;
 
-    public Enemy(float x, float y, float width, float height, World world, Texture texture, int damage) {
+    public Enemy(float x, float y, float width, float height, World world, Texture texture, int damage, GameScreen screen) {
         super(x,y,width, height);
-        this.body = BodyHelper.createBody(x, y, width, height, false, world, this, EntityType.ENEMY);
+        this.body = BodyHelper.createPolygonBody(x, y, width, height, false, world, this, EntityType.ENEMY);
         this.speed = 3f*PPM;
         this.health = 5;
         this.damage = damage;
         this.texture = texture;
-        this.ai = new EnemyAI();
+        this.ai = new EnemyAI(screen.getPlayer(), screen.getPlayerBase(), this);
         this.direction = new Vector2();
         scoreValue = 50;
     }
 
     @Override
     public void update() {
-        ai.updateDirectionPlayerOrBase(
-                this.body.getPosition(),
-                GameScreen.SCREEN.getPlayer().getBody().getPosition(),
-                GameScreen.SCREEN.getPlayerBase().getBody().getPosition(),
-                direction
-        );
+        ai.updateDirectionPlayerOrBase(direction);
         velX = direction.x;
         velY = direction.y;
         body.setLinearVelocity(velX * speed, velY * speed);

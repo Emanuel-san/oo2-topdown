@@ -16,9 +16,8 @@ public class Projectile extends GameEntity {
 
     public Projectile(float x, float y, float width, float height, Texture texture, World world, int damage, Vector3 unprojectedPos) {
         super(x, y, width, height);
-        this.body = BodyHelper.createBody(x, y, width, height, false, world, this, EntityType.PROJECTILE);
+        this.body = BodyHelper.createPolygonBody(x, y, width, height, false, world, this, EntityType.PROJECTILE);
         this.body.setBullet(true);
-        body.getFixtureList().first().setSensor(true);
         this.speed = 100f*PPM;
         this.damage = damage;
         this.texture = texture;

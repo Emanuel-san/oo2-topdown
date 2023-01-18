@@ -27,7 +27,7 @@ public class Spawner extends GameEntity implements Killable {
         this.entityManager = entityManager;
         this.spawnDelay = 10.0f;
         this.health = 10;
-        this.body = BodyHelper.createBody(x, y, width, height, true, false, world, this);
+        this.body = BodyHelper.createPolygonBody(x, y, width, height, true, world, this);
         this.baseTexture = texture;
         scoreValue = 1000;
     }

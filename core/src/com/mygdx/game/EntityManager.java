@@ -55,7 +55,7 @@ public class EntityManager {
     }
     public void createEnemy(float x, float y){
         newEntities.add(new Enemy(x, y, 16, 16, screen.getWorld(),
-                screen.getAssetManager().get("topdown_shooter/characters/2.png", Texture.class), 1)
+                screen.getAssetManager().get("topdown_shooter/characters/2.png", Texture.class), 1, screen)
         );
     }
     public void createSpawner(float x, float y, float width, float height){

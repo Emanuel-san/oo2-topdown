@@ -18,11 +18,15 @@ public class CollisionManager implements ContactListener {
         if(a == null || b == null){return;}
         if(a.getUserData() == null || b.getUserData() == null){return;}
         if(a.getUserData() instanceof Projectile){
-            projectileContact((Projectile) a.getUserData(), b.getUserData());
+            if(!b.isSensor()) {
+                projectileContact((Projectile) a.getUserData(), b.getUserData());
+            }
             return;
         }
         else if(b.getUserData() instanceof Projectile){
-            projectileContact((Projectile) b.getUserData(), a.getUserData());
+            if(!a.isSensor()) {
+                projectileContact((Projectile) b.getUserData(), a.getUserData());
+            }
             return;
         }
         if(a.getUserData() instanceof Coin && b.getUserData() instanceof Player){

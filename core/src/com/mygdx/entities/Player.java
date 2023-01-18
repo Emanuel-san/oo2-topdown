@@ -38,7 +38,7 @@ public class Player extends GameEntity implements Killable {
 
     public Player(float x, float y, float width, float height, TextureAtlas atlas, GameScreen screen){
         super(x, y, width, height);
-        this.body = BodyHelper.createBody(x, y, width, height, false, screen.getWorld(), this, EntityType.PLAYER);
+        this.body = BodyHelper.createPolygonBody(x, y, width, height, false, screen.getWorld(), this, EntityType.PLAYER);
         this.body.setUserData(this);
         this.speed = 3f*PPM;
         this.damage = 1;
@@ -74,7 +74,7 @@ public class Player extends GameEntity implements Killable {
     @Override
     public void render(SpriteBatch batch) {
         getCurrentFrame();
-        batch.draw(currentFrame, body.getPosition().x - 8, body.getPosition().y - 8);
+        batch.draw(currentFrame, body.getPosition().x - 10, body.getPosition().y - 9);
     }
     private void getCurrentFrame(){
         currenDirection = getDirection();
