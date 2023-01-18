@@ -38,7 +38,7 @@ public class Player extends GameEntity implements Killable {
 
     public Player(float x, float y, float width, float height, TextureAtlas atlas, GameScreen screen){
         super(x, y, width, height);
-        this.body = BodyHelper.createBody(x, y, width, height, false, false, screen.getWorld(), this, EntityType.PLAYER);
+        this.body = BodyHelper.createBody(x, y, width, height, false, screen.getWorld(), this, EntityType.PLAYER);
         this.body.setUserData(this);
         this.speed = 3f*PPM;
         this.damage = 1;
@@ -88,7 +88,7 @@ public class Player extends GameEntity implements Killable {
         if(inputProcessor.isLeftMouseDown() && !recentlyShot){
             screen.getEntityManager().createProjectile(projectileDirection.x, projectileDirection.y, damage);
             recentlyShot = true;
-            timer.scheduleTask(task, 0.1f);
+            timer.scheduleTask(task, 0.15f);
         }
     }
     private int getDirection(){

@@ -66,6 +66,11 @@ public class EntityManager {
     public void createCoin(float x, float y){
         newEntities.add(new Coin(x, y, 16, 16, screen.getWorld(), coinAnimation));
     }
+    public void createTower(float x, float y){
+        newEntities.add(new Tower(x, y, 16, 16, screen.getWorld(),
+                screen.getAssetManager().get("topdown_shooter/towers/cannon/1_left.png", Texture.class))
+        );
+    }
 
     public List<GameEntity> getEntities() {
         return entities;

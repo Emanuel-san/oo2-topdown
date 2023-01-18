@@ -21,7 +21,7 @@ public class Enemy extends GameEntity implements Killable {
 
     public Enemy(float x, float y, float width, float height, World world, Texture texture, int damage) {
         super(x,y,width, height);
-        this.body = BodyHelper.createBody(x, y, width, height, false, false, world, this, EntityType.ENEMY);
+        this.body = BodyHelper.createBody(x, y, width, height, false, world, this, EntityType.ENEMY);
         this.speed = 3f*PPM;
         this.health = 5;
         this.damage = damage;

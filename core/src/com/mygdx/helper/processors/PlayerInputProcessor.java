@@ -1,10 +1,7 @@
 package com.mygdx.helper.processors;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.utils.Timer;
 import com.mygdx.entities.Player;
 import com.mygdx.game.GameScreen;
 
@@ -31,6 +28,9 @@ public class PlayerInputProcessor implements InputProcessor {
         }
         else if (keycode == Input.Keys.S) {
             player.setPlayerVelocityY(-1);
+        }
+        if (keycode == Input.Keys.Q) {
+            screen.getEntityManager().createTower(player.getBody().getPosition().x + 32, player.getBody().getPosition().y + 32);
         }
         return true;
     }

@@ -25,10 +25,11 @@ public class BodyHelper {
         shape.dispose();
         return body;
     }
-    public static Body createBody(float x, float y, float width, float height, boolean isStatic, boolean isProjectile, World world, GameEntity entity, EntityType type){
+    public static Body createBody(float x, float y, float width, float height, boolean isStatic,
+                                  World world, GameEntity entity, EntityType type){
 
-        short playerCategory = 0x0001, coinCategory = 0x0002,
-                enemyCategory = 0x0003, projectileCategory = 0x0004;
+        short playerCategory = 0x0001, coinCategory = 0x0002, enemyCategory = 0x0003, projectileCategory = 0x0004;
+        //towerCategory = 0x0005;
 
         //Body definition
         BodyDef bodyDef = new BodyDef();
@@ -59,13 +60,16 @@ public class BodyHelper {
                 filter.categoryBits = enemyCategory;
                 filter.maskBits = (short) (playerCategory | projectileCategory);
             }
+//            case TOWER -> {
+//                filter.categoryBits = towerCategory;
+//                filter.maskBits = 0x0006;
+//            }
         }
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.filter.set(filter);
         fixtureDef.shape = shape;
         fixtureDef.friction = 0;
-        fixtureDef.isSensor = isProjectile;
         body.createFixture(fixtureDef).setUserData(entity);
         shape.dispose();
         return body;

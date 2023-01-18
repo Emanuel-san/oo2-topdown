@@ -13,7 +13,7 @@ public class Coin extends GameEntity {
     private int value = 1;
     public Coin(float x, float y, float width, float height, World world, Animation<TextureRegion> animation) {
         super(x, y, width, height);
-        this.body = BodyHelper.createBody(x, y, width, height, true, false, world, this, EntityType.COIN);
+        this.body = BodyHelper.createBody(x, y, width, height, true, world, this, EntityType.COIN);
         coinAnimation = animation;
     }
 
