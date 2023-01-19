@@ -3,16 +3,19 @@ package com.mygdx.AI;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.entities.Base;
 import com.mygdx.entities.Enemy;
+import com.mygdx.entities.GameEntity;
 import com.mygdx.entities.Player;
 
 public class EnemyAI extends AI{
     Player player;
     Base playerBase;
     Enemy controlledEnemy;
+    GameEntity currentTarget;
     public EnemyAI(Player player, Base playerBase, Enemy enemy){
         this.player = player;
         this.playerBase = playerBase;
         controlledEnemy = enemy;
+        currentTarget = player;
 
     }
     @Override
@@ -31,13 +34,19 @@ public class EnemyAI extends AI{
         float distanceToBase = distance(myPos, basePos);
         // Player is close
         if(distanceToPlayer < distanceToBase){
-            direction.set(playerPos.x - myPos.x, playerPos.y - myPos.y);
-            normalize(direction, distanceToPlayer);
+            directionVector.set(playerPos.x - myPos.x, playerPos.y - myPos.y);
+            normalize(directionVector, distanceToPlayer);
+            currentTarget = player;
         }
         // Base is closer
         else{
-            direction.set(basePos.x - myPos.x, basePos.y - myPos.y);
-            normalize(direction, distanceToBase);
+            directionVector.set(basePos.x - myPos.x, basePos.y - myPos.y);
+            normalize(directionVector, distanceToBase);
+            currentTarget = playerBase;
         }
+    }
+
+    public GameEntity getCurrentTarget() {
+        return currentTarget;
     }
 }

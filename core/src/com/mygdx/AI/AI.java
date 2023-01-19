@@ -3,10 +3,10 @@ package com.mygdx.AI;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class AI {
-    protected Vector2 direction;
+    protected Vector2 directionVector;
 
     public AI(){
-        direction = new Vector2();
+        directionVector = new Vector2();
     }
 
     protected float distance(Vector2 fromObj, Vector2 toObj){
@@ -24,7 +24,7 @@ public abstract class AI {
     public abstract void update();
     protected abstract void updateTarget();
 
-    public Vector2 getDirection() {
-        return direction;
+    public Vector2 getDirectionVector() {
+        return directionVector;
     }
 }

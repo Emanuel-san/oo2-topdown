@@ -19,7 +19,6 @@ public class Player extends GameEntity implements Killable {
     private TextureRegion currentFrame;
     private final HashMap<Direction, Animation<TextureRegion>> animationMap;
     private final EntityManager entityManager;
-    private float anglePlayerToMouse = 0;
     private int score = 0, coins = 0;
     private boolean godMode;
     private boolean recentlyShot;
@@ -56,13 +55,13 @@ public class Player extends GameEntity implements Killable {
         TextureAtlas atlas = screen.getAssetManager().get("topdown_shooter/char1.atlas", TextureAtlas.class);
 
         animationMap.put(Direction.UP, AnimationHelper.animateRegion(atlas.findRegion("1_north"), 4, 0.5f));
-        animationMap.put(Direction.DIAGONAL_UP, AnimationHelper.animateRegion(atlas.findRegion("1_diagup"), 4, 0.5f));
-        animationMap.put(Direction.SIDE, AnimationHelper.animateRegion(atlas.findRegion("1_side"), 4, 0.5f));
-        animationMap.put(Direction.DIAGONAL_DOWN, AnimationHelper.animateRegion(atlas.findRegion("1_diagdown"), 4, 0.5f));
+        animationMap.put(Direction.DIAGONAL_UP_RIGHT, AnimationHelper.animateRegion(atlas.findRegion("1_diagup"), 4, 0.5f));
+        animationMap.put(Direction.SIDE_RIGHT, AnimationHelper.animateRegion(atlas.findRegion("1_side"), 4, 0.5f));
+        animationMap.put(Direction.DIAGONAL_DOWN_RIGHT, AnimationHelper.animateRegion(atlas.findRegion("1_diagdown"), 4, 0.5f));
         animationMap.put(Direction.DOWN, AnimationHelper.animateRegion(atlas.findRegion("1_south"), 4, 0.5f));
-        animationMap.put(Direction.DIAGONAL_DOWN_LEFT, AnimationHelper.flippedAnimation(animationMap.get(Direction.DIAGONAL_DOWN), 4, 0.5f));
-        animationMap.put(Direction.DIAGONAL_UP_LEFT, AnimationHelper.flippedAnimation(animationMap.get(Direction.DIAGONAL_UP), 4, 0.5f));
-        animationMap.put(Direction.SIDE_LEFT, AnimationHelper.flippedAnimation(animationMap.get(Direction.SIDE), 4, 0.5f));
+        animationMap.put(Direction.DIAGONAL_DOWN_LEFT, AnimationHelper.flippedAnimation(animationMap.get(Direction.DIAGONAL_DOWN_RIGHT), 4, 0.5f));
+        animationMap.put(Direction.DIAGONAL_UP_LEFT, AnimationHelper.flippedAnimation(animationMap.get(Direction.DIAGONAL_UP_RIGHT), 4, 0.5f));
+        animationMap.put(Direction.SIDE_LEFT, AnimationHelper.flippedAnimation(animationMap.get(Direction.SIDE_RIGHT), 4, 0.5f));
     }
 
     @Override
@@ -71,24 +70,23 @@ public class Player extends GameEntity implements Killable {
         y = body.getPosition().y;
         body.setLinearVelocity(velX*speed, velY*speed);
         getCurrentUnprojectedMousePosition();
-        anglePlayerToMouse = (float) Math.atan2(mousePos.y - this.y, mousePos.x - this.x);
         shootProjectile();
     }
 
     @Override
     public void render(SpriteBatch batch) {
-        getCurrentFrame();
+        setCurrentFrame();
         batch.draw(currentFrame, body.getPosition().x - 10, body.getPosition().y - 9);
     }
     private void getCurrentUnprojectedMousePosition(){
         mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         mousePos = camera.unproject(mousePos);
     }
-    private void getCurrentFrame(){
-        Direction currenDirection = getDirection();
+    private void setCurrentFrame(){
+        Direction currentDirection = getDirection();
         stateTime += Gdx.graphics.getDeltaTime();
-        currentFrame = animationMap.get(currenDirection).getKeyFrame(stateTime);
-        if(animationMap.get(currenDirection).isAnimationFinished(stateTime)){
+        currentFrame = animationMap.get(currentDirection).getKeyFrame(stateTime);
+        if(animationMap.get(currentDirection).isAnimationFinished(stateTime)){
             stateTime = 0;
         }
     }
@@ -104,6 +102,7 @@ public class Player extends GameEntity implements Killable {
         }
     }
     private Direction getDirection(){
+        float anglePlayerToMouse = (float) Math.atan2(mousePos.y - this.y, mousePos.x - this.x);
         if(anglePlayerToMouse > 2.8 || anglePlayerToMouse <= -2.8){
             projectileSpawnDirection.set(this.x - 16, this.y);
             return Direction.SIDE_LEFT;
@@ -118,15 +117,15 @@ public class Player extends GameEntity implements Killable {
         }
         else if(anglePlayerToMouse > 0.5){
             projectileSpawnDirection.set(this.x + 16, this.y + 16);
-            return Direction.DIAGONAL_UP;
+            return Direction.DIAGONAL_UP_RIGHT;
         }
         else if(anglePlayerToMouse > -0.34){
             projectileSpawnDirection.set(this.x + 16, this.y);
-            return Direction.SIDE;
+            return Direction.SIDE_RIGHT;
         }
         else if(anglePlayerToMouse > -1.2){
             projectileSpawnDirection.set(this.x + 16, this.y - 16);
-            return Direction.DIAGONAL_DOWN;
+            return Direction.DIAGONAL_DOWN_RIGHT;
         }
         else if(anglePlayerToMouse > -1.8){
             projectileSpawnDirection.set(this.x, this.y - 16);

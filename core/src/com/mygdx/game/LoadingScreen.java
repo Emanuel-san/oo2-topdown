@@ -16,10 +16,12 @@ public class LoadingScreen implements Screen {
     public void show() {
         game.getAssetManager().load("topdown_shooter/char1.atlas", TextureAtlas.class);
         game.getAssetManager().load("topdown_shooter/coin.atlas", TextureAtlas.class);
+        game.getAssetManager().load("topdown_shooter/monster.atlas", TextureAtlas.class);
         game.getAssetManager().load("topdown_shooter/characters/2.png", Texture.class);
         game.getAssetManager().load("topdown_shooter/other/bulleta.png", Texture.class);
         game.getAssetManager().load("topdown_shooter/other/base2.png", Texture.class);
         game.getAssetManager().load("topdown_shooter/towers/cannon/1_left.png", Texture.class);
+
     }
 
     @Override

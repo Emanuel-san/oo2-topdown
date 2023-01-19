@@ -6,19 +6,21 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.entities.*;
 import com.mygdx.game.GameScreen;
 import com.mygdx.helper.AnimationHelper;
+import com.mygdx.helper.Direction;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class EntityManager {
 
-    private GameScreen screen;
-    private List<GameEntity> entities;
-    private List<GameEntity> newEntities;
+    private final GameScreen screen;
+    private final List<GameEntity> entities;
+    private final List<GameEntity> newEntities;
     private Animation<TextureRegion> coinAnimation;
+    private final HashMap<Direction, Animation<TextureRegion>> enemyAnimationMap;
     private Player player;
     private Base playerBase;
 
@@ -26,6 +28,7 @@ public class EntityManager {
         this.screen = screen;
         entities = new ArrayList<>();
         newEntities = new ArrayList<>();
+        enemyAnimationMap = new HashMap<>();
         loadAnimations();
     }
 
@@ -66,13 +69,7 @@ public class EntityManager {
         );
     }
     public void createEnemy(float x, float y){
-        newEntities.add(new Enemy(
-                x, y, 16, 16,
-                screen.getWorld(),
-                screen.getAssetManager().get("topdown_shooter/characters/2.png", Texture.class),
-                1,
-                this)
-        );
+        newEntities.add(new Enemy(x, y, 16, 16, screen.getWorld(), enemyAnimationMap, 1, this));
     }
     public void createSpawner(float x, float y, float width, float height){
         entities.add(new Spawner(x, y, width, height, screen.getWorld(), this,
@@ -97,11 +94,38 @@ public class EntityManager {
 
     private void loadAnimations(){
         coinAnimation = AnimationHelper
-                .animateRegion(screen
-                                .getAssetManager()
+                .animateRegion(
+                        screen.getAssetManager()
                                 .get("topdown_shooter/coin.atlas", TextureAtlas.class)
-                                .findRegion("coin2"),
-                        8, 0.1f);
+                                .findRegion("coin2"), 8, 0.1f);
+
+        enemyAnimationMap.put(
+                Direction.UP,
+                AnimationHelper.animateRegion(
+                        screen.getAssetManager()
+                                .get("topdown_shooter/monster.atlas", TextureAtlas.class)
+                                .findRegion("slime1_back"),
+                        4, 0.1f)
+        );
+        enemyAnimationMap.put(
+                Direction.DOWN,
+                AnimationHelper.animateRegion(
+                        screen.getAssetManager()
+                                .get("topdown_shooter/monster.atlas", TextureAtlas.class)
+                                .findRegion("slime1_front"),
+                        4, 0.1f)
+        );
+        enemyAnimationMap.put(
+                Direction.SIDE_LEFT,
+                AnimationHelper.animateRegion(
+                        screen.getAssetManager()
+                                .get("topdown_shooter/monster.atlas", TextureAtlas.class)
+                                .findRegion("slime1_side"),
+                        4, 0.1f)
+        );
+        enemyAnimationMap.put(
+                Direction.SIDE_RIGHT,
+                AnimationHelper.flippedAnimation(enemyAnimationMap.get(Direction.SIDE_LEFT), 4, 0.1f));
     }
 
     public Player getPlayer() {

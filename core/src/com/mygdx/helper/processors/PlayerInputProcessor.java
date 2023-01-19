@@ -32,6 +32,9 @@ public class PlayerInputProcessor implements InputProcessor {
         if (keycode == Input.Keys.Q) {
             screen.getEntityManager().createTower(player.getBody().getPosition().x + 32, player.getBody().getPosition().y + 32);
         }
+        if (keycode == Input.Keys.E) {
+            screen.getEntityManager().createEnemy(player.getBody().getPosition().x + 32, player.getBody().getPosition().y + 32);
+        }
         return true;
     }
 

@@ -17,23 +17,17 @@ import com.mygdx.helper.TiledMapLoader;
 import com.mygdx.scenes.GameHUD;
 
 public class GameScreen extends ScreenAdapter {
-    public static GameScreen SCREEN;
-    private AssetManager assetManager;
-    private OrthographicCamera camera;
-    private SpriteBatch batch;
-    private World world;
-    private EntityManager entityManager;
-    private Box2DDebugRenderer box2DDebugRenderer;
-    private OrthogonalTiledMapRenderer mapRenderer;
-    private TiledMapLoader mapLoader;
-
-    private InputMultiplexer inputMultiplexer;
-    private GameHUD hud;
-    private Vector3 mousePos;
-    private Vector3 unprojectedMousePos;
+    private final AssetManager assetManager;
+    private final OrthographicCamera camera;
+    private final SpriteBatch batch;
+    private final World world;
+    private final EntityManager entityManager;
+    private final Box2DDebugRenderer box2DDebugRenderer;
+    private final OrthogonalTiledMapRenderer mapRenderer;
+    private final InputMultiplexer inputMultiplexer;
+    private final GameHUD hud;
 
     public GameScreen(OrthographicCamera camera, AssetManager assetManager){
-        SCREEN = this;
         this.camera = camera;
         this.assetManager = assetManager;
         batch = new SpriteBatch();
@@ -41,12 +35,10 @@ public class GameScreen extends ScreenAdapter {
         entityManager = new EntityManager(this);
         world.setContactListener(new CollisionManager(entityManager));
         box2DDebugRenderer = new Box2DDebugRenderer();
-        mousePos = new Vector3();
-        unprojectedMousePos = new Vector3();
         inputMultiplexer = new InputMultiplexer();
         Gdx.input.setInputProcessor(inputMultiplexer);
 
-        mapLoader = new TiledMapLoader(entityManager, world);
+        TiledMapLoader mapLoader = new TiledMapLoader(entityManager, world);
         mapRenderer = mapLoader.setupMap();
 
         entityManager.getPlayer().setCamera(camera);
@@ -59,7 +51,6 @@ public class GameScreen extends ScreenAdapter {
         cameraUpdate();
         batch.setProjectionMatrix(camera.combined);
         mapRenderer.setView(camera);
-        updateUnprojectedMousePos();
         entityManager.update();
         hud.update();
     }
@@ -76,12 +67,6 @@ public class GameScreen extends ScreenAdapter {
                 );
         camera.update();
     }
-    private void updateUnprojectedMousePos(){
-        mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-        unprojectedMousePos = camera.unproject(mousePos);
-    }
-
-
     @Override
     public void render(float delta){
         this.update();
@@ -89,6 +74,7 @@ public class GameScreen extends ScreenAdapter {
         //clear screen before we render again
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         mapRenderer.render();
 
         batch.begin();
@@ -97,24 +83,17 @@ public class GameScreen extends ScreenAdapter {
 
         hud.render();
 
-        box2DDebugRenderer.render(world,camera.combined);
+        //box2DDebugRenderer.render(world,camera.combined);
     }
-
     public World getWorld() {
         return world;
     }
-
     public EntityManager getEntityManager() {
         return entityManager;
     }
     public AssetManager getAssetManager() {
         return assetManager;
     }
-
-    public Vector3 getUnprojectedMousePos() {
-        return unprojectedMousePos;
-    }
-
     public InputMultiplexer getInputMultiplexer() {
         return inputMultiplexer;
     }
