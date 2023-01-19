@@ -1,12 +1,15 @@
 package com.mygdx.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Timer;
+import com.mygdx.game.EntityManager;
 import com.mygdx.game.GameScreen;
 import com.mygdx.helper.*;
 import com.mygdx.helper.processors.PlayerInputProcessor;
@@ -18,10 +21,10 @@ import static com.mygdx.helper.Constant.PPM;
 
 public class Player extends GameEntity implements Killable {
     private TextureRegion currentFrame;
-    private List<Animation<TextureRegion>> animations;
-    private GameScreen screen;
+    private final List<Animation<TextureRegion>> animations;
+    private final EntityManager entityManager;
     private float anglePlayerToMouse = 0;
-    private int score = 0, coins = 0, currenDirection = 0;
+    private int score = 0, coins = 0;
     private boolean godMode;
     private boolean recentlyShot;
     private final Timer timer = new Timer();
@@ -31,12 +34,14 @@ public class Player extends GameEntity implements Killable {
             recentlyShot = false;
         }
     };
-    private Vector2 projectileDirection;
+    private Vector2 projectileSpawnDirection;
 
-    private PlayerInputProcessor inputProcessor;
+    private final PlayerInputProcessor inputProcessor;
+    private OrthographicCamera camera;
+    private Vector3 mousePos;
 
 
-    public Player(float x, float y, float width, float height, TextureAtlas atlas, GameScreen screen){
+    public Player(float x, float y, float width, float height,GameScreen screen, EntityManager entityManager){
         super(x, y, width, height);
         this.body = BodyHelper.createPolygonBody(x, y, width, height, false, screen.getWorld(), this, EntityType.PLAYER);
         this.body.setUserData(this);
@@ -44,13 +49,15 @@ public class Player extends GameEntity implements Killable {
         this.damage = 1;
         this.godMode = false;
         this.health = 100;
-        this.screen = screen;
+        this.entityManager = entityManager;
         recentlyShot = false;
         killed = false;
-        projectileDirection = new Vector2();
+        projectileSpawnDirection = new Vector2();
+        mousePos = new Vector3();
         animations = new ArrayList<>();
         inputProcessor = new PlayerInputProcessor(screen,this);
         screen.getInputMultiplexer().addProcessor(inputProcessor);
+        TextureAtlas atlas = screen.getAssetManager().get("topdown_shooter/char1.atlas", TextureAtlas.class);
 
         animations.add(AnimationHelper.animateRegion(atlas.findRegion("1_north"), 4, 0.5f));
         animations.add(AnimationHelper.animateRegion(atlas.findRegion("1_diagup"), 4, 0.5f));
@@ -67,7 +74,8 @@ public class Player extends GameEntity implements Killable {
         x = body.getPosition().x;
         y = body.getPosition().y;
         body.setLinearVelocity(velX*speed, velY*speed);
-        anglePlayerToMouse = (float) Math.atan2(screen.getUnprojectedMousePos().y - this.y, screen.getUnprojectedMousePos().x - this.x);
+        getCurrentUnprojectedMousePosition();
+        anglePlayerToMouse = (float) Math.atan2(mousePos.y - this.y, mousePos.x - this.x);
         shootProjectile();
     }
 
@@ -76,8 +84,12 @@ public class Player extends GameEntity implements Killable {
         getCurrentFrame();
         batch.draw(currentFrame, body.getPosition().x - 10, body.getPosition().y - 9);
     }
+    private void getCurrentUnprojectedMousePosition(){
+        mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+        mousePos = camera.unproject(mousePos);
+    }
     private void getCurrentFrame(){
-        currenDirection = getDirection();
+        int currenDirection = getDirection();
         stateTime += Gdx.graphics.getDeltaTime();
         currentFrame = animations.get(currenDirection).getKeyFrame(stateTime);
         if(animations.get(currenDirection).isAnimationFinished(stateTime)){
@@ -86,42 +98,46 @@ public class Player extends GameEntity implements Killable {
     }
     private void shootProjectile(){
         if(inputProcessor.isLeftMouseDown() && !recentlyShot){
-            screen.getEntityManager().createProjectile(projectileDirection.x, projectileDirection.y, damage);
+            entityManager.createProjectile(
+                    projectileSpawnDirection.x,
+                    projectileSpawnDirection.y,
+                    damage,
+                    new Vector2(mousePos.x, mousePos.y));
             recentlyShot = true;
             timer.scheduleTask(task, 0.15f);
         }
     }
     private int getDirection(){
         if(anglePlayerToMouse > 2.8 || anglePlayerToMouse <= -2.8){
-            projectileDirection.set(this.x - 16, this.y);
+            projectileSpawnDirection.set(this.x - 16, this.y);
             return Direction.SIDE_LEFT;
         }
         else if(anglePlayerToMouse > 2){
-            projectileDirection.set(this.x - 16, this.y + 16);
+            projectileSpawnDirection.set(this.x - 16, this.y + 16);
             return Direction.DIAGONAL_UP_LEFT;
         }
         else if(anglePlayerToMouse > 1.17){
-            projectileDirection.set(this.x, this.y + 16);
+            projectileSpawnDirection.set(this.x, this.y + 16);
             return Direction.UP;
         }
         else if(anglePlayerToMouse > 0.5){
-            projectileDirection.set(this.x + 16, this.y + 16);
+            projectileSpawnDirection.set(this.x + 16, this.y + 16);
             return Direction.DIAGONAL_UP;
         }
         else if(anglePlayerToMouse > -0.34){
-            projectileDirection.set(this.x + 16, this.y);
+            projectileSpawnDirection.set(this.x + 16, this.y);
             return Direction.SIDE;
         }
         else if(anglePlayerToMouse > -1.2){
-            projectileDirection.set(this.x + 16, this.y - 16);
+            projectileSpawnDirection.set(this.x + 16, this.y - 16);
             return Direction.DIAGONAL_DOWN;
         }
         else if(anglePlayerToMouse > -1.8){
-            projectileDirection.set(this.x, this.y - 16);
+            projectileSpawnDirection.set(this.x, this.y - 16);
             return Direction.DOWN;
         }
         else{
-            projectileDirection.set(this.x - 16, this.y - 16);
+            projectileSpawnDirection.set(this.x - 16, this.y - 16);
             return Direction.DIAGONAL_DOWN_LEFT;
         }
     }
@@ -145,6 +161,11 @@ public class Player extends GameEntity implements Killable {
     public void setPlayerVelocityY(int velocity){
         velY = velY + velocity * speed;
     }
+
+    public void setCamera(OrthographicCamera camera) {
+        this.camera = camera;
+    }
+
     public int getScore() {
         return score;
     }

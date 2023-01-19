@@ -92,8 +92,4 @@ public class PlayerInputProcessor implements InputProcessor {
     public boolean isLeftMouseDown() {
         return leftMouseDown;
     }
-
-    public boolean isRightMouseDown() {
-        return rightMouseDown;
-    }
 }

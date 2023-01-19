@@ -1,6 +1,6 @@
 package com.mygdx.helper;
 
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
@@ -10,19 +10,17 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.Shape;
-import com.mygdx.entities.Base;
-import com.mygdx.entities.Player;
-import com.mygdx.game.GameScreen;
+import com.badlogic.gdx.physics.box2d.*;
+import com.mygdx.game.EntityManager;
 
 public class TiledMapLoader {
-    private final GameScreen screen;
 
-    public TiledMapLoader(GameScreen screen){
-        this.screen = screen;
+    private final EntityManager entityManager;
+    private final World world;
+
+    public TiledMapLoader(EntityManager entityManager, World world){
+        this.entityManager = entityManager;
+        this.world = world;
     }
     public OrthogonalTiledMapRenderer setupMap(){
         TiledMap tiledMap = new TmxMapLoader().load("map0.tmx");
@@ -39,26 +37,23 @@ public class TiledMapLoader {
                 String rectangleName = mapObject.getName();
 
                 if(rectangleName.equals("player")){
-                    screen.setPlayer(new Player(
+                    entityManager.createPlayer(
                             rectangle.getX() + rectangle.getWidth() / 2,
                             rectangle.getY() + rectangle.getHeight() / 2,
                             rectangle.getWidth(),
-                            rectangle.getHeight(),
-                            screen.getAssetManager().get("topdown_shooter/char1.atlas", TextureAtlas.class),
-                            screen)
+                            rectangle.getHeight()
                     );
                 }
                 if(rectangleName.equals("base")){
-                    screen.setPlayerBase(new Base(
+                    entityManager.createPlayerBase(
                             rectangle.getX() + rectangle.getWidth() / 2,
                             rectangle.getY() + rectangle.getHeight() / 2,
                             rectangle.getWidth(),
-                            rectangle.getHeight(),
-                            screen.getWorld())
+                            rectangle.getHeight()
                     );
                 }
                 if(rectangleName.equals("spawner")){
-                    screen.getEntityManager().createSpawner(
+                    entityManager.createSpawner(
                             rectangle.getX() + rectangle.getWidth() / 2,
                             rectangle.getY() + rectangle.getHeight() / 2,
                             rectangle.getWidth(),
@@ -71,7 +66,7 @@ public class TiledMapLoader {
     private void createBoundaryWall(PolygonMapObject polygonMapObject){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
-        Body body = screen.getWorld().createBody(bodyDef);
+        Body body = world.createBody(bodyDef);
         Shape shape = createPolygonShape(polygonMapObject);
         body.createFixture(shape, 1000).setUserData("Wall");
         shape.dispose();

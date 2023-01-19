@@ -12,7 +12,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.entities.*;
 import com.mygdx.helper.TiledMapLoader;
 import com.mygdx.scenes.GameHUD;
 
@@ -29,9 +28,6 @@ public class GameScreen extends ScreenAdapter {
 
     private InputMultiplexer inputMultiplexer;
     private GameHUD hud;
-
-    private Player player;
-    private Base playerBase;
     private Vector3 mousePos;
     private Vector3 unprojectedMousePos;
 
@@ -41,23 +37,20 @@ public class GameScreen extends ScreenAdapter {
         this.assetManager = assetManager;
         batch = new SpriteBatch();
         world = new World(new Vector2(0, 0), true); //topdown, no gravity
-        world.setContactListener(new CollisionManager(this));
+        entityManager = new EntityManager(this);
+        world.setContactListener(new CollisionManager(entityManager));
         box2DDebugRenderer = new Box2DDebugRenderer();
         mousePos = new Vector3();
         unprojectedMousePos = new Vector3();
         inputMultiplexer = new InputMultiplexer();
         Gdx.input.setInputProcessor(inputMultiplexer);
-        entityManager = new EntityManager(this);
 
-        mapLoader = new TiledMapLoader(this);
+        mapLoader = new TiledMapLoader(entityManager, world);
         mapRenderer = mapLoader.setupMap();
 
-        hud = new GameHUD(this);
-    }
+        entityManager.getPlayer().setCamera(camera);
 
-    @Override
-    public void show(){
-
+        hud = new GameHUD(entityManager);
     }
 
     private void update(){
@@ -66,16 +59,14 @@ public class GameScreen extends ScreenAdapter {
         batch.setProjectionMatrix(camera.combined);
         mapRenderer.setView(camera);
         updateUnprojectedMousePos();
-        player.update();
-        playerBase.update();
         entityManager.update();
         hud.update();
     }
 
     private void cameraUpdate(){
         Vector3 position = camera.position;
-        position.x = player.getBody().getPosition().x;
-        position.y = player.getBody().getPosition().y;
+        position.x = entityManager.getPlayer().getBody().getPosition().x;
+        position.y = entityManager.getPlayer().getBody().getPosition().y;
         float smoothFactor = 0.1f;
         camera.position.set(
                 position.x * smoothFactor + camera.position.x * (1 - smoothFactor),
@@ -100,9 +91,7 @@ public class GameScreen extends ScreenAdapter {
         mapRenderer.render();
 
         batch.begin();
-        player.render(batch);
         entityManager.render(batch);
-        playerBase.render(batch);
         batch.end();
 
         hud.render();
@@ -112,21 +101,6 @@ public class GameScreen extends ScreenAdapter {
 
     public World getWorld() {
         return world;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-    public void setPlayerBase(Base playerBase) {
-        this.playerBase = playerBase;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public Base getPlayerBase() {
-        return playerBase;
     }
 
     public EntityManager getEntityManager() {

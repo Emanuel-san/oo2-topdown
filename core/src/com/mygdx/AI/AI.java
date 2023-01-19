@@ -3,6 +3,11 @@ package com.mygdx.AI;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class AI {
+    protected Vector2 direction;
+
+    public AI(){
+        direction = new Vector2();
+    }
 
     protected float distance(Vector2 fromObj, Vector2 toObj){
         float xDiff = toObj.x - fromObj.x;
@@ -16,7 +21,10 @@ public abstract class AI {
             vector.y /= distance;
         }
     }
-    public abstract void updateTarget(Vector2 direction);
+    public abstract void update();
+    protected abstract void updateTarget();
 
-
+    public Vector2 getDirection() {
+        return direction;
+    }
 }

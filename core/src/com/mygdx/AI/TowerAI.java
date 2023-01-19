@@ -10,16 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TowerAI extends AI{
-    private List<Enemy> enemiesInRange;
-    private List<Enemy> destroyedEnemiesInRange;
+    private final List<Enemy> enemiesInRange;
+    private final List<Enemy> destroyedEnemiesInRange;
     private EntityManager entityManager;
-    private Base base;
+    private final Base base;
 
     private Enemy currentTarget;
     private boolean gotTarget;
-    private Tower controlledTower;
+    private final Tower controlledTower;
 
     public TowerAI(EntityManager manager, Base base, Tower tower){
+        super();
         entityManager = manager;
         enemiesInRange = new ArrayList<>();
         destroyedEnemiesInRange = new ArrayList<>();
@@ -28,7 +29,11 @@ public class TowerAI extends AI{
         gotTarget = false;
     }
     @Override
-    public void updateTarget(Vector2 direction){
+    public void update(){
+        updateTarget();
+    }
+    @Override
+    protected void updateTarget(){
         Vector2 basePos = base.getBody().getPosition();
         Vector2 myPos = controlledTower.getBody().getPosition();
         if(enemiesInRange.isEmpty()){
@@ -58,6 +63,11 @@ public class TowerAI extends AI{
         }
         clearDestroyedEnemiesFromList();
     }
+    private void shootProjectile(){
+        if(gotTarget){
+
+        }
+    }
     private void clearDestroyedEnemiesFromList(){
         for(Enemy enemy: destroyedEnemiesInRange){
             enemiesInRange.remove(enemy);
@@ -73,9 +83,5 @@ public class TowerAI extends AI{
         if(enemiesInRange.remove(enemy)){
             System.out.println(enemy + " OUT OF RANGE FOR " + this);
         }
-    }
-
-    public boolean isGotTarget() {
-        return gotTarget;
     }
 }

@@ -6,10 +6,10 @@ import com.mygdx.entities.*;
 
 public class CollisionManager implements ContactListener {
 
-    GameScreen screen;
+    EntityManager entityManager;
 
-    public CollisionManager(GameScreen screen){
-        this.screen = screen;
+    public CollisionManager(EntityManager entityManager){
+        this.entityManager = entityManager;
     }
     @Override
     public void beginContact(Contact contact) {
@@ -91,15 +91,15 @@ public class CollisionManager implements ContactListener {
         if(otherObj instanceof Enemy){
             ((Enemy) otherObj).reduceHealth(projectile.getDamage());
             if(((Enemy) otherObj).isKilled()){
-                screen.getPlayer().addScore(((Enemy) otherObj).getScoreValue());
+                entityManager.getPlayer().addScore(((Enemy) otherObj).getScoreValue());
             }
         }
         if(otherObj instanceof Spawner){
             ((Spawner) otherObj).reduceHealth(projectile.getDamage());
             if(((Spawner) otherObj).isKilled()){
-                screen.getPlayer().addScore(((Spawner) otherObj).getScoreValue());
+                entityManager.getPlayer().addScore(((Spawner) otherObj).getScoreValue());
             } else {
-                screen.getPlayer().addScore(1);
+                entityManager.getPlayer().addScore(1);
             }
         }
     }

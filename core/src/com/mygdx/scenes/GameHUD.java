@@ -6,27 +6,25 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-import com.mygdx.game.GameScreen;
+import com.mygdx.game.EntityManager;
 
 public class GameHUD{
-    private GameScreen screen;
+    private final EntityManager entityManager;
     private Stage stage;
-    private Table table;
-    private Label scoreCount;
-    private Label coinsCount;
-    private Label scoreLabel;
-    private Label coinsLabel;
+    private final Table table;
+    private final Label scoreCount;
+    private final Label coinsCount;
 
-    public GameHUD (GameScreen screen){
-        this.screen = screen;
+    public GameHUD (EntityManager entityManager){
+        this.entityManager = entityManager;
         stage = new Stage();
         table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
-        scoreLabel = new Label("SCORE", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        coinsLabel = new Label("COINS", new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
-        scoreCount = new Label(Integer.toString(screen.getPlayer().getScore()), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        coinsCount = new Label(Integer.toString(screen.getPlayer().getCoins()), new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
+        Label scoreLabel = new Label("SCORE", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        Label coinsLabel = new Label("COINS", new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
+        scoreCount = new Label(Integer.toString(entityManager.getPlayer().getScore()), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        coinsCount = new Label(Integer.toString(entityManager.getPlayer().getCoins()), new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
         table.align(Align.top);
         table.add(scoreLabel).expandX().pad(10, 10, 0, 0).align(Align.left);
         table.add(coinsLabel).expandX().pad(10, 0, 0, 10).align(Align.right);
@@ -37,8 +35,8 @@ public class GameHUD{
     }
 
     public void update(){
-        scoreCount.setText(Integer.toString(screen.getPlayer().getScore()));
-        coinsCount.setText(Integer.toString(screen.getPlayer().getCoins()));
+        scoreCount.setText(Integer.toString(entityManager.getPlayer().getScore()));
+        coinsCount.setText(Integer.toString(entityManager.getPlayer().getCoins()));
         table.pack();
     }
 

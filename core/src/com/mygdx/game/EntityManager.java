@@ -18,6 +18,8 @@ public class EntityManager {
     private List<GameEntity> entities;
     private List<GameEntity> newEntities;
     private Animation<TextureRegion> coinAnimation;
+    private Player player;
+    private Base playerBase;
 
     public EntityManager(GameScreen screen){
         this.screen = screen;
@@ -47,16 +49,28 @@ public class EntityManager {
             entity.render(batch);
         }
     }
-    public void createProjectile(float x, float y, int damage){
-        entities.add(new Projectile(
+    public void createPlayerBase(float x, float y, float width, float height){
+        playerBase = new Base(x,y,width,height,screen.getWorld());
+        entities.add(playerBase);
+    }
+    public void createPlayer(float x, float y, float width, float height){
+        player = new Player(x,y,width,height,screen,this);
+        entities.add(player);
+    }
+    public void createProjectile(float x, float y, int damage, Vector2 targetPosition){
+        newEntities.add(new Projectile(
             x, y, 6, 6,
             screen.getAssetManager().get("topdown_shooter/other/bulleta.png", Texture.class),
-            screen.getWorld(), damage, new Vector2(screen.getUnprojectedMousePos().x, screen.getUnprojectedMousePos().y))
+            screen.getWorld(), damage, targetPosition)
         );
     }
     public void createEnemy(float x, float y){
-        newEntities.add(new Enemy(x, y, 16, 16, screen.getWorld(),
-                screen.getAssetManager().get("topdown_shooter/characters/2.png", Texture.class), 1, screen)
+        newEntities.add(new Enemy(
+                x, y, 16, 16,
+                screen.getWorld(),
+                screen.getAssetManager().get("topdown_shooter/characters/2.png", Texture.class),
+                1,
+                this)
         );
     }
     public void createSpawner(float x, float y, float width, float height){
@@ -68,8 +82,11 @@ public class EntityManager {
         newEntities.add(new Coin(x, y, 16, 16, screen.getWorld(), coinAnimation));
     }
     public void createTower(float x, float y){
-        newEntities.add(new Tower(x, y, 16, 16, screen.getWorld(),
-                screen.getAssetManager().get("topdown_shooter/towers/cannon/1_left.png", Texture.class), screen)
+        newEntities.add(new Tower(
+                x, y, 16, 16,
+                screen.getWorld(),
+                screen.getAssetManager().get("topdown_shooter/towers/cannon/1_left.png", Texture.class),
+                this)
         );
     }
 
@@ -84,5 +101,13 @@ public class EntityManager {
                                 .get("topdown_shooter/coin.atlas", TextureAtlas.class)
                                 .findRegion("coin2"),
                         8, 0.1f);
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public Base getPlayerBase() {
+        return playerBase;
     }
 }
