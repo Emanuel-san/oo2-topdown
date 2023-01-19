@@ -46,6 +46,20 @@ public class CollisionManager implements ContactListener {
     @Override
     public void endContact(Contact contact) {
 
+        Fixture fixtureA = contact.getFixtureA();
+        Fixture fixtureB = contact.getFixtureB();
+        Object objectA = contact.getFixtureA().getUserData();
+        Object objectB = contact.getFixtureB().getUserData();
+        if(fixtureA.isSensor()){
+            if(objectB instanceof Enemy && !contact.isTouching()){
+                ((Tower) objectA).getTowerAI().removeEnemyOutOfRange((Enemy) objectB);
+            }
+        }
+        else if(fixtureB.isSensor()){
+            if(objectA instanceof Enemy && !contact.isTouching()){
+                ((Tower) objectB).getTowerAI().removeEnemyOutOfRange((Enemy) objectA);
+            }
+        }
     }
 
     @Override
@@ -63,9 +77,12 @@ public class CollisionManager implements ContactListener {
             enemy.destroy();
             ((Base) otherObj).reduceHealth(enemy.getDamage());
         }
-        if(otherObj instanceof Player && !((Player) otherObj).isGodMode()){
+        else if(otherObj instanceof Player && !((Player) otherObj).isGodMode()){
             enemy.destroy();
             ((Player) otherObj).reduceHealth(enemy.getDamage());
+        }
+        else if(otherObj instanceof Tower && ((Tower) otherObj).getBody().getFixtureList().get(1).isSensor()){
+            ((Tower) otherObj).getTowerAI().addEnemyInRange(enemy);
         }
     }
 

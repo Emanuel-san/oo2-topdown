@@ -33,7 +33,7 @@ public class Enemy extends GameEntity implements Killable {
 
     @Override
     public void update() {
-        ai.updateDirectionPlayerOrBase(direction);
+        ai.updateTarget(direction);
         velX = direction.x;
         velY = direction.y;
         body.setLinearVelocity(velX * speed, velY * speed);

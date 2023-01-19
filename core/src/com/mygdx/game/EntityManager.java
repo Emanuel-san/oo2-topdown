@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.entities.*;
 import com.mygdx.helper.AnimationHelper;
 
@@ -50,7 +51,7 @@ public class EntityManager {
         entities.add(new Projectile(
             x, y, 6, 6,
             screen.getAssetManager().get("topdown_shooter/other/bulleta.png", Texture.class),
-            screen.getWorld(), damage, screen.getUnprojectedMousePos())
+            screen.getWorld(), damage, new Vector2(screen.getUnprojectedMousePos().x, screen.getUnprojectedMousePos().y))
         );
     }
     public void createEnemy(float x, float y){
@@ -68,7 +69,7 @@ public class EntityManager {
     }
     public void createTower(float x, float y){
         newEntities.add(new Tower(x, y, 16, 16, screen.getWorld(),
-                screen.getAssetManager().get("topdown_shooter/towers/cannon/1_left.png", Texture.class))
+                screen.getAssetManager().get("topdown_shooter/towers/cannon/1_left.png", Texture.class), screen)
         );
     }
 

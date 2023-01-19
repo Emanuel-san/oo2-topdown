@@ -15,7 +15,8 @@ public class EnemyAI extends AI{
         controlledEnemy = enemy;
 
     }
-    public void updateDirectionPlayerOrBase(Vector2 direction){
+    @Override
+    public void updateTarget(Vector2 direction){
         Vector2 playerPos = player.getBody().getPosition();
         Vector2 basePos = playerBase.getBody().getPosition();
         Vector2 myPos = controlledEnemy.getBody().getPosition();
