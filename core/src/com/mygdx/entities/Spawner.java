@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Timer;
-import com.mygdx.game.EntityManager;
 import com.mygdx.helper.BodyHelper;
 import com.mygdx.helper.Killable;
 

@@ -8,8 +8,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.helper.BodyHelper;
 import com.mygdx.helper.EntityType;
 
-import static com.mygdx.helper.Constant.PPM;
-
 public class Projectile extends GameEntity {
 
     private final Texture texture;
@@ -25,12 +23,10 @@ public class Projectile extends GameEntity {
     private void setProjectileTrajectory(Vector2 target){
 
         float angle = (float) Math.atan2(target.y - this.y, target.x - this.x);
-        System.out.println("Angle: " + angle);
 
         this.velX = (float) Math.cos(angle);
-        System.out.println("Projectile velocityX calculated with angle and speed: " + velX * speed);
         this.velY = (float) Math.sin(angle);
-        System.out.println("Projectile velocityY calculated with angle and speed: " + velY * speed);
+
         this.body.setLinearVelocity(velX * speed, velY * speed);
     }
 

@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-import com.mygdx.game.EntityManager;
+import com.mygdx.entities.EntityManager;
 
 public class GameHUD{
     private final EntityManager entityManager;

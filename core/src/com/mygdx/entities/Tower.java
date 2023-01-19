@@ -6,7 +6,6 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.AI.TowerAI;
-import com.mygdx.game.EntityManager;
 import com.mygdx.helper.BodyHelper;
 import com.mygdx.helper.EntityType;
 

@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.entities.*;
+import com.mygdx.game.GameScreen;
 import com.mygdx.helper.AnimationHelper;
 
 import java.util.ArrayList;

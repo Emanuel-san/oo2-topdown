@@ -4,12 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.AI.EnemyAI;
-import com.mygdx.game.EntityManager;
 import com.mygdx.helper.BodyHelper;
 import com.mygdx.helper.Killable;
 import com.mygdx.helper.EntityType;
-
-import static com.mygdx.helper.Constant.PPM;
 
 public class Enemy extends GameEntity implements Killable {
     private final Texture texture;

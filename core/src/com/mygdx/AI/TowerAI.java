@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.mygdx.entities.Base;
 import com.mygdx.entities.Enemy;
 import com.mygdx.entities.Tower;
-import com.mygdx.game.EntityManager;
+import com.mygdx.entities.EntityManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,12 +80,11 @@ public class TowerAI extends AI{
     }
     private void shootProjectile(){
         if(gotTarget && !recentlyShot){
-            Vector2 lead = targetLeading();
             entityManager.createProjectile(
                     controlledTower.getBody().getPosition().x,
                     controlledTower.getBody().getPosition().y,
                     controlledTower.getDamage(),
-                    lead);
+                    targetLeading());
             recentlyShot = true;
             timer.scheduleTask(task, 0.5f);
         }
