@@ -13,7 +13,7 @@ public class TowerAI extends AI{
     private List<Enemy> enemiesInRange;
     private List<Enemy> destroyedEnemiesInRange;
     private EntityManager entityManager;
-    private Base playerBase;
+    private Base base;
 
     private Enemy currentTarget;
     private boolean gotTarget;
@@ -23,13 +23,13 @@ public class TowerAI extends AI{
         entityManager = manager;
         enemiesInRange = new ArrayList<>();
         destroyedEnemiesInRange = new ArrayList<>();
-        playerBase = base;
+        this.base = base;
         controlledTower = tower;
         gotTarget = false;
     }
     @Override
     public void updateTarget(Vector2 direction){
-        Vector2 basePos = playerBase.getBody().getPosition();
+        Vector2 basePos = base.getBody().getPosition();
         Vector2 myPos = controlledTower.getBody().getPosition();
         if(enemiesInRange.isEmpty()){
             gotTarget = false;
