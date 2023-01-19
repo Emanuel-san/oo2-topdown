@@ -52,12 +52,12 @@ public class CollisionManager implements ContactListener {
         Object objectB = contact.getFixtureB().getUserData();
         if(fixtureA.isSensor()){
             if(objectB instanceof Enemy && !contact.isTouching()){
-                ((Tower) objectA).getTowerAI().removeEnemyOutOfRange((Enemy) objectB);
+                ((Tower) objectA).getTowerAI().removeTargetFromProximity((Enemy) objectB);
             }
         }
         else if(fixtureB.isSensor()){
             if(objectA instanceof Enemy && !contact.isTouching()){
-                ((Tower) objectB).getTowerAI().removeEnemyOutOfRange((Enemy) objectA);
+                ((Tower) objectB).getTowerAI().removeTargetFromProximity((Enemy) objectA);
             }
         }
     }
@@ -82,7 +82,7 @@ public class CollisionManager implements ContactListener {
             ((Player) otherObj).reduceHealth(enemy.getDamage());
         }
         else if(otherObj instanceof Tower && ((Tower) otherObj).getBody().getFixtureList().get(1).isSensor()){
-            ((Tower) otherObj).getTowerAI().addEnemyInRange(enemy);
+            ((Tower) otherObj).getTowerAI().addTargetToProximity(enemy);
         }
     }
 

@@ -50,7 +50,6 @@ public class Spawner extends GameEntity implements Killable {
     @Override
     public void reduceHealth(int amount) {
         health -= amount;
-        System.out.println("Health reduced by " + amount + " and is now " + health);
         if(health <= 0){
             this.kill();
         }

@@ -19,6 +19,9 @@ public class EnemyAI extends AI{
     public void update(){
         updateTarget();
     }
+    /**
+     * Update the target to move towards whichever is closer, player or the player base.
+     */
     @Override
     protected void updateTarget(){
         Vector2 playerPos = player.getBody().getPosition();
@@ -26,10 +29,13 @@ public class EnemyAI extends AI{
         Vector2 myPos = controlledEnemy.getBody().getPosition();
         float distanceToPlayer = distance(myPos, playerPos);
         float distanceToBase = distance(myPos, basePos);
+        // Player is close
         if(distanceToPlayer < distanceToBase){
             direction.set(playerPos.x - myPos.x, playerPos.y - myPos.y);
             normalize(direction, distanceToPlayer);
-        }else{
+        }
+        // Base is closer
+        else{
             direction.set(basePos.x - myPos.x, basePos.y - myPos.y);
             normalize(direction, distanceToBase);
         }

@@ -1,6 +1,7 @@
 package com.mygdx.AI;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Timer;
 import com.mygdx.entities.Base;
 import com.mygdx.entities.Enemy;
 import com.mygdx.entities.Tower;
@@ -10,36 +11,54 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TowerAI extends AI{
-    private final List<Enemy> enemiesInRange;
-    private final List<Enemy> destroyedEnemiesInRange;
-    private EntityManager entityManager;
+    private final List<Enemy> enemiesInProximity;
+    private final List<Enemy> destroyedEnemiesInProximity;
+    private final EntityManager entityManager;
     private final Base base;
 
     private Enemy currentTarget;
     private boolean gotTarget;
     private final Tower controlledTower;
 
+    private boolean recentlyShot;
+    private final Timer timer = new Timer();
+    private final Timer.Task task = new Timer.Task() {
+        @Override
+        public void run() {
+            recentlyShot = false;
+        }
+    };
+
     public TowerAI(EntityManager manager, Base base, Tower tower){
         super();
         entityManager = manager;
-        enemiesInRange = new ArrayList<>();
-        destroyedEnemiesInRange = new ArrayList<>();
+        enemiesInProximity = new ArrayList<>();
+        destroyedEnemiesInProximity = new ArrayList<>();
         this.base = base;
         controlledTower = tower;
         gotTarget = false;
+        recentlyShot = false;
     }
     @Override
     public void update(){
         updateTarget();
+        shootProjectile();
     }
+
+    /**
+     * Updates a towers current target that's in its proximity zone whichever is closest to the player base or sets
+     * gotTarget to false if there is no target in its proximity.
+     */
     @Override
     protected void updateTarget(){
         Vector2 basePos = base.getBody().getPosition();
-        Vector2 myPos = controlledTower.getBody().getPosition();
-        if(enemiesInRange.isEmpty()){
+        if(enemiesInProximity.isEmpty()){
             gotTarget = false;
         }
-        for(Enemy enemy : enemiesInRange){
+        else if(!enemiesInProximity.contains(currentTarget)){
+            currentTarget = enemiesInProximity.get(0);
+        }
+        for(Enemy enemy : enemiesInProximity){
             if(!enemy.isDestroyed()) {
                 if (!gotTarget) {
                     currentTarget = enemy;
@@ -47,41 +66,59 @@ public class TowerAI extends AI{
                 }
                 float currentTargetDistanceToBase = distance(currentTarget.getBody().getPosition(), basePos);
                 float enemyDistanceToBase = distance(enemy.getBody().getPosition(), basePos);
+                // Compare which target in proximity is closest to base
                 if (enemyDistanceToBase < currentTargetDistanceToBase) {
                     currentTarget = enemy;
                 }
             }
             else{
-                System.out.println("Enemy killed in sensor zone");
-                destroyedEnemiesInRange.add(enemy);
+                //Target was killed inside the proximity zone
+                destroyedEnemiesInProximity.add(enemy);
             }
-        }
-        if(gotTarget){
-            Vector2 targetVector = currentTarget.getBody().getPosition();
-            direction.set(targetVector.x - myPos.x, targetVector.y - myPos.y);
-            normalize(direction, distance(myPos, targetVector));
         }
         clearDestroyedEnemiesFromList();
     }
     private void shootProjectile(){
-        if(gotTarget){
-
+        if(gotTarget && !recentlyShot){
+            Vector2 lead = targetLeading();
+            entityManager.createProjectile(
+                    controlledTower.getBody().getPosition().x,
+                    controlledTower.getBody().getPosition().y,
+                    controlledTower.getDamage(),
+                    lead);
+            recentlyShot = true;
+            timer.scheduleTask(task, 0.5f);
         }
     }
+
+    /**
+     * Calculates the predicted vector point to lead the target
+     * @return predicted vector
+     */
+    private Vector2 targetLeading(){
+        Vector2 targetPosition = currentTarget.getBody().getPosition();
+        float distanceTowerToTarget = distance(controlledTower.getBody().getPosition(), targetPosition);
+        float timeOfFlight = distanceTowerToTarget / 120f; // timeOfFlight = distance / projectile speed
+        //return lead point
+        return new Vector2(
+                targetPosition.x + currentTarget.getVelocityX() * timeOfFlight,
+                targetPosition.y + currentTarget.getVelocityY() * timeOfFlight);
+    }
+
+    /**
+     * Remove all targets from the list that were destroyed inside the proximity zone
+     */
     private void clearDestroyedEnemiesFromList(){
-        for(Enemy enemy: destroyedEnemiesInRange){
-            enemiesInRange.remove(enemy);
+        for(Enemy enemy: destroyedEnemiesInProximity){
+            enemiesInProximity.remove(enemy);
         }
-        destroyedEnemiesInRange.clear();
+        destroyedEnemiesInProximity.clear();
     }
 
-    public void addEnemyInRange(Enemy enemy){
-        enemiesInRange.add(enemy);
-        System.out.println(enemy + " IN RANGE FOR " + this);
+    public void addTargetToProximity(Enemy enemy){
+        enemiesInProximity.add(enemy);
     }
-    public void removeEnemyOutOfRange(Enemy enemy){
-        if(enemiesInRange.remove(enemy)){
-            System.out.println(enemy + " OUT OF RANGE FOR " + this);
-        }
+    public void removeTargetFromProximity(Enemy enemy){
+        enemiesInProximity.remove(enemy);
     }
 }

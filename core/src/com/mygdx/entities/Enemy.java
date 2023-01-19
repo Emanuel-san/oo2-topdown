@@ -19,7 +19,7 @@ public class Enemy extends GameEntity implements Killable {
     public Enemy(float x, float y, float width, float height, World world, Texture texture, int damage, EntityManager entityManager) {
         super(x,y,width, height);
         this.body = BodyHelper.createPolygonBody(x, y, width, height, false, world, this, EntityType.ENEMY);
-        this.speed = 3f*PPM;
+        this.speed = 50f;
         this.health = 5;
         this.damage = damage;
         this.texture = texture;
@@ -30,9 +30,9 @@ public class Enemy extends GameEntity implements Killable {
     @Override
     public void update() {
         ai.update();
-        velX = ai.getDirection().x;
-        velY = ai.getDirection().y;
-        body.setLinearVelocity(velX * speed, velY * speed);
+        velX = ai.getDirection().x * speed;
+        velY = ai.getDirection().y * speed;
+        body.setLinearVelocity(velX, velY);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class Enemy extends GameEntity implements Killable {
     @Override
     public void reduceHealth(int amount) {
         health -= amount;
-        System.out.println("Health reduced by " + amount + " and is now " + health);
+        //System.out.println("Health reduced by " + amount + " and is now " + health);
         if(health <= 0){
             this.kill();
         }
@@ -52,10 +52,17 @@ public class Enemy extends GameEntity implements Killable {
     @Override
     public void kill() {
         killed = true;
-        System.out.println("Im dead");
+        //System.out.println("Im dead");
     }
 
     public int getScoreValue() {
         return scoreValue;
+    }
+
+    public float getVelocityX(){
+        return velX;
+    }
+    public float getVelocityY(){
+        return velY;
     }
 }

@@ -13,16 +13,13 @@ public class Base extends GameEntity implements Killable {
 
     public Base(float x, float y, float width, float height, World world) {
         super(x,y,width, height);
-        this.health = 10;
+        this.health = 1000;
         this.body = BodyHelper.createPolygonBody(x, y, width, height, true, world, this);
         this.baseTexture = new Texture(Gdx.files.internal("topdown_shooter/other/base.png"));
     }
 
     @Override
     public void update() {
-        if(killed){
-            //System.out.println("Base destroyed");
-        }
     }
 
     @Override
@@ -36,7 +33,6 @@ public class Base extends GameEntity implements Killable {
         if(health <= 0){
             kill();
         }
-        System.out.println("Base health: " + health);
     }
 
     @Override

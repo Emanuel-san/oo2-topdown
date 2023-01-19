@@ -17,7 +17,7 @@ public class Projectile extends GameEntity {
         super(x, y, width, height);
         this.body = BodyHelper.createPolygonBody(x, y, width, height, false, world, this, EntityType.PROJECTILE);
         this.body.setBullet(true);
-        this.speed = 100f*PPM;
+        this.speed = 120f;
         this.damage = damage;
         this.texture = texture;
         this.setProjectileTrajectory(targetPos);
@@ -25,9 +25,12 @@ public class Projectile extends GameEntity {
     private void setProjectileTrajectory(Vector2 target){
 
         float angle = (float) Math.atan2(target.y - this.y, target.x - this.x);
+        System.out.println("Angle: " + angle);
 
         this.velX = (float) Math.cos(angle);
+        System.out.println("Projectile velocityX calculated with angle and speed: " + velX * speed);
         this.velY = (float) Math.sin(angle);
+        System.out.println("Projectile velocityY calculated with angle and speed: " + velY * speed);
         this.body.setLinearVelocity(velX * speed, velY * speed);
     }
 

@@ -148,7 +148,7 @@ public class Player extends GameEntity implements Killable {
     @Override
     public void reduceHealth(int amount) {
         health -= amount;
-        System.out.println("Player health: " + health);
+        //System.out.println("Player health: " + health);
     }
 
     @Override

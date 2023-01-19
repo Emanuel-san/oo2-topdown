@@ -21,6 +21,7 @@ public class Tower extends GameEntity{
         body.getFixtureList().first().setSensor(true);
         createSensorFixture(150);
         ai = new TowerAI(entityManager, entityManager.getPlayerBase(), this);
+        damage = 1;
     }
 
     @Override
@@ -46,5 +47,8 @@ public class Tower extends GameEntity{
 
     public TowerAI getTowerAI() {
         return ai;
+    }
+    public int getDamage(){
+        return damage;
     }
 }
