@@ -94,7 +94,7 @@ public class TowerAI extends AI{
     }
 
     /**
-     * Calculates the predicted vector point to lead the target
+     * Calculates the predicted vector point to lead a target
      * @return predicted vector
      */
     private Vector2 targetLeading(){

@@ -40,7 +40,7 @@ public class Player extends GameEntity implements Killable {
         super(x, y, width, height);
         this.body = BodyHelper.createPolygonBody(x, y, width, height, false, screen.getWorld(), this, EntityType.PLAYER);
         this.body.setUserData(this);
-        this.speed = 25f;
+        this.speed = 25f / Constant.PPM;
         this.damage = 1;
         this.godMode = false;
         this.health = 100;

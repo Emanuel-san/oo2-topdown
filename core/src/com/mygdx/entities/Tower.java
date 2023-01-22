@@ -3,19 +3,23 @@ package com.mygdx.entities;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.AI.TowerAI;
 import com.mygdx.helper.BodyHelper;
 import com.mygdx.helper.Constant;
+import com.mygdx.helper.Direction;
 import com.mygdx.helper.EntityType;
+
+import java.util.HashMap;
 
 public class Tower extends GameEntity{
     private final TextureAtlas atlas;
-    private Texture currentFrame;
+    private TextureRegion currentFrame;
+    private HashMap<Direction, TextureRegion> towerTextures;
     private int level;
-    private StringBuilder regionFinder;
     private final TowerAI ai;
 
     public Tower(float x, float y, float width, float height, World world, TextureAtlas atlas, EntityManager entityManager) {
@@ -27,7 +31,8 @@ public class Tower extends GameEntity{
         ai = new TowerAI(entityManager, entityManager.getPlayerBase(), this);
         damage = 1;
         level = 1;
-        regionFinder = new StringBuilder();
+        towerTextures = new HashMap<>();
+        parseTexturesToLevel();
     }
 
     @Override
@@ -38,17 +43,15 @@ public class Tower extends GameEntity{
     @Override
     public void render(SpriteBatch batch) {
         //batch.draw(texture, body.getPosition().x - 12, body.getPosition().y - 8);
-//        batch.draw(currentFrame,
-//                body.getPosition().x - 24 / Constant.PPM,
-//                body.getPosition().y - 24 / Constant.PPM,
-//                0,
-//                0,
-//                currentFrame.getWidth(),
-//                currentFrame.getHeight(),
-//                1/Constant.PPM,
-//                1/Constant.PPM, 0, 0, 0,
-//                currentFrame.getWidth(), currentFrame.getHeight(), false, false
-//        );
+        batch.draw(currentFrame,
+                body.getPosition().x - 12 / Constant.PPM,
+                body.getPosition().y - 8 / Constant.PPM,
+                0, 0,
+                currentFrame.getRegionWidth(),
+                currentFrame.getRegionHeight(),
+                1 / Constant.PPM,
+                1 / Constant.PPM, 0
+        );
     }
 
     private void createSensorFixture(float radius){
@@ -60,6 +63,18 @@ public class Tower extends GameEntity{
         fixtureDef.isSensor = true;
         body.createFixture(fixtureDef).setUserData(this);
         shape.dispose();
+    }
+
+    private void parseTexturesToLevel(){
+        towerTextures.put(Direction.UP, atlas.findRegion(level + "_up"));
+        towerTextures.put(Direction.DIAGONAL_UP_RIGHT, atlas.findRegion(level + "_rightup"));
+        towerTextures.put(Direction.SIDE_RIGHT, atlas.findRegion(level + "_right"));
+        towerTextures.put(Direction.DIAGONAL_DOWN_RIGHT, atlas.findRegion(level + "_rightdown"));
+        towerTextures.put(Direction.DOWN, atlas.findRegion(level + "_down"));
+        towerTextures.put(Direction.DIAGONAL_DOWN_LEFT, atlas.findRegion(level + "_leftdown"));
+        towerTextures.put(Direction.SIDE_LEFT, atlas.findRegion(level + "_left"));
+        towerTextures.put(Direction.DIAGONAL_UP_LEFT, atlas.findRegion(level + "_leftup"));
+        currentFrame = towerTextures.get(Direction.DOWN);
     }
 
     public TowerAI getTowerAI() {
