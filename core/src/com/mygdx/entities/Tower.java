@@ -42,7 +42,9 @@ public class Tower extends GameEntity{
 
     @Override
     public void render(SpriteBatch batch) {
-        //batch.draw(texture, body.getPosition().x - 12, body.getPosition().y - 8);
+        if(ai.isGotTarget()){
+            currentFrame = towerTextures.get(ai.getCurrentDirection());
+        }
         batch.draw(currentFrame,
                 body.getPosition().x - 12 / Constant.PPM,
                 body.getPosition().y - 8 / Constant.PPM,
@@ -74,7 +76,7 @@ public class Tower extends GameEntity{
         towerTextures.put(Direction.DIAGONAL_DOWN_LEFT, atlas.findRegion(level + "_leftdown"));
         towerTextures.put(Direction.SIDE_LEFT, atlas.findRegion(level + "_left"));
         towerTextures.put(Direction.DIAGONAL_UP_LEFT, atlas.findRegion(level + "_leftup"));
-        currentFrame = towerTextures.get(Direction.DOWN);
+        currentFrame = towerTextures.get(Direction.SIDE_RIGHT);
     }
 
     public TowerAI getTowerAI() {

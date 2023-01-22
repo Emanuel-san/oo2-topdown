@@ -7,19 +7,24 @@ import com.mygdx.entities.Enemy;
 import com.mygdx.entities.Tower;
 import com.mygdx.entities.EntityManager;
 import com.mygdx.helper.Constant;
+import com.mygdx.helper.Direction;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class TowerAI extends AI{
     private final List<Enemy> enemiesInProximity;
     private final List<Enemy> destroyedEnemiesInProximity;
     private final EntityManager entityManager;
+    private final HashMap<Direction, Vector2> projectileSpawnVectors;
     private final Base base;
 
     private Enemy currentTarget;
+    private Direction currentDirection;
+    private final Vector2 leadingPoint;
     private boolean gotTarget;
-    private final Tower controlledTower;
+    private final Tower tower;
 
     private boolean recentlyShot;
     private final Timer timer = new Timer();
@@ -36,13 +41,17 @@ public class TowerAI extends AI{
         enemiesInProximity = new ArrayList<>();
         destroyedEnemiesInProximity = new ArrayList<>();
         this.base = base;
-        controlledTower = tower;
+        this.tower = tower;
         gotTarget = false;
         recentlyShot = false;
+        leadingPoint = new Vector2();
+        projectileSpawnVectors = new HashMap<>();
+        constructSpawnVectorMap();
     }
     @Override
     public void update(){
         updateTarget();
+        setDirection();
         shootProjectile();
     }
 
@@ -81,13 +90,13 @@ public class TowerAI extends AI{
     }
     private void shootProjectile(){
         if(gotTarget && !recentlyShot){
+            targetLeading();
             entityManager.createProjectile(
-                    controlledTower.getBody().getPosition().x,
-                    controlledTower.getBody().getPosition().y,
+                    projectileSpawnVectors.get(currentDirection),
                     6 / Constant.PPM,
                     6 / Constant.PPM,
-                    controlledTower.getDamage(),
-                    targetLeading());
+                    tower.getDamage(),
+                    leadingPoint);
             recentlyShot = true;
             timer.scheduleTask(task, 0.5f);
         }
@@ -97,14 +106,56 @@ public class TowerAI extends AI{
      * Calculates the predicted vector point to lead a target
      * @return predicted vector
      */
-    private Vector2 targetLeading(){
+    private void targetLeading(){
         Vector2 targetPosition = currentTarget.getBody().getPosition();
-        float distanceTowerToTarget = distance(controlledTower.getBody().getPosition(), targetPosition);
+        float distanceTowerToTarget = distance(tower.getBody().getPosition(), targetPosition);
         float timeOfFlight = distanceTowerToTarget / (400f / Constant.PPM); // timeOfFlight = distance / projectile speed
         //return lead point
-        return new Vector2(
+        leadingPoint.set(
                 targetPosition.x + currentTarget.getVelocityX() * timeOfFlight,
                 targetPosition.y + currentTarget.getVelocityY() * timeOfFlight);
+    }
+    private void setDirection(){
+        double angleToTarget = Math.toDegrees(Math.atan2(
+                leadingPoint.x - tower.getBody().getPosition().x,
+                leadingPoint.y - tower.getBody().getPosition().y)
+        );
+
+        if(angleToTarget > 158 || angleToTarget < -158){
+            currentDirection = Direction.DOWN;
+        }
+        else if(angleToTarget > 113){
+            currentDirection = Direction.DIAGONAL_DOWN_RIGHT;
+        }
+        else if(angleToTarget > 68){
+            currentDirection = Direction.SIDE_RIGHT;
+        }
+        else if(angleToTarget > 23){
+            currentDirection = Direction.DIAGONAL_UP_RIGHT;
+        }
+        else if(angleToTarget > -23){
+            currentDirection = Direction.UP;
+        }
+        else if(angleToTarget > -68){
+            currentDirection = Direction.DIAGONAL_UP_LEFT;
+        }
+        else if(angleToTarget > -113){
+            currentDirection = Direction.SIDE_LEFT;
+        }
+        else {
+            currentDirection = Direction.DIAGONAL_DOWN_LEFT;
+        }
+    }
+
+    private void constructSpawnVectorMap(){
+        projectileSpawnVectors.put(Direction.SIDE_LEFT, new Vector2(tower.getBody().getPosition().x - 16 / Constant.PPM, tower.getBody().getPosition().y));
+        projectileSpawnVectors.put(Direction.DIAGONAL_UP_LEFT, new Vector2(tower.getBody().getPosition().x - 16 / Constant.PPM, tower.getBody().getPosition().y + 16 / Constant.PPM));
+        projectileSpawnVectors.put(Direction.UP, new Vector2(tower.getBody().getPosition().x, tower.getBody().getPosition().y + 16 / Constant.PPM));
+        projectileSpawnVectors.put(Direction.DIAGONAL_UP_RIGHT, new Vector2(tower.getBody().getPosition().x + 16 / Constant.PPM, tower.getBody().getPosition().y + 16 / Constant.PPM));
+        projectileSpawnVectors.put(Direction.SIDE_RIGHT, new Vector2(tower.getBody().getPosition().x + 16 / Constant.PPM, tower.getBody().getPosition().y));
+        projectileSpawnVectors.put(Direction.DIAGONAL_DOWN_RIGHT, new Vector2(tower.getBody().getPosition().x + 16 / Constant.PPM, tower.getBody().getPosition().y - 16 / Constant.PPM));
+        projectileSpawnVectors.put(Direction.DOWN, new Vector2(tower.getBody().getPosition().x, tower.getBody().getPosition().y - 16 / Constant.PPM));
+        projectileSpawnVectors.put(Direction.DIAGONAL_DOWN_LEFT, new Vector2(tower.getBody().getPosition().x - 16 / Constant.PPM, tower.getBody().getPosition().y - 16 / Constant.PPM));
     }
 
     /**
@@ -123,8 +174,10 @@ public class TowerAI extends AI{
     public void removeTargetFromProximity(Enemy enemy){
         enemiesInProximity.remove(enemy);
     }
-
-    public Vector2 getCurrentTargetPosition() {
-        return currentTarget.getBody().getPosition();
+    public Direction getCurrentDirection() {
+        return currentDirection;
+    }
+    public boolean isGotTarget() {
+        return gotTarget;
     }
 }
