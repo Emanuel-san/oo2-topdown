@@ -5,6 +5,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.mygdx.helper.Constant;
 
 public class TopDown extends Game {
 
@@ -19,7 +20,7 @@ public class TopDown extends Game {
 		this.widthScreen = Gdx.graphics.getWidth();
 		this.heightScreen = Gdx.graphics.getHeight();
 		this.camera = new OrthographicCamera();
-		this.camera.setToOrtho(false, widthScreen, heightScreen); //Set camera zoom here eg. screenwidth/float
+		this.camera.setToOrtho(false, widthScreen/Constant.PPM, heightScreen/Constant.PPM); //Set camera zoom here eg. screenwidth/float
 		this.assetManager = new AssetManager();
 		//setScreen(new GameScreen(camera));
 		setScreen(new LoadingScreen(this));

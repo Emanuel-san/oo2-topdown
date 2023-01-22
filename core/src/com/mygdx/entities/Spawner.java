@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.helper.BodyHelper;
+import com.mygdx.helper.Constant;
 import com.mygdx.helper.Killable;
 
 public class Spawner extends GameEntity implements Killable {
@@ -35,7 +36,7 @@ public class Spawner extends GameEntity implements Killable {
     @Override
     public void update() {
         if(!recentSpawn){
-            entityManager.createEnemy(body.getPosition().x, body.getPosition().y - 40);
+            entityManager.createEnemy(body.getPosition().x, body.getPosition().y - 40 / Constant.PPM, 16 / Constant.PPM, 16 / Constant.PPM);
             recentSpawn = true;
             timer.scheduleTask(task, spawnDelay);
         }
@@ -43,7 +44,18 @@ public class Spawner extends GameEntity implements Killable {
 
     @Override
     public void render(SpriteBatch batch) {
-        batch.draw(baseTexture, body.getPosition().x - 24, body.getPosition().y - 24);
+        //batch.draw(baseTexture, body.getPosition().x - 24, body.getPosition().y - 24);
+        batch.draw(baseTexture,
+                body.getPosition().x - 24 / Constant.PPM,
+                body.getPosition().y - 24 / Constant.PPM,
+                0,
+                0,
+                baseTexture.getWidth(),
+                baseTexture.getHeight(),
+                1/Constant.PPM,
+                1/Constant.PPM, 0, 0, 0,
+                baseTexture.getWidth(), baseTexture.getHeight(), false, false
+        );
     }
 
     @Override

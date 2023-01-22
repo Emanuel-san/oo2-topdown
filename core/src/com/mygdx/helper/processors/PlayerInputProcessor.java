@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.mygdx.entities.Player;
 import com.mygdx.game.GameScreen;
+import com.mygdx.helper.Constant;
 
 public class PlayerInputProcessor implements InputProcessor {
     Player player;
@@ -30,10 +31,20 @@ public class PlayerInputProcessor implements InputProcessor {
             player.setPlayerVelocityY(-1);
         }
         if (keycode == Input.Keys.Q) {
-            screen.getEntityManager().createTower(player.getBody().getPosition().x + 32, player.getBody().getPosition().y + 32);
+            screen.getEntityManager().createTower(
+                    player.getBody().getPosition().x + 32 / Constant.PPM,
+                    player.getBody().getPosition().y + 32 / Constant.PPM,
+                    16 / Constant.PPM,
+                    16/ Constant.PPM
+            );
         }
         if (keycode == Input.Keys.E) {
-            screen.getEntityManager().createEnemy(player.getBody().getPosition().x + 32, player.getBody().getPosition().y + 32);
+            screen.getEntityManager().createEnemy(
+                    player.getBody().getPosition().x + 32 / Constant.PPM,
+                    player.getBody().getPosition().y + 32 / Constant.PPM,
+                    16 / Constant.PPM,
+                    16 / Constant.PPM
+            );
         }
         return true;
     }

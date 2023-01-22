@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.helper.BodyHelper;
+import com.mygdx.helper.Constant;
 import com.mygdx.helper.EntityType;
 
 public class Projectile extends GameEntity {
@@ -15,7 +16,7 @@ public class Projectile extends GameEntity {
         super(x, y, width, height);
         this.body = BodyHelper.createPolygonBody(x, y, width, height, false, world, this, EntityType.PROJECTILE);
         this.body.setBullet(true);
-        this.speed = 120f;
+        this.speed = 400f / Constant.PPM;
         this.damage = damage;
         this.texture = texture;
         this.setProjectileTrajectory(targetPos);
@@ -36,6 +37,17 @@ public class Projectile extends GameEntity {
 
     @Override
     public void render(SpriteBatch batch) {
-        batch.draw(texture, body.getPosition().x - 3, body.getPosition().y - 3);
+        //batch.draw(texture, body.getPosition().x - 3, body.getPosition().y - 3);
+        batch.draw(texture,
+                body.getPosition().x - 3 / Constant.PPM,
+                body.getPosition().y - 3 / Constant.PPM,
+                0,
+                0,
+                texture.getWidth(),
+                texture.getHeight(),
+                1/Constant.PPM,
+                1/Constant.PPM, 0, 0, 0,
+                texture.getWidth(), texture.getHeight(), false, false
+        );
     }
 }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.helper.BodyHelper;
+import com.mygdx.helper.Constant;
 import com.mygdx.helper.EntityType;
 
 public class Coin extends GameEntity {
@@ -24,7 +25,16 @@ public class Coin extends GameEntity {
     @Override
     public void render(SpriteBatch batch) {
         stateTime += Gdx.graphics.getDeltaTime();
-        batch.draw(coinAnimation.getKeyFrame(stateTime), body.getPosition().x - 8, body.getPosition().y - 8);
+        //batch.draw(coinAnimation.getKeyFrame(stateTime), body.getPosition().x - 8, body.getPosition().y - 8);
+        batch.draw(coinAnimation.getKeyFrame(stateTime),
+                body.getPosition().x - 8 / Constant.PPM,
+                body.getPosition().y - 8 / Constant.PPM,
+                0, 0,
+                coinAnimation.getKeyFrame(stateTime).getRegionWidth(),
+                coinAnimation.getKeyFrame(stateTime).getRegionHeight(),
+                1 / Constant.PPM,
+                1 / Constant.PPM, 0
+        );
         if(coinAnimation.isAnimationFinished(stateTime)){
             stateTime = 0;
         }

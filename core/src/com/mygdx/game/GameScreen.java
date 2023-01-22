@@ -83,7 +83,7 @@ public class GameScreen extends ScreenAdapter {
 
         hud.render();
 
-        //box2DDebugRenderer.render(world,camera.combined);
+        box2DDebugRenderer.render(world,camera.combined);
     }
     public World getWorld() {
         return world;

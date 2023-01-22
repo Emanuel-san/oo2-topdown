@@ -32,7 +32,7 @@ public class EnemyAI extends AI{
         Vector2 myPos = controlledEnemy.getBody().getPosition();
         float distanceToPlayer = distance(myPos, playerPos);
         float distanceToBase = distance(myPos, basePos);
-        // Player is close
+        // Player is closer
         if(distanceToPlayer < distanceToBase){
             directionVector.set(playerPos.x - myPos.x, playerPos.y - myPos.y);
             normalize(directionVector, distanceToPlayer);

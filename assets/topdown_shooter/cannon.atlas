@@ -1,0 +1,174 @@
+
+cannon.png
+size: 128, 256
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+1_down
+  rotate: false
+  xy: 52, 57
+  size: 23, 33
+  orig: 23, 33
+  offset: 0, 0
+  index: -1
+1_left
+  rotate: false
+  xy: 77, 67
+  size: 23, 33
+  orig: 23, 33
+  offset: 0, 0
+  index: -1
+1_leftdown
+  rotate: false
+  xy: 52, 22
+  size: 23, 33
+  orig: 23, 33
+  offset: 0, 0
+  index: -1
+1_leftup
+  rotate: false
+  xy: 77, 102
+  size: 23, 33
+  orig: 23, 33
+  offset: 0, 0
+  index: -1
+1_right
+  rotate: false
+  xy: 102, 147
+  size: 23, 33
+  orig: 23, 33
+  offset: 0, 0
+  index: -1
+1_rightdown
+  rotate: false
+  xy: 102, 112
+  size: 23, 33
+  orig: 23, 33
+  offset: 0, 0
+  index: -1
+1_rightup
+  rotate: false
+  xy: 102, 77
+  size: 23, 33
+  orig: 23, 33
+  offset: 0, 0
+  index: -1
+1_up
+  rotate: false
+  xy: 77, 32
+  size: 23, 33
+  orig: 23, 33
+  offset: 0, 0
+  index: -1
+2_down
+  rotate: false
+  xy: 27, 92
+  size: 23, 43
+  orig: 23, 43
+  offset: 0, 0
+  index: -1
+2_left
+  rotate: false
+  xy: 2, 182
+  size: 23, 43
+  orig: 23, 43
+  offset: 0, 0
+  index: -1
+2_leftdown
+  rotate: false
+  xy: 2, 137
+  size: 23, 43
+  orig: 23, 43
+  offset: 0, 0
+  index: -1
+2_leftup
+  rotate: false
+  xy: 2, 2
+  size: 23, 43
+  orig: 23, 43
+  offset: 0, 0
+  index: -1
+2_right
+  rotate: false
+  xy: 52, 182
+  size: 23, 43
+  orig: 23, 43
+  offset: 0, 0
+  index: -1
+2_rightdown
+  rotate: false
+  xy: 27, 182
+  size: 23, 43
+  orig: 23, 43
+  offset: 0, 0
+  index: -1
+2_rightup
+  rotate: false
+  xy: 27, 47
+  size: 23, 43
+  orig: 23, 43
+  offset: 0, 0
+  index: -1
+2_up
+  rotate: false
+  xy: 52, 92
+  size: 23, 43
+  orig: 23, 43
+  offset: 0, 0
+  index: -1
+3_down
+  rotate: false
+  xy: 102, 182
+  size: 23, 43
+  orig: 23, 43
+  offset: 0, 0
+  index: -1
+3_left
+  rotate: false
+  xy: 27, 137
+  size: 23, 43
+  orig: 23, 43
+  offset: 0, 0
+  index: -1
+3_leftdown
+  rotate: false
+  xy: 77, 137
+  size: 23, 43
+  orig: 23, 43
+  offset: 0, 0
+  index: -1
+3_leftup
+  rotate: false
+  xy: 77, 182
+  size: 23, 43
+  orig: 23, 43
+  offset: 0, 0
+  index: -1
+3_right
+  rotate: false
+  xy: 2, 47
+  size: 23, 43
+  orig: 23, 43
+  offset: 0, 0
+  index: -1
+3_rightdown
+  rotate: false
+  xy: 2, 92
+  size: 23, 43
+  orig: 23, 43
+  offset: 0, 0
+  index: -1
+3_rightup
+  rotate: false
+  xy: 27, 2
+  size: 23, 43
+  orig: 23, 43
+  offset: 0, 0
+  index: -1
+3_up
+  rotate: false
+  xy: 52, 137
+  size: 23, 43
+  orig: 23, 43
+  offset: 0, 0
+  index: -1

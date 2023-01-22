@@ -98,7 +98,8 @@ public class CollisionManager implements ContactListener {
             ((Spawner) otherObj).reduceHealth(projectile.getDamage());
             if(((Spawner) otherObj).isKilled()){
                 entityManager.getPlayer().addScore(((Spawner) otherObj).getScoreValue());
-            } else {
+            }
+            else {
                 entityManager.getPlayer().addScore(1);
             }
         }

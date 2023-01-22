@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameScreen;
 import com.mygdx.helper.AnimationHelper;
+import com.mygdx.helper.Constant;
 import com.mygdx.helper.Direction;
 
 import java.util.ArrayList;
@@ -15,7 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class EntityManager {
-
     private final GameScreen screen;
     private final List<GameEntity> entities;
     private final List<GameEntity> newEntities;
@@ -29,24 +29,28 @@ public class EntityManager {
         entities = new ArrayList<>();
         newEntities = new ArrayList<>();
         enemyAnimationMap = new HashMap<>();
-        loadAnimations();
+        constructGraphicAssets();
     }
 
     public void update(){
         for (GameEntity entity : entities) {
+            //Destroy world body and spawn a coin if a killable entity has been killed
             if (entity.isKilled()) {
                 createCoin(entity.getBody().getPosition().x, entity.getBody().getPosition().y);
                 screen.getWorld().destroyBody(entity.getBody());
                 entity.destroy();
-            } else if(entity.isDestroyed()) {
+            }
+            //Destroy world body if entity is set to be destroyed
+            else if(entity.isDestroyed()) {
                 screen.getWorld().destroyBody(entity.getBody());
-            } else {
+            }
+            else {
                 entity.update();
             }
         }
+        entities.removeIf(GameEntity::isDestroyed);
         entities.addAll(newEntities);
         newEntities.clear();
-        entities.removeIf(GameEntity::isDestroyed);
     }
     public void render(SpriteBatch batch){
         for (GameEntity entity: entities){
@@ -61,15 +65,15 @@ public class EntityManager {
         player = new Player(x,y,width,height,screen,this);
         entities.add(player);
     }
-    public void createProjectile(float x, float y, int damage, Vector2 targetPosition){
+    public void createProjectile(float x, float y, float width, float height, int damage, Vector2 targetPosition){
         newEntities.add(new Projectile(
-            x, y, 6, 6,
+            x, y, width, height,
             screen.getAssetManager().get("topdown_shooter/other/bulleta.png", Texture.class),
             screen.getWorld(), damage, targetPosition)
         );
     }
-    public void createEnemy(float x, float y){
-        newEntities.add(new Enemy(x, y, 16, 16, screen.getWorld(), enemyAnimationMap, 1, this));
+    public void createEnemy(float x, float y, float width, float height){
+        newEntities.add(new Enemy(x, y, width, height, screen.getWorld(), enemyAnimationMap, 1, this));
     }
     public void createSpawner(float x, float y, float width, float height){
         entities.add(new Spawner(x, y, width, height, screen.getWorld(), this,
@@ -77,13 +81,13 @@ public class EntityManager {
         );
     }
     public void createCoin(float x, float y){
-        newEntities.add(new Coin(x, y, 16, 16, screen.getWorld(), coinAnimation));
+        newEntities.add(new Coin(x, y, 16  / Constant.PPM, 16  / Constant.PPM, screen.getWorld(), coinAnimation));
     }
-    public void createTower(float x, float y){
+    public void createTower(float x, float y, float width, float height){
         newEntities.add(new Tower(
-                x, y, 16, 16,
+                x, y, width, height,
                 screen.getWorld(),
-                screen.getAssetManager().get("topdown_shooter/towers/cannon/1_left.png", Texture.class),
+                screen.getAssetManager().get("topdown_shooter/cannon.atlas", TextureAtlas.class),
                 this)
         );
     }
@@ -92,7 +96,7 @@ public class EntityManager {
         return entities;
     }
 
-    private void loadAnimations(){
+    private void constructGraphicAssets(){
         coinAnimation = AnimationHelper
                 .animateRegion(
                         screen.getAssetManager()

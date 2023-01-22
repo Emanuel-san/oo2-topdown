@@ -7,10 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.AI.EnemyAI;
-import com.mygdx.helper.BodyHelper;
-import com.mygdx.helper.Direction;
-import com.mygdx.helper.Killable;
-import com.mygdx.helper.EntityType;
+import com.mygdx.helper.*;
 
 import java.util.HashMap;
 
@@ -25,7 +22,7 @@ public class Enemy extends GameEntity implements Killable {
     public Enemy(float x, float y, float width, float height, World world, HashMap<Direction, Animation<TextureRegion>> animations, int damage, EntityManager entityManager) {
         super(x,y,width, height);
         this.body = BodyHelper.createPolygonBody(x, y, width, height, false, world, this, EntityType.ENEMY);
-        this.speed = 50f;
+        this.speed = 10f;
         this.health = 5;
         this.damage = damage;
         this.animations = animations;
@@ -48,7 +45,15 @@ public class Enemy extends GameEntity implements Killable {
     @Override
     public void render(SpriteBatch batch) {
         setCurrentFrame();
-        batch.draw(currentFrame, body.getPosition().x - 8, body.getPosition().y - 8);
+        batch.draw(currentFrame,
+                body.getPosition().x - 8 / Constant.PPM,
+                body.getPosition().y - 8 / Constant.PPM,
+                0, 0,
+                currentFrame.getRegionWidth(),
+                currentFrame.getRegionHeight(),
+                1 / Constant.PPM,
+                1 / Constant.PPM, 0
+        );
     }
 
     @Override

@@ -76,7 +76,15 @@ public class Player extends GameEntity implements Killable {
     @Override
     public void render(SpriteBatch batch) {
         setCurrentFrame();
-        batch.draw(currentFrame, body.getPosition().x - 10, body.getPosition().y - 9);
+        batch.draw(currentFrame,
+                body.getPosition().x - 10 / Constant.PPM,
+                body.getPosition().y - 9 / Constant.PPM,
+                0, 0,
+                currentFrame.getRegionWidth(),
+                currentFrame.getRegionHeight(),
+                1 / Constant.PPM,
+                1 / Constant.PPM, 0
+                );
     }
     private void getCurrentUnprojectedMousePosition(){
         mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -95,6 +103,8 @@ public class Player extends GameEntity implements Killable {
             entityManager.createProjectile(
                     projectileSpawnDirection.x,
                     projectileSpawnDirection.y,
+                    6 / Constant.PPM,
+                    6 / Constant.PPM,
                     damage,
                     new Vector2(mousePos.x, mousePos.y));
             recentlyShot = true;
@@ -104,35 +114,35 @@ public class Player extends GameEntity implements Killable {
     private Direction getDirection(){
         float anglePlayerToMouse = (float) Math.atan2(mousePos.y - this.y, mousePos.x - this.x);
         if(anglePlayerToMouse > 2.8 || anglePlayerToMouse <= -2.8){
-            projectileSpawnDirection.set(this.x - 16, this.y);
+            projectileSpawnDirection.set(this.x - 16 / Constant.PPM, this.y);
             return Direction.SIDE_LEFT;
         }
         else if(anglePlayerToMouse > 2){
-            projectileSpawnDirection.set(this.x - 16, this.y + 16);
+            projectileSpawnDirection.set(this.x - 16 / Constant.PPM, this.y + 16  / Constant.PPM);
             return Direction.DIAGONAL_UP_LEFT;
         }
         else if(anglePlayerToMouse > 1.17){
-            projectileSpawnDirection.set(this.x, this.y + 16);
+            projectileSpawnDirection.set(this.x, this.y + 16 / Constant.PPM);
             return Direction.UP;
         }
         else if(anglePlayerToMouse > 0.5){
-            projectileSpawnDirection.set(this.x + 16, this.y + 16);
+            projectileSpawnDirection.set(this.x + 16 / Constant.PPM, this.y + 16 / Constant.PPM);
             return Direction.DIAGONAL_UP_RIGHT;
         }
         else if(anglePlayerToMouse > -0.34){
-            projectileSpawnDirection.set(this.x + 16, this.y);
+            projectileSpawnDirection.set(this.x + 16 / Constant.PPM, this.y);
             return Direction.SIDE_RIGHT;
         }
         else if(anglePlayerToMouse > -1.2){
-            projectileSpawnDirection.set(this.x + 16, this.y - 16);
+            projectileSpawnDirection.set(this.x + 16 / Constant.PPM, this.y - 16 / Constant.PPM);
             return Direction.DIAGONAL_DOWN_RIGHT;
         }
         else if(anglePlayerToMouse > -1.8){
-            projectileSpawnDirection.set(this.x, this.y - 16);
+            projectileSpawnDirection.set(this.x, this.y - 16 / Constant.PPM);
             return Direction.DOWN;
         }
         else{
-            projectileSpawnDirection.set(this.x - 16, this.y - 16);
+            projectileSpawnDirection.set(this.x - 16 / Constant.PPM, this.y - 16 / Constant.PPM);
             return Direction.DIAGONAL_DOWN_LEFT;
         }
     }

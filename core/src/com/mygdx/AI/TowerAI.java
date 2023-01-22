@@ -6,6 +6,7 @@ import com.mygdx.entities.Base;
 import com.mygdx.entities.Enemy;
 import com.mygdx.entities.Tower;
 import com.mygdx.entities.EntityManager;
+import com.mygdx.helper.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +47,8 @@ public class TowerAI extends AI{
     }
 
     /**
-     * Updates a towers current target that's in its proximity zone whichever is closest to the player base or sets
-     * gotTarget to false if there is no target in its proximity.
+     * Updates a towers current target that's in its proximity zone whichever is closest to the player base or
+     * stops shooting if there is no target in its proximity.
      */
     @Override
     protected void updateTarget(){
@@ -83,6 +84,8 @@ public class TowerAI extends AI{
             entityManager.createProjectile(
                     controlledTower.getBody().getPosition().x,
                     controlledTower.getBody().getPosition().y,
+                    6 / Constant.PPM,
+                    6 / Constant.PPM,
                     controlledTower.getDamage(),
                     targetLeading());
             recentlyShot = true;
@@ -97,7 +100,7 @@ public class TowerAI extends AI{
     private Vector2 targetLeading(){
         Vector2 targetPosition = currentTarget.getBody().getPosition();
         float distanceTowerToTarget = distance(controlledTower.getBody().getPosition(), targetPosition);
-        float timeOfFlight = distanceTowerToTarget / 120f; // timeOfFlight = distance / projectile speed
+        float timeOfFlight = distanceTowerToTarget / (400f / Constant.PPM); // timeOfFlight = distance / projectile speed
         //return lead point
         return new Vector2(
                 targetPosition.x + currentTarget.getVelocityX() * timeOfFlight,
@@ -119,5 +122,9 @@ public class TowerAI extends AI{
     }
     public void removeTargetFromProximity(Enemy enemy){
         enemiesInProximity.remove(enemy);
+    }
+
+    public Vector2 getCurrentTargetPosition() {
+        return currentTarget.getBody().getPosition();
     }
 }

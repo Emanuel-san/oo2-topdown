@@ -25,7 +25,7 @@ public class TiledMapLoader {
     public OrthogonalTiledMapRenderer setupMap(){
         TiledMap tiledMap = new TmxMapLoader().load("map0.tmx");
         parseMapObjects(tiledMap.getLayers().get("objects").getObjects());
-        return new OrthogonalTiledMapRenderer(tiledMap);
+        return new OrthogonalTiledMapRenderer(tiledMap, 1/Constant.PPM);
     }
     private void parseMapObjects(MapObjects mapObjects){
         for(MapObject mapObject : mapObjects){
@@ -38,26 +38,26 @@ public class TiledMapLoader {
 
                 if(rectangleName.equals("player")){
                     entityManager.createPlayer(
-                            rectangle.getX() + rectangle.getWidth() / 2,
-                            rectangle.getY() + rectangle.getHeight() / 2,
-                            rectangle.getWidth(),
-                            rectangle.getHeight()
+                            (rectangle.getX() + rectangle.getWidth() / 2) / Constant.PPM,
+                            (rectangle.getY() + rectangle.getWidth() / 2) / Constant.PPM,
+                            rectangle.getWidth() / Constant.PPM,
+                            rectangle.getHeight() / Constant.PPM
                     );
                 }
                 if(rectangleName.equals("base")){
                     entityManager.createPlayerBase(
-                            rectangle.getX() + rectangle.getWidth() / 2,
-                            rectangle.getY() + rectangle.getHeight() / 2,
-                            rectangle.getWidth(),
-                            rectangle.getHeight()
+                            (rectangle.getX() + rectangle.getWidth() / 2) / Constant.PPM,
+                            (rectangle.getY() + rectangle.getWidth() / 2) / Constant.PPM,
+                            rectangle.getWidth() / Constant.PPM,
+                            rectangle.getHeight() / Constant.PPM
                     );
                 }
                 if(rectangleName.equals("spawner")){
                     entityManager.createSpawner(
-                            rectangle.getX() + rectangle.getWidth() / 2,
-                            rectangle.getY() + rectangle.getHeight() / 2,
-                            rectangle.getWidth(),
-                            rectangle.getHeight()
+                            (rectangle.getX() + rectangle.getWidth() / 2) / Constant.PPM,
+                            (rectangle.getY() + rectangle.getWidth() / 2) / Constant.PPM,
+                            rectangle.getWidth() / Constant.PPM,
+                            rectangle.getHeight() / Constant.PPM
                     );
                 }
             }
@@ -76,7 +76,7 @@ public class TiledMapLoader {
         Vector2[] worldVertices = new Vector2[vertices.length/2];
 
         for(int i = 0; i < vertices.length / 2; i++){
-            Vector2 current = new Vector2(vertices[i * 2], vertices[i * 2 + 1]);
+            Vector2 current = new Vector2(vertices[i * 2] / Constant.PPM, vertices[i * 2 + 1] / Constant.PPM);
             worldVertices[i] = current;
         }
 
