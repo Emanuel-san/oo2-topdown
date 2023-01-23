@@ -50,12 +50,12 @@ public class CollisionManager implements ContactListener {
         Fixture fixtureB = contact.getFixtureB();
         Object objectA = contact.getFixtureA().getUserData();
         Object objectB = contact.getFixtureB().getUserData();
-        if(fixtureA.isSensor()){
+        if(fixtureA.isSensor() && objectA instanceof Tower){
             if(objectB instanceof Enemy && !contact.isTouching()){
                 ((Tower) objectA).getTowerAI().removeTargetFromProximity((Enemy) objectB);
             }
         }
-        else if(fixtureB.isSensor()){
+        else if(fixtureB.isSensor() && objectB instanceof Tower){
             if(objectA instanceof Enemy && !contact.isTouching()){
                 ((Tower) objectB).getTowerAI().removeTargetFromProximity((Enemy) objectA);
             }

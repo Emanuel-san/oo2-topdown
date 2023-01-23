@@ -2,19 +2,30 @@ package com.mygdx.helper.processors;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector3;
 import com.mygdx.entities.Player;
 import com.mygdx.game.GameScreen;
 import com.mygdx.helper.Constant;
 
 public class PlayerInputProcessor implements InputProcessor {
-    Player player;
-    GameScreen screen;
+    private final Player player;
+    private final GameScreen screen;
+    private OrthographicCamera camera;
     boolean leftMouseDown, rightMouseDown;
+    boolean towerPlacementActive = false;
+
+    private int mousePosX = 0, mousePosY = 0;
+
+    private final Vector3 mousePos;
 
 
-    public PlayerInputProcessor(GameScreen screen, Player player){
+
+    public PlayerInputProcessor(GameScreen screen, Player player, OrthographicCamera camera){
+        this.camera = camera;
         this.screen = screen;
         this.player = player;
+        mousePos = new Vector3();
     }
     @Override
     public boolean keyDown(int keycode) {
@@ -31,6 +42,7 @@ public class PlayerInputProcessor implements InputProcessor {
             player.setPlayerVelocityY(-1);
         }
         if (keycode == Input.Keys.Q) {
+            towerPlacementActive = true;
             screen.getEntityManager().createTower(
                     player.getBody().getPosition().x + 32 / Constant.PPM,
                     player.getBody().getPosition().y + 32 / Constant.PPM,
@@ -70,9 +82,13 @@ public class PlayerInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (button == Input.Buttons.LEFT) {
+        if (button == Input.Buttons.LEFT && towerPlacementActive) {
+            towerPlacementActive = false;
+        }
+        else if(button == Input.Buttons.LEFT){
             leftMouseDown = true;
-        } else if (button == Input.Buttons.RIGHT) {
+        }
+        else if (button == Input.Buttons.RIGHT) {
             rightMouseDown = true;
         }
         return true;
@@ -90,12 +106,16 @@ public class PlayerInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
+        mousePosX = screenX;
+        mousePosY = screenY;
+        return true;
     }
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        return false;
+        mousePosX = screenX;
+        mousePosY = screenY;
+        return true;
     }
 
     @Override
@@ -105,5 +125,24 @@ public class PlayerInputProcessor implements InputProcessor {
 
     public boolean isLeftMouseDown() {
         return leftMouseDown;
+    }
+
+    public boolean isTowerPlacementActive() {
+        return towerPlacementActive;
+    }
+    public Vector3 getUnprojectedMousePos() {
+        return camera.unproject(mousePos.set(mousePosX, mousePosY, 0));
+    }
+
+    public int getMousePosX() {
+        return mousePosX;
+    }
+
+    public int getMousePosY() {
+        return mousePosY;
+    }
+
+    public int viewportHeight(){
+        return (int)camera.viewportHeight;
     }
 }

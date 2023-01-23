@@ -104,7 +104,6 @@ public class TowerAI extends AI{
 
     /**
      * Calculates the predicted vector point to lead a target
-     * @return predicted vector
      */
     private void targetLeading(){
         Vector2 targetPosition = currentTarget.getBody().getPosition();
