@@ -1,6 +1,5 @@
 package com.mygdx.entities;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,7 +10,6 @@ import com.mygdx.AI.TowerAI;
 import com.mygdx.helper.BodyHelper;
 import com.mygdx.helper.Constant;
 import com.mygdx.helper.Direction;
-import com.mygdx.helper.EntityType;
 
 import java.util.HashMap;
 
@@ -25,9 +23,9 @@ public class Tower extends GameEntity{
     public Tower(float x, float y, float width, float height, World world, TextureAtlas atlas, EntityManager entityManager) {
         super(x, y, width, height);
         this.atlas = atlas;
-        body = BodyHelper.createPolygonBody(x,y,width,height,true, world, this, EntityType.TOWER);
-        body.getFixtureList().first().setSensor(true);
-        createSensorFixture(150 / Constant.PPM);
+        body = BodyHelper.createPolygonBody(x,y,width,height,true, world, this);
+        //body.getFixtureList().first().setSensor(true);
+        createCircleSensorFixture(150 / Constant.PPM);
         ai = new TowerAI(entityManager, entityManager.getPlayerBase(), this);
         damage = 1;
         level = 1;
@@ -56,7 +54,7 @@ public class Tower extends GameEntity{
         );
     }
 
-    private void createSensorFixture(float radius){
+    private void createCircleSensorFixture(float radius){
         CircleShape shape = new CircleShape();
         shape.setRadius(radius);
         FixtureDef fixtureDef = new FixtureDef();

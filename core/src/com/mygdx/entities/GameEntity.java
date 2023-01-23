@@ -43,4 +43,8 @@ public abstract class GameEntity {
     public void destroy(){
         isDestroyed = true;
     }
+
+    public int getHealth() {
+        return health;
+    }
 }

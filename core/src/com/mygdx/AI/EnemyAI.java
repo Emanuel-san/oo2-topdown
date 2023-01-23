@@ -7,10 +7,12 @@ import com.mygdx.entities.GameEntity;
 import com.mygdx.entities.Player;
 
 public class EnemyAI extends AI{
-    Player player;
-    Base playerBase;
-    Enemy controlledEnemy;
-    GameEntity currentTarget;
+    private final Player player;
+    private final Base playerBase;
+    private final Enemy controlledEnemy;
+    private GameEntity currentTarget;
+
+    Vector2 playerPos = new Vector2(), myPos = new Vector2(), basePos = new Vector2();
     public EnemyAI(Player player, Base playerBase, Enemy enemy){
         this.player = player;
         this.playerBase = playerBase;
@@ -27,11 +29,11 @@ public class EnemyAI extends AI{
      */
     @Override
     protected void updateTarget(){
-        Vector2 playerPos = player.getBody().getPosition();
-        Vector2 basePos = playerBase.getBody().getPosition();
-        Vector2 myPos = controlledEnemy.getBody().getPosition();
-        float distanceToPlayer = distance(myPos, playerPos);
-        float distanceToBase = distance(myPos, basePos);
+        playerPos.set(player.getBody().getPosition());
+        basePos.set(playerBase.getBody().getPosition());
+        myPos.set(controlledEnemy.getBody().getPosition());
+        float distanceToPlayer = myPos.dst(playerPos);
+        float distanceToBase = myPos.dst(basePos);
         // Player is closer
         if(distanceToPlayer < distanceToBase){
             directionVector.set(playerPos.x - myPos.x, playerPos.y - myPos.y);

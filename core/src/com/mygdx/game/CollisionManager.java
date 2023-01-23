@@ -31,9 +31,11 @@ public class CollisionManager implements ContactListener {
         }
         if(a.getUserData() instanceof Coin && b.getUserData() instanceof Player){
             coinContact((Coin) a.getUserData(), (Player) b.getUserData());
+            return;
         }
         else if(b.getUserData() instanceof Coin && a.getUserData() instanceof Player){
             coinContact((Coin) b.getUserData(), (Player) a.getUserData());
+            return;
         }
         if(a.getUserData() instanceof Enemy){
             enemyContact((Enemy) a.getUserData(), b.getUserData());
@@ -64,7 +66,6 @@ public class CollisionManager implements ContactListener {
 
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) {
-
     }
 
     @Override

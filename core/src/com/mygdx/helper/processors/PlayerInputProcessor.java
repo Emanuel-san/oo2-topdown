@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.entities.Player;
 import com.mygdx.game.GameScreen;
+import com.mygdx.game.TowerPlacer;
 import com.mygdx.helper.Constant;
 
 public class PlayerInputProcessor implements InputProcessor {
@@ -42,21 +43,13 @@ public class PlayerInputProcessor implements InputProcessor {
             player.setPlayerVelocityY(-1);
         }
         if (keycode == Input.Keys.Q) {
-            towerPlacementActive = true;
-            screen.getEntityManager().createTower(
-                    player.getBody().getPosition().x + 32 / Constant.PPM,
-                    player.getBody().getPosition().y + 32 / Constant.PPM,
-                    16 / Constant.PPM,
-                    16/ Constant.PPM
-            );
-        }
-        if (keycode == Input.Keys.E) {
-            screen.getEntityManager().createEnemy(
-                    player.getBody().getPosition().x + 32 / Constant.PPM,
-                    player.getBody().getPosition().y + 32 / Constant.PPM,
-                    16 / Constant.PPM,
-                    16 / Constant.PPM
-            );
+            if(towerPlacementActive){
+                towerPlacementActive = false;
+            }
+            else{
+                towerPlacementActive = true;
+            }
+
         }
         return true;
     }
@@ -83,13 +76,16 @@ public class PlayerInputProcessor implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (button == Input.Buttons.LEFT && towerPlacementActive) {
-            towerPlacementActive = false;
+            if(screen.getPlacer().placeTower()){
+                towerPlacementActive = false;
+            }
         }
         else if(button == Input.Buttons.LEFT){
             leftMouseDown = true;
         }
         else if (button == Input.Buttons.RIGHT) {
             rightMouseDown = true;
+            towerPlacementActive = false;
         }
         return true;
     }
@@ -132,17 +128,5 @@ public class PlayerInputProcessor implements InputProcessor {
     }
     public Vector3 getUnprojectedMousePos() {
         return camera.unproject(mousePos.set(mousePosX, mousePosY, 0));
-    }
-
-    public int getMousePosX() {
-        return mousePosX;
-    }
-
-    public int getMousePosY() {
-        return mousePosY;
-    }
-
-    public int viewportHeight(){
-        return (int)camera.viewportHeight;
     }
 }

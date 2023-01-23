@@ -7,14 +7,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.helper.BodyHelper;
 import com.mygdx.helper.Constant;
-import com.mygdx.helper.EntityType;
+import com.mygdx.helper.FilterType;
 
 public class Coin extends GameEntity {
     private Animation<TextureRegion> coinAnimation;
     private int value = 1;
     public Coin(float x, float y, float width, float height, World world, Animation<TextureRegion> animation) {
         super(x, y, width, height);
-        this.body = BodyHelper.createPolygonBody(x, y, width, height, true, world, this, EntityType.COIN);
+        this.body = BodyHelper.createPolygonBody(x, y, width, height, true, world, this, FilterType.COIN);
         coinAnimation = animation;
     }
 

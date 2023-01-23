@@ -1,13 +1,11 @@
 package com.mygdx.entities;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.GameScreen;
 import com.mygdx.helper.*;
@@ -36,7 +34,7 @@ public class Player extends GameEntity implements Killable {
 
     public Player(float x, float y, float width, float height,GameScreen screen, EntityManager entityManager){
         super(x, y, width, height);
-        this.body = BodyHelper.createPolygonBody(x, y, width, height, false, screen.getWorld(), this, EntityType.PLAYER);
+        this.body = BodyHelper.createPolygonBody(x, y, width, height, false, screen.getWorld(), this, FilterType.PLAYER);
         this.body.setUserData(this);
         this.speed = 25f / Constant.PPM;
         this.damage = 1;

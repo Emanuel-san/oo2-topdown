@@ -48,9 +48,14 @@ public class GameScreen extends ScreenAdapter {
         inputProcessor = new PlayerInputProcessor(this, entityManager.getPlayer(), camera);
         Gdx.input.setInputProcessor(inputProcessor);
         entityManager.getPlayer().setInputProcessor(inputProcessor);
-        placer = new TowerPlacer(inputProcessor, world);
+        placer = new TowerPlacer(inputProcessor, entityManager);
 
         hud = new GameHUD(entityManager);
+    }
+
+    @Override
+    public void show(){
+
     }
 
     private void update(){
@@ -85,6 +90,7 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         mapRenderer.render();
+
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         placer.render(shapeRenderer);
         shapeRenderer.end();
@@ -104,5 +110,9 @@ public class GameScreen extends ScreenAdapter {
     }
     public AssetManager getAssetManager() {
         return assetManager;
+    }
+
+    public TowerPlacer getPlacer() {
+        return placer;
     }
 }
