@@ -2,14 +2,14 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.entities.*;
+import com.mygdx.entities.Killable;
 
 
 public class CollisionManager implements ContactListener {
+    private final Player player;
 
-    EntityManager entityManager;
-
-    public CollisionManager(EntityManager entityManager){
-        this.entityManager = entityManager;
+    public CollisionManager(Player player){
+        this.player = player;
     }
     @Override
     public void beginContact(Contact contact) {
@@ -30,11 +30,11 @@ public class CollisionManager implements ContactListener {
             return;
         }
         if(a.getUserData() instanceof Coin && b.getUserData() instanceof Player){
-            coinContact((Coin) a.getUserData(), (Player) b.getUserData());
+            coinContact((Coin) a.getUserData());
             return;
         }
         else if(b.getUserData() instanceof Coin && a.getUserData() instanceof Player){
-            coinContact((Coin) b.getUserData(), (Player) a.getUserData());
+            coinContact((Coin) b.getUserData());
             return;
         }
         if(a.getUserData() instanceof Enemy){
@@ -89,24 +89,26 @@ public class CollisionManager implements ContactListener {
 
     private void projectileContact(Projectile projectile, Object otherObj){
         projectile.destroy();
-        if(otherObj instanceof Enemy){
-            ((Enemy) otherObj).reduceHealth(projectile.getDamage());
-            if(((Enemy) otherObj).isKilled()){
-                entityManager.getPlayer().addScore(((Enemy) otherObj).getScoreValue());
+        if(otherObj instanceof Killable){
+            if(otherObj instanceof Enemy){
+                ((Enemy) otherObj).reduceHealth(projectile.getDamage());
+                if(((Enemy) otherObj).isKilled()){
+                    player.addScore(((Enemy) otherObj).getScoreValue());
+                }
             }
-        }
-        if(otherObj instanceof Spawner){
-            ((Spawner) otherObj).reduceHealth(projectile.getDamage());
-            if(((Spawner) otherObj).isKilled()){
-                entityManager.getPlayer().addScore(((Spawner) otherObj).getScoreValue());
-            }
-            else {
-                entityManager.getPlayer().addScore(1);
+            if(otherObj instanceof Spawner){
+                ((Spawner) otherObj).reduceHealth(projectile.getDamage());
+                if(((Spawner) otherObj).isKilled()){
+                    player.addScore(((Spawner) otherObj).getScoreValue());
+                }
+                else {
+                    player.addScore(1);
+                }
             }
         }
     }
-    private void coinContact(Coin coin, Player player){
+    private void coinContact(Coin coin){
         coin.destroy();
-        player.addCoins(coin.getValue());
+        this.player.addCoins(coin.getValue());
     }
 }

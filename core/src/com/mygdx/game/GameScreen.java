@@ -1,7 +1,6 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
@@ -19,7 +18,6 @@ import com.mygdx.helper.processors.PlayerInputProcessor;
 import com.mygdx.scenes.GameHUD;
 
 public class GameScreen extends ScreenAdapter {
-    private final AssetManager assetManager;
     private final OrthographicCamera camera;
     private final SpriteBatch batch;
     private final ShapeRenderer shapeRenderer;
@@ -27,35 +25,29 @@ public class GameScreen extends ScreenAdapter {
     private final EntityManager entityManager;
     private final Box2DDebugRenderer box2DDebugRenderer;
     private final OrthogonalTiledMapRenderer mapRenderer;
-    private final PlayerInputProcessor inputProcessor;
     private final GameHUD hud;
     private final TowerPlacer placer;
 
     public GameScreen(OrthographicCamera camera, AssetManager assetManager){
         this.camera = camera;
-        this.assetManager = assetManager;
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         world = new World(new Vector2(0, 0), true); //topdown, no gravity
-        entityManager = new EntityManager(this);
-        world.setContactListener(new CollisionManager(entityManager));
+        entityManager = new EntityManager(world, assetManager);
         box2DDebugRenderer = new Box2DDebugRenderer();
 
 
         TiledMapLoader mapLoader = new TiledMapLoader(entityManager, world);
         mapRenderer = mapLoader.setupMap();
 
-        inputProcessor = new PlayerInputProcessor(this, entityManager.getPlayer(), camera);
+        world.setContactListener(new CollisionManager(entityManager.getPlayer()));
+        placer = new TowerPlacer(entityManager);
+        PlayerInputProcessor inputProcessor = new PlayerInputProcessor(placer, entityManager.getPlayer(), camera);
         Gdx.input.setInputProcessor(inputProcessor);
+        placer.setInputProcessor(inputProcessor);
         entityManager.getPlayer().setInputProcessor(inputProcessor);
-        placer = new TowerPlacer(inputProcessor, entityManager);
 
-        hud = new GameHUD(entityManager);
-    }
-
-    @Override
-    public void show(){
-
+        hud = new GameHUD(entityManager.getPlayer(), entityManager.getPlayerBase());
     }
 
     private void update(){
@@ -100,19 +92,6 @@ public class GameScreen extends ScreenAdapter {
 
         hud.render();
 
-        //box2DDebugRenderer.render(world,camera.combined);
-    }
-    public World getWorld() {
-        return world;
-    }
-    public EntityManager getEntityManager() {
-        return entityManager;
-    }
-    public AssetManager getAssetManager() {
-        return assetManager;
-    }
-
-    public TowerPlacer getPlacer() {
-        return placer;
+        box2DDebugRenderer.render(world,camera.combined);
     }
 }

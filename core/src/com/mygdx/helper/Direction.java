@@ -1,5 +1,6 @@
 package com.mygdx.helper;
 
+
 public enum Direction {
     UP,
     DIAGONAL_UP_RIGHT,

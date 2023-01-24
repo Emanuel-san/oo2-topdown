@@ -10,7 +10,7 @@ import com.mygdx.helper.Constant;
 import com.mygdx.helper.FilterType;
 
 public class Coin extends GameEntity {
-    private Animation<TextureRegion> coinAnimation;
+    private final Animation<TextureRegion> coinAnimation;
     private int value = 1;
     public Coin(float x, float y, float width, float height, World world, Animation<TextureRegion> animation) {
         super(x, y, width, height);

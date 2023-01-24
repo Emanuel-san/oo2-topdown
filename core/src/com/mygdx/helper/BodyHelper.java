@@ -58,14 +58,6 @@ public class BodyHelper {
                 filter.categoryBits = enemyCategory;
                 filter.maskBits = (short) (playerCategory | projectileCategory);
             }
-//            case TOWER -> {
-//                filter.categoryBits = towerCategory;
-//                filter.maskBits = (short) (enemyCategory | placerCategory);
-//            }
-//            case TOWER_PLACER -> {
-//                filter.categoryBits = placerCategory;
-//                filter.maskBits = towerCategory;
-//            }
         }
 
         FixtureDef fixtureDef = new FixtureDef();

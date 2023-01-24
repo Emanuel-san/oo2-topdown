@@ -12,14 +12,13 @@ import java.util.List;
 public class TowerPlacer {
     private boolean legalPlacement;
     private final EntityManager entityManager;
-    private final PlayerInputProcessor inputProcessor;
+    private PlayerInputProcessor inputProcessor;
     private final List<Vector2> towerCenters;
     private final Vector2 mousePos = new Vector2();
 
 
-    public TowerPlacer(PlayerInputProcessor inputProcessor, EntityManager entityManager){
+    public TowerPlacer(EntityManager entityManager){
         legalPlacement = true;
-        this.inputProcessor = inputProcessor;
         this.entityManager = entityManager;
         towerCenters = new ArrayList<>();
     }
@@ -43,7 +42,7 @@ public class TowerPlacer {
                     inputProcessor.getUnprojectedMousePos().y - 8 / Constant.PPM,
                     16 / Constant.PPM, 16 / Constant.PPM
             );
-            //debugPlacerSquare(shapeRenderer);
+            debugPlacerSquare(shapeRenderer);
         }
     }
     private void debugPlacerSquare(ShapeRenderer shapeRenderer){
@@ -68,5 +67,9 @@ public class TowerPlacer {
         else {
             return false;
         }
+    }
+
+    public void setInputProcessor(PlayerInputProcessor inputProcessor) {
+        this.inputProcessor = inputProcessor;
     }
 }

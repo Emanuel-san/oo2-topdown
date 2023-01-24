@@ -6,7 +6,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.helper.BodyHelper;
 import com.mygdx.helper.Constant;
-import com.mygdx.helper.Killable;
 
 public class Spawner extends GameEntity implements Killable {
     private final Texture baseTexture;

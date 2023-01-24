@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.helper.BodyHelper;
 import com.mygdx.helper.Constant;
-import com.mygdx.helper.Killable;
 
 public class Base extends GameEntity implements Killable {
 
@@ -25,7 +24,6 @@ public class Base extends GameEntity implements Killable {
 
     @Override
     public void render(SpriteBatch batch) {
-        //batch.draw(baseTexture, x - 24, y - 24);
         batch.draw(baseTexture,
                 body.getPosition().x - 24 / Constant.PPM,
                 body.getPosition().y - 24 / Constant.PPM,

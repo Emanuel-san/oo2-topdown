@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Timer;
-import com.mygdx.game.GameScreen;
 import com.mygdx.helper.*;
 import com.mygdx.helper.processors.PlayerInputProcessor;
 
@@ -33,9 +33,9 @@ public class Player extends GameEntity implements Killable {
     private PlayerInputProcessor inputProcessor;
 
 
-    public Player(float x, float y, float width, float height,GameScreen screen, EntityManager entityManager){
+    public Player(float x, float y, float width, float height, World world, TextureAtlas atlas, EntityManager entityManager){
         super(x, y, width, height);
-        body = BodyHelper.createPolygonBody(x, y, width, height, false, screen.getWorld(), this, FilterType.PLAYER);
+        body = BodyHelper.createPolygonBody(x, y, width, height, false, world, this, FilterType.PLAYER);
         body.setUserData(this);
         speed = 25f / Constant.PPM;
         damage = 1;
@@ -46,7 +46,6 @@ public class Player extends GameEntity implements Killable {
         killed = false;
         projectileSpawnDirection = new Vector2();
         animationMap = new HashMap<>();
-        TextureAtlas atlas = screen.getAssetManager().get("topdown_shooter/char1.atlas", TextureAtlas.class);
         constructAnimationsMap(atlas);
     }
 

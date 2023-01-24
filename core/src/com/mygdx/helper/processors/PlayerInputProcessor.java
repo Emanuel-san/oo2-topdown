@@ -5,14 +5,12 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.entities.Player;
-import com.mygdx.game.GameScreen;
 import com.mygdx.game.TowerPlacer;
-import com.mygdx.helper.Constant;
 
 public class PlayerInputProcessor implements InputProcessor {
     private final Player player;
-    private final GameScreen screen;
-    private OrthographicCamera camera;
+    private final TowerPlacer towerPlacer;
+    private final OrthographicCamera camera;
     boolean leftMouseDown, rightMouseDown;
     boolean towerPlacementActive = false;
 
@@ -22,10 +20,10 @@ public class PlayerInputProcessor implements InputProcessor {
 
 
 
-    public PlayerInputProcessor(GameScreen screen, Player player, OrthographicCamera camera){
+    public PlayerInputProcessor(TowerPlacer placer, Player player, OrthographicCamera camera){
         this.camera = camera;
-        this.screen = screen;
         this.player = player;
+        towerPlacer = placer;
         mousePos = new Vector3();
     }
     @Override
@@ -76,7 +74,7 @@ public class PlayerInputProcessor implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (button == Input.Buttons.LEFT && towerPlacementActive) {
-            if(screen.getPlacer().placeTower()){
+            if(towerPlacer.placeTower()){
                 towerPlacementActive = false;
             }
         }

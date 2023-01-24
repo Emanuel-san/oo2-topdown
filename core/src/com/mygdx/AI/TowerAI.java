@@ -13,13 +13,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class TowerAI extends AI{
+public class TowerAI{
     private final List<Enemy> enemiesInProximity;
     private final List<Enemy> destroyedEnemiesInProximity;
+    private Enemy currentTarget;
     private final EntityManager entityManager;
     private final HashMap<Direction, Vector2> projectileSpawnVectors;
     private final Base base;
-    private Enemy currentTarget;
     private Direction currentDirection;
     private final Vector2 leadingPoint;
     private boolean gotTarget;
@@ -46,7 +46,7 @@ public class TowerAI extends AI{
         projectileSpawnVectors = new HashMap<>();
         constructSpawnVectorMap();
     }
-    @Override
+
     public void update(){
         updateTarget();
         setDirection();
@@ -57,8 +57,8 @@ public class TowerAI extends AI{
      * Updates a towers current target that's in its proximity zone whichever is closest to the player base or
      * stops shooting if there is no target in its proximity.
      */
-    @Override
-    protected void updateTarget(){
+
+    private void updateTarget(){
         Vector2 basePos = base.getBody().getPosition();
         if(enemiesInProximity.isEmpty()){
             gotTarget = false;
@@ -72,8 +72,8 @@ public class TowerAI extends AI{
                     currentTarget = enemy;
                     gotTarget = true;
                 }
-                float currentTargetDistanceToBase = distance(currentTarget.getBody().getPosition(), basePos);
-                float enemyDistanceToBase = distance(enemy.getBody().getPosition(), basePos);
+                float currentTargetDistanceToBase = currentTarget.getBody().getPosition().dst2(basePos);
+                float enemyDistanceToBase = enemy.getBody().getPosition().dst2(basePos);
                 // Compare which target in proximity is closest to base
                 if (enemyDistanceToBase < currentTargetDistanceToBase) {
                     currentTarget = enemy;
@@ -105,7 +105,7 @@ public class TowerAI extends AI{
      */
     private void targetLeading(){
         Vector2 targetPosition = currentTarget.getBody().getPosition();
-        float distanceTowerToTarget = distance(tower.getBody().getPosition(), targetPosition);
+        float distanceTowerToTarget = tower.getBody().getPosition().dst(targetPosition);
         float timeOfFlight = distanceTowerToTarget / (400f / Constant.PPM); // timeOfFlight = distance / projectile speed
         //return lead point
         leadingPoint.set(

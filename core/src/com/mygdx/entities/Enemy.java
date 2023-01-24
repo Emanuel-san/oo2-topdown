@@ -17,14 +17,14 @@ public class Enemy extends GameEntity implements Killable {
     private int scoreValue;
     private TextureRegion currentFrame;
     private Direction currentDirectionToTarget = Direction.DOWN;
-    private Vector2 velocityVector;
+    private final Vector2 velocityVector;
 
-    public Enemy(float x, float y, float width, float height, World world, HashMap<Direction, Animation<TextureRegion>> animations, int damage, EntityManager entityManager) {
+    public Enemy(float x, float y, float width, float height, World world, HashMap<Direction, Animation<TextureRegion>> animations, EntityManager entityManager) {
         super(x,y,width, height);
         this.body = BodyHelper.createPolygonBody(x, y, width, height, false, world, this, FilterType.ENEMY);
         this.speed = 10f;
         this.health = 5;
-        this.damage = damage;
+        this.damage = 1;
         this.animations = animations;
         this.ai = new EnemyAI(entityManager.getPlayer(), entityManager.getPlayerBase(), this);
         velocityVector = new Vector2();
