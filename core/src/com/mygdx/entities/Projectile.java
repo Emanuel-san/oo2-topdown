@@ -10,7 +10,6 @@ import com.mygdx.helper.Constant;
 import com.mygdx.helper.FilterType;
 
 public class Projectile extends GameEntity {
-
     private final Texture texture;
     public Projectile(float x, float y, float width, float height, Texture texture, World world, int damage, Vector2 targetPos) {
         super(x, y, width, height);

@@ -19,13 +19,11 @@ public class TowerAI extends AI{
     private final EntityManager entityManager;
     private final HashMap<Direction, Vector2> projectileSpawnVectors;
     private final Base base;
-
     private Enemy currentTarget;
     private Direction currentDirection;
     private final Vector2 leadingPoint;
     private boolean gotTarget;
     private final Tower tower;
-
     private boolean recentlyShot;
     private final Timer timer = new Timer();
     private final Timer.Task task = new Timer.Task() {

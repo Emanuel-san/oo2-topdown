@@ -28,33 +28,26 @@ public class Player extends GameEntity implements Killable {
         }
     };
     private final Vector2 projectileSpawnDirection;
+    private Direction currentDirection;
 
     private PlayerInputProcessor inputProcessor;
 
 
     public Player(float x, float y, float width, float height,GameScreen screen, EntityManager entityManager){
         super(x, y, width, height);
-        this.body = BodyHelper.createPolygonBody(x, y, width, height, false, screen.getWorld(), this, FilterType.PLAYER);
-        this.body.setUserData(this);
-        this.speed = 25f / Constant.PPM;
-        this.damage = 1;
-        this.godMode = false;
-        this.health = 100;
+        body = BodyHelper.createPolygonBody(x, y, width, height, false, screen.getWorld(), this, FilterType.PLAYER);
+        body.setUserData(this);
+        speed = 25f / Constant.PPM;
+        damage = 1;
+        godMode = false;
+        health = 100;
         this.entityManager = entityManager;
         recentlyShot = false;
         killed = false;
         projectileSpawnDirection = new Vector2();
         animationMap = new HashMap<>();
         TextureAtlas atlas = screen.getAssetManager().get("topdown_shooter/char1.atlas", TextureAtlas.class);
-
-        animationMap.put(Direction.UP, AnimationHelper.animateRegion(atlas.findRegion("1_north"), 4, 0.5f));
-        animationMap.put(Direction.DIAGONAL_UP_RIGHT, AnimationHelper.animateRegion(atlas.findRegion("1_diagup"), 4, 0.5f));
-        animationMap.put(Direction.SIDE_RIGHT, AnimationHelper.animateRegion(atlas.findRegion("1_side"), 4, 0.5f));
-        animationMap.put(Direction.DIAGONAL_DOWN_RIGHT, AnimationHelper.animateRegion(atlas.findRegion("1_diagdown"), 4, 0.5f));
-        animationMap.put(Direction.DOWN, AnimationHelper.animateRegion(atlas.findRegion("1_south"), 4, 0.5f));
-        animationMap.put(Direction.DIAGONAL_DOWN_LEFT, AnimationHelper.flippedAnimation(animationMap.get(Direction.DIAGONAL_DOWN_RIGHT), 4, 0.5f));
-        animationMap.put(Direction.DIAGONAL_UP_LEFT, AnimationHelper.flippedAnimation(animationMap.get(Direction.DIAGONAL_UP_RIGHT), 4, 0.5f));
-        animationMap.put(Direction.SIDE_LEFT, AnimationHelper.flippedAnimation(animationMap.get(Direction.SIDE_RIGHT), 4, 0.5f));
+        constructAnimationsMap(atlas);
     }
 
     @Override
@@ -62,6 +55,7 @@ public class Player extends GameEntity implements Killable {
         x = body.getPosition().x;
         y = body.getPosition().y;
         body.setLinearVelocity(velX*speed, velY*speed);
+        setDirection();
         shootProjectile();
     }
 
@@ -79,7 +73,6 @@ public class Player extends GameEntity implements Killable {
                 );
     }
     private void setCurrentFrame(){
-        Direction currentDirection = getDirection();
         stateTime += Gdx.graphics.getDeltaTime();
         currentFrame = animationMap.get(currentDirection).getKeyFrame(stateTime);
         if(animationMap.get(currentDirection).isAnimationFinished(stateTime)){
@@ -89,8 +82,7 @@ public class Player extends GameEntity implements Killable {
     private void shootProjectile(){
         if(inputProcessor.isLeftMouseDown() && !recentlyShot){
             entityManager.createProjectile(
-                    projectileSpawnDirection.x,
-                    projectileSpawnDirection.y,
+                    projectileSpawnDirection,
                     6 / Constant.PPM,
                     6 / Constant.PPM,
                     damage,
@@ -99,40 +91,52 @@ public class Player extends GameEntity implements Killable {
             timer.scheduleTask(task, 0.15f);
         }
     }
-    private Direction getDirection(){
-        float anglePlayerToMouse = (float) Math.atan2(inputProcessor.getUnprojectedMousePos().y - this.y, inputProcessor.getUnprojectedMousePos().x - this.x);
-        if(anglePlayerToMouse > 2.8 || anglePlayerToMouse <= -2.8){
+    private void setDirection(){
+        double anglePlayerToMouse = Math.atan2(inputProcessor.getUnprojectedMousePos().y - this.y, inputProcessor.getUnprojectedMousePos().x - this.x);
+        anglePlayerToMouse = Math.toDegrees(anglePlayerToMouse);
+        if(anglePlayerToMouse > 158 || anglePlayerToMouse <= -158){
+            currentDirection = Direction.SIDE_LEFT;
             projectileSpawnDirection.set(this.x - 16 / Constant.PPM, this.y);
-            return Direction.SIDE_LEFT;
         }
-        else if(anglePlayerToMouse > 2){
+        else if(anglePlayerToMouse > 113){
+            currentDirection = Direction.DIAGONAL_UP_LEFT;
             projectileSpawnDirection.set(this.x - 16 / Constant.PPM, this.y + 16  / Constant.PPM);
-            return Direction.DIAGONAL_UP_LEFT;
         }
-        else if(anglePlayerToMouse > 1.17){
+        else if(anglePlayerToMouse > 68){
+            currentDirection = Direction.UP;
             projectileSpawnDirection.set(this.x, this.y + 16 / Constant.PPM);
-            return Direction.UP;
         }
-        else if(anglePlayerToMouse > 0.5){
+        else if(anglePlayerToMouse > 23){
+            currentDirection = Direction.DIAGONAL_UP_RIGHT;
             projectileSpawnDirection.set(this.x + 16 / Constant.PPM, this.y + 16 / Constant.PPM);
-            return Direction.DIAGONAL_UP_RIGHT;
         }
-        else if(anglePlayerToMouse > -0.34){
+        else if(anglePlayerToMouse > -23){
+            currentDirection = Direction.SIDE_RIGHT;
             projectileSpawnDirection.set(this.x + 16 / Constant.PPM, this.y);
-            return Direction.SIDE_RIGHT;
         }
-        else if(anglePlayerToMouse > -1.2){
+        else if(anglePlayerToMouse > -68){
+            currentDirection = Direction.DIAGONAL_DOWN_RIGHT;
             projectileSpawnDirection.set(this.x + 16 / Constant.PPM, this.y - 16 / Constant.PPM);
-            return Direction.DIAGONAL_DOWN_RIGHT;
         }
-        else if(anglePlayerToMouse > -1.8){
+        else if(anglePlayerToMouse > -113){
+            currentDirection = Direction.DOWN;
             projectileSpawnDirection.set(this.x, this.y - 16 / Constant.PPM);
-            return Direction.DOWN;
         }
         else{
+            currentDirection = Direction.DIAGONAL_DOWN_LEFT;
             projectileSpawnDirection.set(this.x - 16 / Constant.PPM, this.y - 16 / Constant.PPM);
-            return Direction.DIAGONAL_DOWN_LEFT;
         }
+    }
+
+    private void constructAnimationsMap(TextureAtlas atlas){
+        animationMap.put(Direction.UP, AnimationHelper.animateRegion(atlas.findRegion("1_north"), 4, 0.5f));
+        animationMap.put(Direction.DIAGONAL_UP_RIGHT, AnimationHelper.animateRegion(atlas.findRegion("1_diagup"), 4, 0.5f));
+        animationMap.put(Direction.SIDE_RIGHT, AnimationHelper.animateRegion(atlas.findRegion("1_side"), 4, 0.5f));
+        animationMap.put(Direction.DIAGONAL_DOWN_RIGHT, AnimationHelper.animateRegion(atlas.findRegion("1_diagdown"), 4, 0.5f));
+        animationMap.put(Direction.DOWN, AnimationHelper.animateRegion(atlas.findRegion("1_south"), 4, 0.5f));
+        animationMap.put(Direction.DIAGONAL_DOWN_LEFT, AnimationHelper.flippedAnimation(animationMap.get(Direction.DIAGONAL_DOWN_RIGHT), 4, 0.5f));
+        animationMap.put(Direction.DIAGONAL_UP_LEFT, AnimationHelper.flippedAnimation(animationMap.get(Direction.DIAGONAL_UP_RIGHT), 4, 0.5f));
+        animationMap.put(Direction.SIDE_LEFT, AnimationHelper.flippedAnimation(animationMap.get(Direction.SIDE_RIGHT), 4, 0.5f));
     }
 
     public boolean isGodMode() {

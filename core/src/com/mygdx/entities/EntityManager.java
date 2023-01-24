@@ -72,13 +72,6 @@ public class EntityManager {
                 screen.getWorld(), damage, targetPosition)
         );
     }
-    public void createProjectile(float x, float y, float width, float height, int damage, Vector2 targetPosition){
-        newEntities.add(new Projectile(
-            x, y, width, height,
-            screen.getAssetManager().get("topdown_shooter/other/bulleta.png", Texture.class),
-            screen.getWorld(), damage, targetPosition)
-        );
-    }
     public void createEnemy(float x, float y, float width, float height){
         newEntities.add(new Enemy(x, y, width, height, screen.getWorld(), enemyAnimationMap, 1, this));
     }
