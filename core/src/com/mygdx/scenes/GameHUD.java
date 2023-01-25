@@ -62,7 +62,7 @@ public class GameHUD{
         coinsCount.setText(Integer.toString(player.getCoins()));
         scoreCoinTable.pack();
         playerHealth.setText(Integer.toString(player.getHealth()));
-        baseHealth.setText(Integer.toString(player.getHealth()));
+        baseHealth.setText(Integer.toString(base.getHealth()));
         playerBaseHealthTable.pack();
 
     }

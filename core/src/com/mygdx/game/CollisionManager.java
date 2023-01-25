@@ -13,6 +13,7 @@ public class CollisionManager implements ContactListener {
     }
     @Override
     public void beginContact(Contact contact) {
+        //System.out.println("Contact");
         Fixture a = contact.getFixtureA();
         Fixture b = contact.getFixtureB();
         if(a == null || b == null){return;}

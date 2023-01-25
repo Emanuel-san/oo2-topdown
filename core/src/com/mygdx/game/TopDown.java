@@ -14,7 +14,11 @@ public class TopDown extends Game {
 	private AssetManager assetManager;
 
 
-	
+	/**
+	 * Top-down shooter/ tower defense, main purpose of the game was to learn libGdx and Box2D so gameplay in itself is
+	 * lacking. Made during CS course OOP2 at Högsklan på Åland.
+	 * @author Emanuel Sanchez
+	 */
 	@Override
 	public void create () {
 		this.widthScreen = Gdx.graphics.getWidth();

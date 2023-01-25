@@ -26,7 +26,7 @@ public class GameScreen extends ScreenAdapter {
     private final Box2DDebugRenderer box2DDebugRenderer;
     private final OrthogonalTiledMapRenderer mapRenderer;
     private final GameHUD hud;
-    private final TowerPlacer placer;
+    private final TowerManager placer;
 
     public GameScreen(OrthographicCamera camera, AssetManager assetManager){
         this.camera = camera;
@@ -41,7 +41,7 @@ public class GameScreen extends ScreenAdapter {
         mapRenderer = mapLoader.setupMap();
 
         world.setContactListener(new CollisionManager(entityManager.getPlayer()));
-        placer = new TowerPlacer(entityManager);
+        placer = new TowerManager(entityManager, world);
         PlayerInputProcessor inputProcessor = new PlayerInputProcessor(placer, entityManager.getPlayer(), camera);
         Gdx.input.setInputProcessor(inputProcessor);
         placer.setInputProcessor(inputProcessor);
@@ -49,7 +49,6 @@ public class GameScreen extends ScreenAdapter {
 
         hud = new GameHUD(entityManager.getPlayer(), entityManager.getPlayerBase());
     }
-
     private void update(){
         world.step(1/60f, 6, 2); //60fps
         cameraUpdate();

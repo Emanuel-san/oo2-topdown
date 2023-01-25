@@ -90,13 +90,15 @@ public class EntityManager {
     public void createCoin(float x, float y){
         newEntities.add(new Coin(x, y, 16  / Constant.PPM, 16  / Constant.PPM, world, coinAnimation));
     }
-    public void createTower(float x, float y, float width, float height){
-        newEntities.add(new Tower(
+    public Tower createTower(float x, float y, float width, float height){
+        Tower tower = new Tower(
                 x, y, width, height,
                 world,
                 assetManager.get("topdown_shooter/cannon.atlas", TextureAtlas.class),
-                this)
-        );
+                this);
+
+        newEntities.add(tower);
+        return tower;
     }
 
     public List<GameEntity> getEntities() {

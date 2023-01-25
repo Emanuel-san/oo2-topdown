@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class TowerAI{
+ public class TowerAI{
     private final List<Enemy> enemiesInProximity;
     private final List<Enemy> destroyedEnemiesInProximity;
     private Enemy currentTarget;
@@ -25,6 +25,7 @@ public class TowerAI{
     private boolean gotTarget;
     private final Tower tower;
     private boolean recentlyShot;
+    private float projectileShotDelay;
     private final Timer timer = new Timer();
     private final Timer.Task task = new Timer.Task() {
         @Override
@@ -40,6 +41,7 @@ public class TowerAI{
         destroyedEnemiesInProximity = new ArrayList<>();
         this.base = base;
         this.tower = tower;
+        projectileShotDelay = 0.5f;
         gotTarget = false;
         recentlyShot = false;
         leadingPoint = new Vector2();
@@ -96,7 +98,7 @@ public class TowerAI{
                     tower.getDamage(),
                     leadingPoint);
             recentlyShot = true;
-            timer.scheduleTask(task, 0.5f);
+            timer.scheduleTask(task, projectileShotDelay);
         }
     }
 
@@ -166,7 +168,12 @@ public class TowerAI{
     }
 
     public void addTargetToProximity(Enemy enemy){
-        enemiesInProximity.add(enemy);
+        if(!enemiesInProximity.contains(enemy)) {
+            enemiesInProximity.add(enemy);
+        }
+    }
+    public void upgrade(float multiplier){
+        projectileShotDelay = projectileShotDelay - projectileShotDelay * multiplier;
     }
     public void removeTargetFromProximity(Enemy enemy){
         enemiesInProximity.remove(enemy);
