@@ -36,7 +36,6 @@ public class Projectile extends GameEntity {
 
     @Override
     public void render(SpriteBatch batch) {
-        //batch.draw(texture, body.getPosition().x - 3, body.getPosition().y - 3);
         batch.draw(texture,
                 body.getPosition().x - 3 / Constant.PPM,
                 body.getPosition().y - 3 / Constant.PPM,

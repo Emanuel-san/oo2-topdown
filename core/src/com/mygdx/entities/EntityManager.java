@@ -90,7 +90,7 @@ public class EntityManager {
     public void createCoin(float x, float y){
         newEntities.add(new Coin(x, y, 16  / Constant.PPM, 16  / Constant.PPM, world, coinAnimation));
     }
-    public Tower createTower(float x, float y, float width, float height){
+    public void createTower(float x, float y, float width, float height){
         Tower tower = new Tower(
                 x, y, width, height,
                 world,
@@ -98,13 +98,16 @@ public class EntityManager {
                 this);
 
         newEntities.add(tower);
-        return tower;
     }
 
     public List<GameEntity> getEntities() {
         return entities;
     }
 
+    /**
+     * Create animations where several entities share the same animation to use as reference instead of creating
+     * a new animation in each entity.
+     */
     private void constructGraphicAssets(){
         coinAnimation = AnimationHelper
                 .animateRegion(

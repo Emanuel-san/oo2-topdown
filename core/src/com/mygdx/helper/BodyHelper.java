@@ -26,8 +26,7 @@ public class BodyHelper {
     }
     public static Body createPolygonBody(float x, float y, float width, float height, boolean isStatic, World world, Object fixtureData, FilterType type){
 
-        short playerCategory = 0x0001, coinCategory = 0x0002, enemyCategory = 0x0003, projectileCategory = 0x0004,
-        towerCategory = 0x0005, placerCategory = 0x0006;
+        short playerCategory = 0x0001, coinCategory = 0x0002, enemyCategory = 0x0003, projectileCategory = 0x0004;
 
         //Body definition
         BodyDef bodyDef = new BodyDef();

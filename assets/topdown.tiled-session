@@ -20,7 +20,7 @@
             "selectedLayer": 1,
             "viewCenter": {
                 "x": 745,
-                "y": 598
+                "y": 760
             }
         },
         "maptest.tmx": {
@@ -43,13 +43,12 @@
     "map.tileWidth": 16,
     "map.width": 10,
     "openFiles": [
-        "map0.tmx",
-        "maptest.tmx"
+        "map0.tmx"
     ],
     "project": "topdown.tiled-project",
     "recentFiles": [
-        "maptest.tmx",
         "map0.tmx",
+        "maptest.tmx",
         "grassanddirtbysenuka.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",

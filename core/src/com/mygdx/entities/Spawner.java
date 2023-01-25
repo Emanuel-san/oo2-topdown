@@ -43,7 +43,6 @@ public class Spawner extends GameEntity implements Killable {
 
     @Override
     public void render(SpriteBatch batch) {
-        //batch.draw(baseTexture, body.getPosition().x - 24, body.getPosition().y - 24);
         batch.draw(baseTexture,
                 body.getPosition().x - 24 / Constant.PPM,
                 body.getPosition().y - 24 / Constant.PPM,

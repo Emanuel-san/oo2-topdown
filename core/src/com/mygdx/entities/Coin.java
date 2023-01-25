@@ -25,7 +25,6 @@ public class Coin extends GameEntity {
     @Override
     public void render(SpriteBatch batch) {
         stateTime += Gdx.graphics.getDeltaTime();
-        //batch.draw(coinAnimation.getKeyFrame(stateTime), body.getPosition().x - 8, body.getPosition().y - 8);
         batch.draw(coinAnimation.getKeyFrame(stateTime),
                 body.getPosition().x - 8 / Constant.PPM,
                 body.getPosition().y - 8 / Constant.PPM,

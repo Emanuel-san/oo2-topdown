@@ -36,7 +36,6 @@ public class GameScreen extends ScreenAdapter {
         entityManager = new EntityManager(world, assetManager);
         box2DDebugRenderer = new Box2DDebugRenderer();
 
-
         TiledMapLoader mapLoader = new TiledMapLoader(entityManager, world);
         mapRenderer = mapLoader.setupMap();
 
@@ -91,6 +90,6 @@ public class GameScreen extends ScreenAdapter {
 
         hud.render();
 
-        box2DDebugRenderer.render(world,camera.combined);
+        //box2DDebugRenderer.render(world,camera.combined);
     }
 }
