@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.entities.Base;
-import com.mygdx.entities.EntityManager;
 import com.mygdx.entities.Player;
 
 public class GameHUD{

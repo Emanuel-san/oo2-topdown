@@ -7,15 +7,20 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.entities.EntityManager;
+import com.mygdx.helper.Constant;
 import com.mygdx.helper.TiledMapLoader;
 import com.mygdx.helper.processors.PlayerInputProcessor;
 import com.mygdx.scenes.GameHUD;
+
+import java.util.concurrent.ConcurrentSkipListMap;
 
 public class GameScreen extends ScreenAdapter {
     private final OrthographicCamera camera;
@@ -27,6 +32,7 @@ public class GameScreen extends ScreenAdapter {
     private final OrthogonalTiledMapRenderer mapRenderer;
     private final GameHUD hud;
     private final TowerManager placer;
+    float mapWidth, mapHeight;
 
     public GameScreen(OrthographicCamera camera, AssetManager assetManager){
         this.camera = camera;
@@ -38,6 +44,8 @@ public class GameScreen extends ScreenAdapter {
 
         TiledMapLoader mapLoader = new TiledMapLoader(entityManager, world);
         mapRenderer = mapLoader.setupMap();
+        mapWidth = mapRenderer.getMap().getProperties().get("width", Integer.class) * mapRenderer.getMap().getProperties().get("tilewidth", Integer.class);
+        mapHeight = mapRenderer.getMap().getProperties().get("height", Integer.class) * mapRenderer.getMap().getProperties().get("tileheight", Integer.class);
 
         world.setContactListener(new CollisionManager(entityManager.getPlayer()));
         placer = new TowerManager(entityManager, world);
@@ -60,15 +68,10 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void cameraUpdate(){
-        Vector3 position = camera.position;
-        position.x = entityManager.getPlayer().getBody().getPosition().x;
-        position.y = entityManager.getPlayer().getBody().getPosition().y;
-        float smoothFactor = 0.1f;
-        camera.position.set(
-                position.x * smoothFactor + camera.position.x * (1 - smoothFactor),
-                position.y * smoothFactor + camera.position.y * (1 - smoothFactor),
-                0
-                );
+        camera.position.x = entityManager.getPlayer().getBody().getPosition().x;
+        camera.position.y = entityManager.getPlayer().getBody().getPosition().y;
+        camera.position.x = MathUtils.clamp(camera.position.x, camera.viewportWidth/2, mapWidth/Constant.PPM - camera.viewportWidth/2);
+        camera.position.y = MathUtils.clamp(camera.position.y, camera.viewportHeight/2, mapHeight/Constant.PPM - camera.viewportHeight/2);
         camera.update();
     }
     @Override
