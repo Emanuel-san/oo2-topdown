@@ -89,6 +89,9 @@ public class Tower extends GameEntity{
         if(multiplier > 1){
             throw new UpgradeMultiplierException("Multiplier when upgrading can not be higher then 1");
         }
+        else if(multiplier < 0){
+            throw new UpgradeMultiplierException("Multiplier when upgrading can not be lower then 0");
+        }
         level += 1;
         damage += 1;
         radius = radius + radius * multiplier;

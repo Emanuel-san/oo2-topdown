@@ -20,8 +20,8 @@ public class TowerManager {
     private final World world;
     private final List<Vector2> towerVectorPoints;
     private Tower currentUpgradeTarget;
-    private final Vector2 mousePos = new Vector2(), towerPos = new Vector2(), lowerBound = new Vector2(), upperBound = new Vector2();
-    private final Rectangle towerPositionRect = new Rectangle();
+    private final Vector2 mousePos = new Vector2(), bodyPosition = new Vector2(), lowerBound = new Vector2(), upperBound = new Vector2();
+    private final Rectangle bodyPositionRect = new Rectangle();
 
 
     public TowerManager(EntityManager entityManager, World world){
@@ -35,9 +35,9 @@ public class TowerManager {
         upperBound.set(mousePos.x + (float)16/2/Constant.PPM, mousePos.y + (float)16/2/Constant.PPM);
 
         QueryCallback callback = fixture -> {
-            towerPos.set(fixture.getBody().getPosition());
-            towerPositionRect.set(towerPos.x - 8 / Constant.PPM, towerPos.y - 8 / Constant.PPM, 16 / Constant.PPM,16 / Constant.PPM);
-            if(fixture.getUserData() instanceof Tower && towerPositionRect.contains(mousePos)){
+            bodyPosition.set(fixture.getBody().getPosition());
+            bodyPositionRect.set(bodyPosition.x - 8 / Constant.PPM, bodyPosition.y - 8 / Constant.PPM, 16 / Constant.PPM,16 / Constant.PPM);
+            if(fixture.getUserData() instanceof Tower && bodyPositionRect.contains(mousePos)){
                 legalUpgradePosition = true;
                 currentUpgradeTarget = (Tower) fixture.getUserData();
                 return false;
@@ -62,6 +62,21 @@ public class TowerManager {
         }
     }
     public void render(ShapeRenderer shapeRenderer){
+        placerIndicator(shapeRenderer);
+        upgradeIndicator(shapeRenderer);
+
+    }
+
+    private void upgradeIndicator(ShapeRenderer shapeRenderer){
+        if(inputProcessor.isTowerUpgradeActive()){
+            shapeRenderer.setColor(legalUpgradePosition ? Color.GREEN : Color.RED);
+            shapeRenderer.rect(inputProcessor.getUnprojectedMousePos().x - 8 / Constant.PPM,
+                    inputProcessor.getUnprojectedMousePos().y - 8 / Constant.PPM,
+                    16 / Constant.PPM, 16 / Constant.PPM
+            );
+        }
+    }
+    private void placerIndicator(ShapeRenderer shapeRenderer){
         if(inputProcessor.isTowerPlacementActive()) {
             shapeRenderer.setColor(legalPlacementPosition ? Color.GREEN : Color.RED);
             shapeRenderer.rect(inputProcessor.getUnprojectedMousePos().x - 8 / Constant.PPM,
@@ -72,18 +87,11 @@ public class TowerManager {
             for(Vector2 towerPos: towerVectorPoints) {
                 shapeRenderer.setColor(Color.GREEN);
                 shapeRenderer.circle(towerPos.x, towerPos.y, 150/Constant.PPM);
-                //debugPlacerSquare(shapeRenderer);
+                debugPlacerIndicator(shapeRenderer, towerPos);
             }
         }
-        if(inputProcessor.isTowerUpgradeActive()){
-            shapeRenderer.setColor(legalUpgradePosition ? Color.GREEN : Color.RED);
-            shapeRenderer.rect(inputProcessor.getUnprojectedMousePos().x - 8 / Constant.PPM,
-                    inputProcessor.getUnprojectedMousePos().y - 8 / Constant.PPM,
-                    16 / Constant.PPM, 16 / Constant.PPM
-            );
-        }
     }
-    private void debugPlacerSquare(ShapeRenderer shapeRenderer){
+    private void debugPlacerIndicator(ShapeRenderer shapeRenderer, Vector2 towerPos){
         shapeRenderer.setColor(Color.GREEN);
         if(towerPos.dst(mousePos) < 150/Constant.PPM){
             shapeRenderer.setColor(Color.RED);
@@ -101,6 +109,11 @@ public class TowerManager {
             return false;
         }
     }
+
+    /**
+     * Upgrade a tower one level, throws exception if multiplier is higher than 1 or lower than 0;
+     * @return if upgrade was successfully completed
+     */
     public boolean upgradeTower(){
         if(legalUpgradePosition && !currentUpgradeTarget.isMaxLevel()){
             System.out.println("Tower is being upgraded");
