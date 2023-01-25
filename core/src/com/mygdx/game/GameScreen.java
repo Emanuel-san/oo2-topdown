@@ -70,6 +70,8 @@ public class GameScreen extends ScreenAdapter {
     private void cameraUpdate(){
         camera.position.x = entityManager.getPlayer().getBody().getPosition().x;
         camera.position.y = entityManager.getPlayer().getBody().getPosition().y;
+
+        //Clamp camera viewport to the map edges if they are reached.
         camera.position.x = MathUtils.clamp(camera.position.x, camera.viewportWidth/2, mapWidth/Constant.PPM - camera.viewportWidth/2);
         camera.position.y = MathUtils.clamp(camera.position.y, camera.viewportHeight/2, mapHeight/Constant.PPM - camera.viewportHeight/2);
         camera.update();
