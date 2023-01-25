@@ -66,7 +66,7 @@ import java.util.List;
             gotTarget = false;
         }
         else if(!enemiesInProximity.contains(currentTarget)){
-            currentTarget = enemiesInProximity.get(0);
+            gotTarget = false;
         }
         for(Enemy enemy : enemiesInProximity){
             if(!enemy.isDestroyed()) {
@@ -109,7 +109,6 @@ import java.util.List;
         Vector2 targetPosition = currentTarget.getBody().getPosition();
         float distanceTowerToTarget = tower.getBody().getPosition().dst(targetPosition);
         float timeOfFlight = distanceTowerToTarget / (400f / Constant.PPM); // timeOfFlight = distance / projectile speed
-        //return lead point
         leadingPoint.set(
                 targetPosition.x + currentTarget.getVelocityX() * timeOfFlight,
                 targetPosition.y + currentTarget.getVelocityY() * timeOfFlight);
