@@ -11,11 +11,11 @@ public class Base extends GameEntity implements Killable {
 
     private final Texture baseTexture;
 
-    public Base(float x, float y, float width, float height, World world) {
+    public Base(float x, float y, float width, float height, World world, Texture baseTexture) {
         super(x,y,width, height);
-        this.health = 1000;
-        this.body = BodyHelper.createPolygonBody(x, y, width, height, true, world, this);
-        this.baseTexture = new Texture(Gdx.files.internal("topdown_shooter/other/base.png"));
+        health = 1000;
+        body = BodyHelper.createPolygonBody(x, y, width, height, true, world, this);
+        this.baseTexture = baseTexture;
     }
 
     @Override

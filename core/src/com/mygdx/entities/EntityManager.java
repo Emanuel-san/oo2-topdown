@@ -61,7 +61,7 @@ public class EntityManager {
         }
     }
     public void createPlayerBase(float x, float y, float width, float height){
-        playerBase = new Base(x,y,width,height,world);
+        playerBase = new Base(x,y,width,height,world, assetManager.get("topdown_shooter/other/base.png", Texture.class));
         entities.add(playerBase);
     }
     public void createPlayer(float x, float y, float width, float height){

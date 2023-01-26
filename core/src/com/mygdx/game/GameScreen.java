@@ -7,11 +7,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.entities.EntityManager;
@@ -19,8 +17,6 @@ import com.mygdx.helper.Constant;
 import com.mygdx.helper.TiledMapLoader;
 import com.mygdx.helper.processors.PlayerInputProcessor;
 import com.mygdx.scenes.GameHUD;
-
-import java.util.concurrent.ConcurrentSkipListMap;
 
 public class GameScreen extends ScreenAdapter {
     private final OrthographicCamera camera;
@@ -96,5 +92,15 @@ public class GameScreen extends ScreenAdapter {
         hud.render();
 
         //box2DDebugRenderer.render(world,camera.combined);
+    }
+
+    @Override
+    public void dispose(){
+        batch.dispose();
+        shapeRenderer.dispose();
+        hud.dispose();
+        mapRenderer.dispose();
+        world.dispose();
+        super.dispose();
     }
 }

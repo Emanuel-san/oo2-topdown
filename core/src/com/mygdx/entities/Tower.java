@@ -22,7 +22,7 @@ public class Tower extends GameEntity{
     }
     private final TextureAtlas atlas;
     private TextureRegion currentFrame;
-    private HashMap<Direction, TextureRegion> towerTextures;
+    private final HashMap<Direction, TextureRegion> towerTextures;
     private int level;
     private final TowerAI ai;
     private float radius;

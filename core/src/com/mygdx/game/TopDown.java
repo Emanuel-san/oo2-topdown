@@ -29,6 +29,11 @@ public class TopDown extends Game {
 		//setScreen(new GameScreen(camera));
 		setScreen(new LoadingScreen(this));
 	}
+	@Override
+	public void dispose(){
+		assetManager.dispose();
+		super.dispose();
+	}
 
 	public AssetManager getAssetManager() {
 		return assetManager;
