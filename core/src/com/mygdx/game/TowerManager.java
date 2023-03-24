@@ -87,6 +87,7 @@ public class TowerManager {
             for(Vector2 towerPos: towerVectorPoints) {
                 shapeRenderer.setColor(Color.GREEN);
                 shapeRenderer.circle(towerPos.x, towerPos.y, 150/Constant.PPM);
+                //DEBUG PLACEMENT INDICATOR
                 debugPlacerIndicator(shapeRenderer, towerPos);
             }
         }
@@ -118,7 +119,7 @@ public class TowerManager {
         if(legalUpgradePosition && !currentUpgradeTarget.isMaxLevel()){
             System.out.println("Tower is being upgraded");
             try {
-                currentUpgradeTarget.upgrade(0.5f);
+                currentUpgradeTarget.upgrade(-1);
             } catch (Tower.UpgradeMultiplierException e) {
                 System.err.println("Error: " + e.getMessage());
                 return false;
